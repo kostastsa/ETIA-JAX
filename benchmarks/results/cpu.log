@@ -1,0 +1,37 @@
+cpu FisherZ       cont    setup  0.023s first  0.245s steady   0.003s batched  0.0007s
+cpu cci           nonlin  setup  0.006s first  0.361s steady   0.232s batched     nans
+cpu cg_lrt        cont    setup  0.008s first  0.591s steady   0.213s batched     nans
+cpu cg_lrt        disc    setup  0.007s first  0.101s steady   0.393s batched     nans
+cpu cg_lrt        mixed   setup  0.007s first  0.071s steady   1.016s batched     nans
+cpu dg_lrt        cont    setup  0.122s first  0.439s steady   0.167s batched     nans
+cpu dg_lrt        disc    setup  0.114s first  0.045s steady   0.173s batched     nans
+cpu dg_lrt        mixed   setup  0.119s first  0.045s steady   0.189s batched     nans
+cpu chisquare     disc    setup  0.007s first  1.116s steady   0.134s batched  0.0120s
+cpu gsquare       disc    setup  0.001s first  0.003s steady   0.132s batched  0.0105s
+cpu ParCor        cont    setup  0.000s first  0.181s steady   0.003s batched  0.0012s
+cpu RobustParCor  cont    setup  0.581s first  0.000s steady   0.004s batched  0.0008s
+cpu RobustParCor  nonlin  setup  0.505s first  0.171s steady   0.003s batched  0.0018s
+cpu ParCorrWLS    cont    setup  0.000s first  0.168s steady   0.007s batched  0.0051s
+cpu GPDC          nonlin  setup  0.566s first  0.267s steady  89.437s batched 56.7362s
+cpu CMIknn        nonlin  setup  0.001s first  0.101s steady   0.334s batched     nans
+cpu Gsquared      disc    setup  0.001s first  0.352s steady   0.088s batched  0.0079s
+cpu CMIsymb       disc    setup  0.001s first  0.499s steady   6.522s batched     nans
+cpu RegressionCI  cont    setup  0.000s first  0.424s steady   0.082s batched     nans
+cpu RegressionCI  disc    setup  0.000s first  0.418s steady   5.184s batched     nans
+cpu RegressionCI  mixed   setup  0.000s first  0.307s steady   1.118s batched     nans
+cpu scale FisherZ   k=0 single   0.018s batched  0.00056s
+cpu scale FisherZ   k=1 single   0.084s batched  0.00121s
+cpu scale FisherZ   k=2 single   0.085s batched  0.00132s
+cpu scale FisherZ   k=3 single   0.086s batched  0.00162s
+cpu scale gsquare   k=0 single   0.984s batched  0.00535s
+cpu scale gsquare   k=1 single   4.473s batched  0.01548s
+cpu scale gsquare   k=2 single   4.446s batched  0.02239s
+cpu scale gsquare   k=3 single   4.459s batched  0.02748s
+cpu scale ParCor    k=0 single   0.019s batched  0.00156s
+cpu scale ParCor    k=1 single   0.091s batched  0.00557s
+cpu scale ParCor    k=2 single   0.091s batched  0.00543s
+cpu scale ParCor    k=3 single   0.094s batched  0.00591s
+cpu scale Gsquared  k=0 single   0.634s batched  0.00451s
+cpu scale Gsquared  k=1 single   2.831s batched  0.02055s
+cpu scale Gsquared  k=2 single   2.875s batched  0.02770s
+cpu scale Gsquared  k=3 single   2.877s batched  0.03796s

@@ -1,0 +1,8 @@
+# Technical nouns and verbs of ETIA-JAX for the STE checker (one per line).
+size          # of a statistical test: the rejection rate under the null
+power         # of a statistical test: the rejection rate under the alternative
+conditioning  # conditioning set Z of a CI query
+logarithmic
+batched       # batched JAX call (vmap over queries)
+query
+queries

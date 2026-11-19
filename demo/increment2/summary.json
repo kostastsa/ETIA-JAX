@@ -1,0 +1,13 @@
+{
+ "n_tests": 14,
+ "n_pairs": 21,
+ "decisions_all_same": 20,
+ "etia_total_s": 1459.1833913020382,
+ "jax_gpu_total_s": 28.008150099987688,
+ "jax_cpu_total_s": 105.43424297499587,
+ "cmisymb_etia_s": 1448.7878038520066,
+ "cmisymb_gpu_s": 0.10307358799764188,
+ "scale_best_speedup_gpu": 585.8192890083081,
+ "scale_best_speedup_cpu": 270.27549427448554,
+ "scale_min_speedup_best": 16.629229330486304
+}

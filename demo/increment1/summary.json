@@ -1,0 +1,30 @@
+{
+ "n_graphs": 60,
+ "cpdag_same": 60,
+ "mag_same": 60,
+ "pag_same": 47,
+ "tetrad_wrong_tails": 29,
+ "tetrad_missed_arrows": 3,
+ "weights_max_abs_error": 0.027662866815412412,
+ "n_weights": 11,
+ "ci_n": 250,
+ "ci_n_sep": 59,
+ "ci_false_reject": 0.0,
+ "ci_power": 0.9738219895287958,
+ "latents": [
+  "L3",
+  "L6"
+ ],
+ "mag_edges": 9,
+ "genjax_choices": [
+  "x0",
+  "x1",
+  "x2",
+  "x3",
+  "x4",
+  "x5",
+  "x6",
+  "x7",
+  "x8"
+ ]
+}

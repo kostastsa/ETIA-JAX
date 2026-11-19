@@ -1,0 +1,82 @@
+test,who,ms_per_query
+CMIknn (nonlin),ETIA,24.993902816853126
+CMIknn (nonlin),"JAX CPU, one by one",5.5644983166227275
+CMIknn (nonlin),"JAX GPU, one by one",0.32538558328572736
+CMIsymb (disc),ETIA,24146.463397533444
+CMIsymb (disc),"JAX CPU, one by one",108.70731511665024
+CMIsymb (disc),"JAX GPU, one by one",1.7178931332940313
+FisherZ (cont),ETIA,0.2956967333072195
+FisherZ (cont),"JAX CPU, one by one",0.04889483328346008
+FisherZ (cont),"JAX GPU, one by one",0.5943550833156527
+FisherZ (cont),"JAX CPU, batched",0.01174863336927956
+FisherZ (cont),"JAX GPU, batched",0.041480933335454516
+GPDC (nonlin),ETIA,93.44952253334971
+GPDC (nonlin),"JAX CPU, one by one",1490.6173771166625
+GPDC (nonlin),"JAX GPU, one by one",342.3112769666356
+GPDC (nonlin),"JAX CPU, batched",945.6029050166762
+GPDC (nonlin),"JAX GPU, batched",69.25532873331879
+Gsquared (disc),ETIA,1.5576184167305958
+Gsquared (disc),"JAX CPU, one by one",1.4587416999953955
+Gsquared (disc),"JAX GPU, one by one",4.408623566693374
+Gsquared (disc),"JAX CPU, batched",0.13183430000935914
+Gsquared (disc),"JAX GPU, batched",0.350806133307439
+ParCor (cont),ETIA,0.8142256332879091
+ParCor (cont),"JAX CPU, one by one",0.053610350005328655
+ParCor (cont),"JAX GPU, one by one",0.8039831000132835
+ParCor (cont),"JAX CPU, batched",0.01956591671235704
+ParCor (cont),"JAX GPU, batched",0.1884598666341238
+ParCorrWLS (cont),ETIA,3.1098308668030463
+ParCorrWLS (cont),"JAX CPU, one by one",0.11918988329853164
+ParCorrWLS (cont),"JAX GPU, one by one",1.732545850002983
+ParCorrWLS (cont),"JAX CPU, batched",0.08471924999563878
+ParCorrWLS (cont),"JAX GPU, batched",1.0583994333501323
+RegressionCI (cont),ETIA,2.9762511833117364
+RegressionCI (cont),"JAX CPU, one by one",1.3635438666824484
+RegressionCI (cont),"JAX GPU, one by one",5.025359250006052
+RegressionCI (disc),ETIA,15.224912999777493
+RegressionCI (disc),"JAX CPU, one by one",86.39744976668833
+RegressionCI (disc),"JAX GPU, one by one",6.731704233303996
+RegressionCI (mixed),ETIA,4.387557649958278
+RegressionCI (mixed),"JAX CPU, one by one",18.63190745001096
+RegressionCI (mixed),"JAX GPU, one by one",25.14394323328209
+RobustParCor (cont),ETIA,1.6484854667093412
+RobustParCor (cont),"JAX CPU, one by one",0.06475860003168539
+RobustParCor (cont),"JAX GPU, one by one",0.7655901833156046
+RobustParCor (cont),"JAX CPU, batched",0.014025899993915422
+RobustParCor (cont),"JAX GPU, batched",0.22673584996179366
+RobustParCor (nonlin),ETIA,1.0256379168822605
+RobustParCor (nonlin),"JAX CPU, one by one",0.052129033368449505
+RobustParCor (nonlin),"JAX GPU, one by one",0.9219924666467705
+RobustParCor (nonlin),"JAX CPU, batched",0.030181166645585716
+RobustParCor (nonlin),"JAX GPU, batched",0.3193078332818307
+cci (nonlin),ETIA,13.437290966794535
+cci (nonlin),"JAX CPU, one by one",3.865240733284736
+cci (nonlin),"JAX GPU, one by one",1.6057037333060482
+cg_lrt (cont),ETIA,1.6864998000831595
+cg_lrt (cont),"JAX CPU, one by one",3.548590333290728
+cg_lrt (cont),"JAX GPU, one by one",6.551522599996436
+cg_lrt (disc),ETIA,2.6183824165248857
+cg_lrt (disc),"JAX CPU, one by one",6.544484383327169
+cg_lrt (disc),"JAX GPU, one by one",11.098591683366976
+cg_lrt (mixed),ETIA,2.6755324667647074
+cg_lrt (mixed),"JAX CPU, one by one",16.930215233333
+cg_lrt (mixed),"JAX GPU, one by one",24.75600968330885
+chisquare (disc),ETIA,0.3554269832420687
+chisquare (disc),"JAX CPU, one by one",2.2385740333750923
+chisquare (disc),"JAX GPU, one by one",5.936948400024751
+chisquare (disc),"JAX CPU, batched",0.2005966166810443
+chisquare (disc),"JAX GPU, batched",0.42292673333577113
+dg_lrt (cont),ETIA,0.9368631333018129
+dg_lrt (cont),"JAX CPU, one by one",2.791289650000787
+dg_lrt (cont),"JAX GPU, one by one",6.781321049978335
+dg_lrt (disc),ETIA,1.4516008000100555
+dg_lrt (disc),"JAX CPU, one by one",2.887503283333596
+dg_lrt (disc),"JAX GPU, one by one",6.805864583354075
+dg_lrt (mixed),ETIA,0.3824368500924417
+dg_lrt (mixed),"JAX CPU, one by one",3.154807449997558
+dg_lrt (mixed),"JAX GPU, one by one",7.086347016653842
+gsquare (disc),ETIA,0.23211520007559253
+gsquare (disc),"JAX CPU, one by one",2.1972617833550125
+gsquare (disc),"JAX GPU, one by one",5.697540266677
+gsquare (disc),"JAX CPU, batched",0.17506625002473206
+gsquare (disc),"JAX GPU, batched",0.386535749991405

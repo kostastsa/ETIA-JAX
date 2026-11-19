@@ -1,0 +1,18 @@
+file,test,result,time_s
+test_graphs.py,test_random_dag_is_acyclic,pass,0.0
+test_graphs.py,test_marks_roundtrip,pass,0.0
+test_graphs.py,test_chain_fork_collider,pass,0.0
+test_graphs.py,test_dsep_matches_tetrad,pass,0.11
+test_graphs.py,test_cpdag_matches_tetrad,pass,0.01
+test_graphs.py,test_mag_matches_tetrad,pass,0.02
+test_graphs.py,test_mag_adjacency_by_dsep,pass,0.05
+test_graphs.py,test_pag_without_latents_agrees_with_cpdag,pass,0.05
+test_graphs.py,test_metrics,pass,0.0
+test_graphs.py,test_pag_exact_bruteforce_small,pass,17.48
+test_graphs.py,test_pag_matches_tetrad_elsewhere,pass,0.03
+test_scm.py,test_linear_gaussian_shape_and_regression,pass,0.96
+test_scm.py,test_noise_std,pass,0.61
+test_scm.py,test_discrete_and_mixed,pass,2.06
+test_scm.py,test_nonlinear_link,pass,0.8
+test_scm.py,test_seed_reproducible,pass,0.78
+test_graphs.py,test_pag_exact_where_tetrad_differs (slow),pass,386.0

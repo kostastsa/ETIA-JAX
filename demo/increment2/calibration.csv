@@ -1,0 +1,15 @@
+test,mode,n,size_pct,power_pct
+FisherZ,default,300,4.0,100.0
+ParCor,default,300,4.0,100.0
+RobustParCor,default,300,4.0,100.0
+ParCorrWLS,default,300,4.0,100.0
+dg_lrt,default,400,6.0,97.0
+dg_lrt,tetrad_compat,400,25.0,98.0
+cg_lrt,default,400,6.0,100.0
+RegressionCI,default,400,4.0,96.0
+chisquare,default,600,9.0,100.0
+gsquare,default,600,11.0,100.0
+Gsquared,default,600,11.0,100.0
+cci,default,200,50.0,100.0
+cci,bonferroni,200,6.666666666666667,98.33333333333333
+cci,tetrad_compat,200,88.33333333333333,98.33333333333333

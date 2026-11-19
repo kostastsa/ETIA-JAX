@@ -1,0 +1,227 @@
+<title>ETIA-JAX increment 2</title>
+<style>
+  .kpis .kpi .v { font-variant-numeric: tabular-nums; }
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line, #ddd); vertical-align: top; }
+  .callout { border-left: 3px solid var(--accent, #2563eb); padding: 8px 14px; margin: 0; }
+  .callout li { margin: 4px 0; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 2 of 10 · CI tests</div>
+    <h1>The 14 CI tests of ETIA in JAX</h1>
+    <p class="lede">Answers compared with Tetrad 7.6.5 and tigramite 5.2 on GenJAX data, calibration under the null, and run time of ETIA against ETIA-JAX on the same computer (i9-14900K, RTX 4090, float64).</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>Agreement with ETIA <span class="tag">agreement.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Origin</span><div id="origin"></div></div></div>
+    <div id="agree"></div>
+    <p class="note">60 queries per dataset (|Z| = 0…3). A Δp of about 1e-10 or less is the same p-value up to rounding. CMIknn has no p-value in ETIA (fixed threshold on the CMI), so its decision uses the statistic. CMIsymb and GPDC use random null distributions. <code>cci</code> and <code>dg_lrt</code> run in <code>tetrad_compat</code> mode here.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">timing_60_long.csv · timing_60.csv</span></h2>
+    <div class="controls">
+      <div class="ctl"><span class="ctl-label">View</span><div id="tview"></div></div>
+    </div>
+    <div id="tchart"></div>
+    <div id="ttable"></div>
+    <p class="note">Mean time per query on the 60 fixture queries (move the pointer on a point for the value), after the first JIT compile (the first-call columns of the table include it). One by one = one call per query, as ETIA's PC and PCMCI run them. Batched = all queries of one |Z| in one <code>vmap</code> call.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Many queries <span class="tag">scale.csv · scale_wide.csv</span></h2>
+    <div class="controls">
+      <div class="ctl"><span class="ctl-label">Test</span><div id="stest"></div></div>
+      <div class="ctl"><span class="ctl-label">Measure</span><div id="smetric"></div></div>
+    </div>
+    <div id="schart"></div>
+    <div id="stable"></div>
+    <p class="note">30-variable data (cont: n = 1000, disc: n = 2000). Unique queries: all 435 pairs for |Z| = 0 and 2000 random queries for each |Z| = 1, 2, 3, so the result caches of Tetrad and tigramite do not help. The p-values of ETIA and ETIA-JAX agree to better than 1e-10 on all these queries (column max_abs_dp of scale.csv).</p>
+  </section>
+
+  <div class="row2">
+    <section class="panel">
+      <h2>Calibration and power <span class="tag">calibration.csv</span></h2>
+      <div id="calchart"></div>
+      <div id="cal"></div>
+      <p class="note">100 replicates (60 for cci) from a GenJAX SCM with Z → X, Z → Y. Size: rejections at α = 0.05 when X ⫫ Y | Z (near 5 % is correct). Power: rejections when X → Y is added.</p>
+    </section>
+    <section class="panel">
+      <h2>What the timings show</h2>
+      <ul class="callout">
+        <li><b>Batched queries are the strength of JAX:</b> one <code>vmap</code> call answers 2000 queries in milliseconds. PC and FCI test many queries of the same |Z| at each level, so increment 3 uses this path.</li>
+        <li><b>One query per call is not always faster:</b> a JAX call costs about 40 µs on the CPU and 0.4 ms on the GPU. Tetrad's Java FisherZ takes 60–125 µs per query.</li>
+        <li><b>Slower than ETIA today:</b> <code>cg_lrt</code>, <code>dg_lrt</code> and <code>RegressionCI</code> on mixed data, and the table tests one by one. They have no batched path yet.</li>
+        <li><b>CMIsymb in ETIA</b> falls back to plain Python (numba cannot compile tigramite's shuffle loop): 29 s per query. The JAX shuffle runs in a <code>vmap</code>.</li>
+        <li><b>GPDC</b> fits a GP with float64 Cholesky factorizations, which are slow on this GPU; batched it is only a little faster than sklearn.</li>
+      </ul>
+      <h2 style="margin-top:18px">Tetrad 7.6.5 defects found from its source</h2>
+      <table class="defects">
+        <tr><th>Test</th><th>Defect</th><th>Effect</th></tr>
+        <tr><td><code>cci</code></td><td>Kernel distance uses (x, z₁…zₖ₋₁) in place of (z₁…zₖ).</td><td>The regression of x on Z partly uses x and omits the last Z.</td></tr>
+        <tr><td><code>cci</code></td><td>Correlation of standardized values divides by n − 1.</td><td>Statistic n / (n − 1) too large.</td></tr>
+        <tr><td><code>dg_lrt</code></td><td>Statistic −2 Δlik, but lik is already 2 × log-likelihood.</td><td>Statistic twice too large: too many rejections.</td></tr>
+        <tr><td><code>dg_lrt</code></td><td>Covariance mean is sum / (n − 1) with divisor n.</td><td>Small bias in each entry.</td></tr>
+      </table>
+      <div id="defects-howto"></div>
+      <p class="note"><code>tetrad_compat=True</code> keeps the defects (to agree with ETIA); the default mode corrects them.</p>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>
+    Data: ~/PROJECTS/ETIA-JAX/demo/increment2/ (made by make_data.py from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, Java 17). Remake: see the "How to remake" box in increment2.md.
+  </footer>
+</div>
+<script>
+// "How to read this table / chart" texts (STE, checked with ste/scripts/check.py)
+const HOWTO = {
+ "agree": "<p>This table compares each JAX CI test with the same test in ETIA. Each row is one test on one dataset. Use Origin to show only the Tetrad tests or only the tigramite tests.</p><p>The column \"Same decision (%)\" gives the percentage of the 60 queries with the same decision at α = 0.05. A value of 100 shows that the two programs reject the same queries.</p><p>The column \"max |Δp|\" gives the largest difference between the two p-values. A value of 1e-10 or smaller shows the same p-value, because the difference comes only from the precision of the numbers. The column \"max rel Δ statistic\" gives the largest relative difference of the test statistic. The column mode shows the tests that use the Tetrad compat mode.</p>",
+ "ttable": "<p>This table gives the total time of the 60 fixture queries for each test. Each row is one test on one dataset. All the times are in seconds.</p><p>Compare the JAX columns with the ETIA column. The columns \"JAX GPU\" and \"JAX CPU\" give the time for one query at a time. The batched columns give the time when JAX calculates all the queries with the same number of variables in Z together. An empty cell shows that the test has no batched function at this time.</p><p>The columns \"first query\" give the time of the first query. This time includes the JIT compilation. The last column divides the ETIA time by the shortest JAX time. A value above 1 shows that ETIA-JAX is faster. Click a column header to sort the rows.</p>",
+ "stable": "<p>This table gives the total time for all the queries with the same number of variables in Z. It shows only the test that you select above the chart. Each row is one number of variables in Z, from 0 to 3.</p><p>The first columns give the time in seconds for ETIA and for the four JAX modes. The last two columns divide the ETIA time by the time of the batched JAX mode on the GPU and on the CPU. A value of 100 shows that the batched JAX mode is 100 times faster than ETIA. The star marks the largest value in each of these two columns.</p>",
+ "cal": "<p>This table gives the values of the calibration chart, and also the power of each test. Each row is one test in one mode. The column n gives the number of samples in each replicate.</p><p>The size must be near 5 %. The power must be near 100 %. A test with a high size and a high power is not a better test, because it finds dependencies that are not in the model.</p>",
+ "tests": "<p>This table shows the tests of the test suite after increment 2. Each row is one test function. The column result shows \"pass\" or \"fail\". The column time_s gives the time of each test in seconds. The slow tests have no time in this table, because you start them with a different command: \"pytest -m slow\".</p>",
+ "defects": "<p>This table shows the defects in Tetrad 7.6.5 that the tests of ETIA-JAX found. Each row is one defect in one test. The last column tells how the defect changes the result. ETIA uses Tetrad 7.6.5, thus ETIA has these defects.</p>",
+ "tchart": "<p>This chart shows the mean time for one CI query. Each row is one test on one dataset. Each point is one mode of the calculation. The colors of the points are in the legend above the chart.</p><p>The x axis has a logarithmic scale. Each grid line is ten times the time of the grid line to its left. A point to the left shows a shorter time. Put the pointer on a point to see its value.</p><p>Compare each point with the ETIA point of the same row. If a JAX point is to the left of the ETIA point, ETIA-JAX is faster for that test. The batched points show the time when JAX calculates all the queries with the same number of variables in Z together. The tests at the top are the slowest tests in ETIA.</p>",
+ "schart": "<p>This chart shows how many queries each mode calculates in one second. Select a test above the chart. Each line is one mode.</p><p>The x axis is the size of the conditioning set Z, from 0 to 3 variables. The y axis has a logarithmic scale. A higher line shows a faster mode.</p><p>The ETIA line and the two lines for one query at a time are near each other. The two batched lines are much higher. The vertical distance between a batched line and the ETIA line is the speed-up. Select Seconds to see the total time for all the queries with the same number of variables in Z.</p>",
+ "calchart": "<p>This chart shows the size of each CI test. The size is the percentage of rejections at α = 0.05 when the model has no edge between X and Y. A correct test has a size near 5 %.</p><p>Each color is one mode of a test. A bar that is much higher than 5 % shows a test that finds too many false dependencies. The Tetrad mode of dg_lrt and the default mode of cci have bars that are too high. The corrected modes are near 5 %.</p><p>The table below the chart also gives the power. The power is the percentage of rejections when the model has the edge X → Y. A good test has a power near 100 %.</p>"
+};
+const howtoBox = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+
+document.getElementById('defects-howto').innerHTML = howtoBox('table', HOWTO.defects);
+pv.need(['summary.json', 'agreement.csv', 'timing_60.csv', 'timing_60_long.csv', 'scale.csv', 'scale_wide.csv', 'calibration.csv', 'tests.csv']);
+
+// ---- KPIs from summary.json (live)
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.n_tests} / ${s.n_tests}`, 'CI tests ported', '6 Tetrad, 8 tigramite') +
+    card(`${s.decisions_all_same} / ${s.n_pairs}`, 'Pairs, same decisions', 'test × dataset, all 60 queries') +
+    card(`${pv.fmt(s.scale_min_speedup_best, 0)}–${pv.fmt(Math.max(s.scale_best_speedup_gpu, s.scale_best_speedup_cpu), 0)}×`, 'Speed-up, batched', '2000 unique queries, faster device') +
+    card(`${pv.fmt(s.cmisymb_etia_s / s.cmisymb_gpu_s, 0)}×`, 'CMIsymb speed-up', `${pv.fmt(s.cmisymb_etia_s, 0)} s → ${pv.fmt(s.cmisymb_gpu_s, 2)} s`);
+});
+
+// ---- Agreement table with an origin filter
+let origin = 'all';
+const drawAgree = () => pv.table('#agree', 'agreement.csv', {
+  prepare: d => origin === 'all' ? d : pv.fromRecords(pv.records(d).filter(r => r.origin === origin)),
+  labels: 'decisions_same_pct: Same decision (%) | max_abs_dp: max |Δp| | max_rel_dstat: max rel Δ statistic',
+  dec: 'decisions_same_pct:1 max_abs_dp:3 max_rel_dstat:3', sort: 'origin:asc', height: 460, howto: HOWTO.agree});
+pv.seg('#origin', {options: [['all', 'All'], ['Tetrad', 'Tetrad'], ['tigramite', 'tigramite']], value: 'all',
+  onChange: v => { origin = v; drawAgree(); }});
+drawAgree();
+
+// ---- Timing: chart per query, or the table
+const drawTiming = v => {
+  document.getElementById('tchart').style.display = v === 'chart' ? '' : 'none';
+  document.getElementById('ttable').style.display = v === 'table' ? '' : 'none';
+  if (v === 'chart') drawDots();
+};
+// A dot plot drawn here: one row per test (readable names), log x axis.
+const NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs, parent) => {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if ((k === 'fill' || k === 'stroke') && String(v).startsWith('var(')) n.style[k] = v;  // CSS variables
+    else n.setAttribute(k, v);
+  }
+  if (parent) parent.appendChild(n);
+  return n;
+};
+let timingData = null;
+function drawDots() {
+  const host = document.getElementById('tchart');
+  if (!timingData) return;
+  const R = pv.records(timingData).filter(r => r.ms_per_query > 0);
+  const whos = [...new Set(R.map(r => r.who))];
+  const etia = {};
+  R.filter(r => r.who === 'ETIA').forEach(r => { etia[r.test] = r.ms_per_query; });
+  const tests = [...new Set(R.map(r => r.test))].sort((a, b) => (etia[b] || 0) - (etia[a] || 0));
+  const lo = Math.floor(Math.log10(Math.min(...R.map(r => r.ms_per_query))));
+  const hi = Math.ceil(Math.log10(Math.max(...R.map(r => r.ms_per_query))));
+  const W = Math.max(520, host.clientWidth || 900), L = 170, Rm = 24, T = 10, rowH = 24, B = 40;
+  const H = T + tests.length * rowH + B;
+  const x = v => L + (Math.log10(v) - lo) / (hi - lo) * (W - L - Rm);
+  host.innerHTML = '';
+  const legend = document.createElement('div');
+  legend.style.cssText = 'display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin:4px 0 6px';
+  whos.forEach((w, i) => {
+    legend.insertAdjacentHTML('beforeend',
+      `<span><svg width="10" height="10"><circle cx="5" cy="5" r="5" class="f${i % 8 + 1}"/></svg> ${w}</span>`);
+  });
+  host.appendChild(legend);
+  const svg = svgEl('svg', {viewBox: `0 0 ${W} ${H}`, width: '100%', role: 'img',
+                            'aria-label': 'Time per query by test and mode'}, host);
+  svg.style.fontSize = '12px';
+  for (let e = lo; e <= hi; e++) {
+    const xv = x(10 ** e);
+    svgEl('line', {x1: xv, x2: xv, y1: T, y2: H - B, stroke: 'var(--line)', 'stroke-width': 1}, svg);
+    const t = svgEl('text', {x: xv, y: H - B + 16, 'text-anchor': 'middle', fill: 'var(--muted)'}, svg);
+    t.textContent = 10 ** e >= 1 ? `${10 ** e} ms` : `${+(10 ** e).toPrecision(1)} ms`;
+  }
+  const lab = svgEl('text', {x: (L + W - Rm) / 2, y: H - 6, 'text-anchor': 'middle', fill: 'var(--muted)'}, svg);
+  lab.textContent = 'ms per query (log scale) — lower is better';
+  tests.forEach((t, i) => {
+    const y = T + i * rowH + rowH / 2;
+    if (i % 2 === 0) svgEl('rect', {x: 0, y: y - rowH / 2, width: W, height: rowH, fill: 'var(--hover)', opacity: 0.5}, svg);
+    const name = svgEl('text', {x: L - 10, y: y + 4, 'text-anchor': 'end', fill: 'var(--fg)'}, svg);
+    name.textContent = t;
+    const pts = R.filter(r => r.test === t);
+    const xs = pts.map(r => x(r.ms_per_query));
+    svgEl('line', {x1: Math.min(...xs), x2: Math.max(...xs), y1: y, y2: y, stroke: 'var(--muted)', 'stroke-width': 1, opacity: 0.6}, svg);
+    pts.forEach(r => {
+      const c = svgEl('circle', {cx: x(r.ms_per_query), cy: y, r: 5.5, class: `f${whos.indexOf(r.who) % 8 + 1}`,
+                                 stroke: 'var(--bg)', 'stroke-width': 1}, svg);
+      const tip = svgEl('title', {}, c);
+      tip.textContent = `${t} · ${r.who}: ${pv.fmt(r.ms_per_query, 3)} ms per query`;
+    });
+  });
+  host.insertAdjacentHTML('beforeend', howtoBox('chart', HOWTO.tchart));
+}
+pv.watch('timing_60_long.csv', d => { timingData = d; drawDots(); });
+window.addEventListener('resize', drawDots);
+pv.table('#ttable', 'timing_60.csv', {
+  labels: 'etia_s: ETIA (s) | jax_gpu_s: JAX GPU (s) | jax_cpu_s: JAX CPU (s) | jax_gpu_batched_s: GPU batched (s) | jax_cpu_batched_s: CPU batched (s) | jax_gpu_first_s: GPU first query (s) | jax_cpu_first_s: CPU first query (s) | speedup_best: Speed-up (best JAX)',
+  dec: 'etia_s:3 jax_gpu_s:3 jax_cpu_s:3 jax_gpu_batched_s:4 jax_cpu_batched_s:4 jax_gpu_first_s:2 jax_cpu_first_s:2 speedup_best:1',
+  sort: 'speedup_best:desc', height: 460, wide: true, howto: HOWTO.ttable});
+pv.seg('#tview', {options: [['chart', 'Chart'], ['table', 'Table']], value: 'chart', onChange: drawTiming});
+drawTiming('chart');
+
+// ---- Scale: one test at a time, throughput or seconds
+let stest = 'FisherZ', smetric = 'queries_per_s';
+const drawScale = () => {
+  pv.chart('#schart', 'scale.csv', {type: 'line', x: 'k', y: smetric, color: 'who', 'log-y': true,
+    prepare: d => pv.fromRecords(pv.records(d).filter(r => r.test === stest)),
+    'x-label': '|Z|', 'y-label': smetric === 'queries_per_s' ? 'queries per second (log)' : 'seconds for all queries (log)',
+    height: 380, wide: true, howto: HOWTO.schart});
+  pv.table('#stable', 'scale_wide.csv', {
+    prepare: d => pv.fromRecords(pv.records(d).filter(r => r.test === stest)),
+    labels: 'k: |Z| | ETIA: ETIA (s) | JAX_CPU_batched: CPU batched (s) | JAX_CPU_one_by_one: CPU one by one (s) | JAX_GPU_batched: GPU batched (s) | JAX_GPU_one_by_one: GPU one by one (s) | speedup_batched_gpu: Speed-up GPU batched | speedup_batched_cpu: Speed-up CPU batched',
+    dec: 'ETIA:3 JAX_CPU_batched:4 JAX_CPU_one_by_one:3 JAX_GPU_batched:4 JAX_GPU_one_by_one:3 speedup_batched_gpu:0 speedup_batched_cpu:0',
+    best: 'speedup_batched_gpu:max speedup_batched_cpu:max', wide: true, howto: HOWTO.stable});
+};
+pv.watch('scale_wide.csv', d => {
+  const tests = [...new Set(pv.records(d).map(r => r.test))];
+  pv.select('#stest', {options: tests.map(t => [t, t]), value: stest, onChange: v => { stest = v; drawScale(); }});
+});
+pv.seg('#smetric', {options: [['queries_per_s', 'Queries / s'], ['seconds', 'Seconds']], value: smetric,
+  onChange: v => { smetric = v; drawScale(); }});
+drawScale();
+
+// ---- Calibration
+pv.chart('#calchart', 'calibration.csv', {type: 'bar', x: 'test', y: 'size_pct', color: 'mode',
+  'y-label': 'size at α = 0.05 (%)', height: 300, howto: HOWTO.calchart});
+pv.table('#cal', 'calibration.csv', {labels: 'size_pct: Size (%) | power_pct: Power (%)',
+  dec: 'size_pct:0 power_pct:0', height: 420, howto: HOWTO.cal});
+
+// ---- Tests
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

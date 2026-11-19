@@ -1,0 +1,44 @@
+file,test,result,time_s
+test_ci.py,test_exact_ports_agree_with_etia,pass,39.28
+test_ci.py,test_cmiknn_statistic_agrees,pass,1.48
+test_ci.py,test_random_null_tests_agree[CMIsymb-disc],pass,4.64
+test_ci.py,test_random_null_tests_agree[GPDC-nonlin],pass,29.15
+test_ci.py,test_batch_equals_single[FisherZ-cont],pass,0.23
+test_ci.py,test_batch_equals_single[ParCorr-cont],pass,0.4
+test_ci.py,test_batch_equals_single[RobustParCorr-cont],pass,0.03
+test_ci.py,test_batch_equals_single[ParCorrWLS-cont],pass,0.53
+test_ci.py,test_batch_equals_single[ChiSquare-disc],pass,2.12
+test_ci.py,test_batch_equals_single[GSquare-disc],pass,0.1
+test_ci.py,test_batch_equals_single[Gsquared-disc],pass,0.56
+test_ci.py,test_against_causal_learn[FisherZ-fisherz-cont],pass,1.03
+test_ci.py,test_against_causal_learn[Gsquared-gsq-disc],pass,0.26
+test_ci.py,test_against_causal_learn[ChiSquare-chisq-disc],pass,0.37
+test_graphs.py,test_random_dag_is_acyclic,pass,0.0
+test_graphs.py,test_marks_roundtrip,pass,0.0
+test_graphs.py,test_chain_fork_collider,pass,0.0
+test_graphs.py,test_dsep_matches_tetrad,pass,0.11
+test_graphs.py,test_cpdag_matches_tetrad,pass,0.01
+test_graphs.py,test_mag_matches_tetrad,pass,0.02
+test_graphs.py,test_mag_adjacency_by_dsep,pass,0.05
+test_graphs.py,test_pag_without_latents_agrees_with_cpdag,pass,0.05
+test_graphs.py,test_metrics,pass,0.0
+test_graphs.py,test_pag_exact_bruteforce_small,pass,17.6
+test_graphs.py,test_pag_matches_tetrad_elsewhere,pass,0.03
+test_scm.py,test_linear_gaussian_shape_and_regression,pass,0.99
+test_scm.py,test_noise_std,pass,0.8
+test_scm.py,test_discrete_and_mixed,pass,2.29
+test_scm.py,test_nonlinear_link,pass,0.86
+test_scm.py,test_seed_reproducible,pass,0.95
+test_ci.py,test_calibration_and_power[FisherZ] (slow),pass,
+test_ci.py,test_calibration_and_power[ParCor] (slow),pass,
+test_ci.py,test_calibration_and_power[RobustParCor] (slow),pass,
+test_ci.py,test_calibration_and_power[ParCorrWLS] (slow),pass,
+test_ci.py,test_calibration_and_power[dg_lrt mixed] (slow),pass,
+test_ci.py,test_calibration_and_power[cg_lrt] (slow),pass,
+test_ci.py,test_calibration_and_power[RegressionCI] (slow),pass,
+test_ci.py,test_calibration_and_power[chisquare] (slow),pass,
+test_ci.py,test_calibration_and_power[gsquare] (slow),pass,
+test_ci.py,test_calibration_and_power[Gsquared] (slow),pass,
+test_ci.py,test_calibration_and_power[dg_lrt continuous] (slow),pass,
+test_ci.py,test_calibration_and_power[cci bonferroni] (slow),pass,
+test_graphs.py,test_pag_exact_where_tetrad_differs (slow),pass,386.0
