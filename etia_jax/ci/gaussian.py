@@ -16,7 +16,7 @@ import jax.numpy as jnp
 from jax.scipy.stats import norm
 
 from .base import (CITest, partial_corr_from_cov, t_sf_two_sided, chi2_sf,
-                   normal_sf_two_sided, as_index_batch)
+                   normal_sf_two_sided, as_index_batch, pad_batch)
 
 
 @jax.jit
@@ -48,10 +48,10 @@ class _CovTest(CITest):
         self.C = jnp.asarray(np.corrcoef(X, rowvar=False))
 
     def test_batch(self, xs, ys, Zs):
-        idx = jnp.asarray(as_index_batch(xs, ys, Zs))
-        self.n_calls += len(idx)
-        s, p = type(self)._kernel(self.C, idx, float(self.n))
-        return np.asarray(s), np.asarray(p)
+        idx, B = pad_batch(as_index_batch(xs, ys, Zs))
+        self.n_calls += B
+        s, p = type(self)._kernel(self.C, jnp.asarray(idx), float(self.n))
+        return np.asarray(s)[:B], np.asarray(p)[:B]
 
     def test(self, x, y, Z=()):
         s, p = self.test_batch([x], [y], [list(Z)])
@@ -143,10 +143,10 @@ class ParCorrWLS(CITest):
         self.X = jnp.asarray(self.data)
 
     def test_batch(self, xs, ys, Zs):
-        idx = jnp.asarray(as_index_batch(xs, ys, Zs))
-        self.n_calls += len(idx)
-        s, p = _par_corr_wls(self.X, idx, self.window)
-        return np.asarray(s), np.asarray(p)
+        idx, B = pad_batch(as_index_batch(xs, ys, Zs))
+        self.n_calls += B
+        s, p = _par_corr_wls(self.X, jnp.asarray(idx), self.window)
+        return np.asarray(s)[:B], np.asarray(p)[:B]
 
     def test(self, x, y, Z=()):
         s, p = self.test_batch([x], [y], [list(Z)])
@@ -207,6 +207,7 @@ class DGLrt(CITest):
       usual covariance (mean = sum / n), and the likelihood ratio
       statistic -(lik0 - lik1).
     """
+    symmetric = False                     # y is the child of the likelihood ratio
     name = "dg_lrt"
     data_types = ("continuous", "discrete", "mixed")
 
@@ -218,9 +219,24 @@ class DGLrt(CITest):
         n = E.shape[0]
         mu = E.sum(0) / (n - 1) if tetrad_compat else E.mean(0)
         C = E - mu
-        self.S = (C.T @ C) / n
+        S = np.asarray((C.T @ C) / n)
+        # Each variable gets a block of W columns: its embedded columns, then
+        # independent unit-variance columns. A unit block adds log 1 = 0 to a
+        # log-determinant, so all queries of one |Z| have the same shape.
+        self.width = np.array([len(g) for g in self.groups])
+        W = int(self.width.max())
+        m = self.p * W
+        Sp = np.eye(m)
+        cols = np.full(m, -1)
+        for v, g in enumerate(self.groups):
+            cols[v * W: v * W + len(g)] = g
+        real = cols >= 0
+        Sp[np.ix_(real, real)] = S[np.ix_(cols[real], cols[real])]
+        self.W, self.Sp = W, jnp.asarray(Sp)
+        self.S = jnp.asarray(S)
 
     def _lik(self, child, parents):
+        """Unbatched reference (used by the tests)."""
         B = [c for q in parents for c in self.groups[q]]
         A = list(self.groups[child]) + B
         def logdet(cols):
@@ -232,19 +248,44 @@ class DGLrt(CITest):
         dof = (len(A) * (len(A) + 1) - len(B) * (len(B) + 1)) / 2.0
         return lik, dof
 
-    def test(self, x, y, Z=()):
-        self.n_calls += 1
-        Z = sorted(Z)
-        l0, d0 = self._lik(y, Z)
-        l1, d1 = self._lik(y, [x] + Z)
-        ddof = d1 - d0
-        # ``lik`` is already 2 x log-likelihood. Tetrad multiplies the
-        # difference by 2 again (compat); the likelihood ratio is -(l0 - l1).
+    def test_batch(self, xs, ys, Zs):
+        idx, B = pad_batch(as_index_batch(xs, ys, Zs))
+        self.n_calls += B
+        ld = np.asarray(_dg_logdets(self.Sp, jnp.asarray(idx), self.W))      # (B', 4)
+        idx, ld = idx[:B], ld[:B]
+        w = self.width
+        dz = w[idx[:, 2:]].sum(1) if idx.shape[1] > 2 else np.zeros(B, int)
+        dx, dy = w[idx[:, 0]], w[idx[:, 1]]
+        # ret0: child y, parents Z (B0 = Z, A0 = y + Z); ret1: parents x + Z
+        l0 = self.n * (ld[:, 0] - ld[:, 1]) + L2PE * (-dy)
+        l1 = self.n * (ld[:, 2] - ld[:, 3]) + L2PE * (-dy)
+        dof = lambda a, b: (a * (a + 1) - b * (b + 1)) / 2.0
+        ddof = dof(dy + dx + dz, dx + dz) - dof(dy + dz, dz)
         stat = (-2.0 if self.tetrad_compat else -1.0) * (l0 - l1)
-        if ddof <= 0 or not np.isfinite(stat):
-            return float(stat), float("nan")      # Tetrad: undefined, dependent
-        return float(stat), float(chi2_sf(stat, ddof))
+        ok = (ddof > 0) & np.isfinite(stat)
+        p = np.where(ok, np.asarray(chi2_sf(jnp.asarray(stat), jnp.asarray(np.maximum(ddof, 1)))), np.nan)
+        return stat, p
 
-    def independent(self, x, y, Z, alpha):
-        stat, pval = self.test(x, y, Z)
-        return bool(pval > alpha), stat, pval     # NaN -> dependent
+    def test(self, x, y, Z=()):
+        s, p = self.test_batch([x], [y], [sorted(Z)])
+        return float(s[0]), float(p[0])
+
+
+@partial(jax.jit, static_argnums=(2,))
+def _dg_logdets(Sp, idx, W):
+    """log|det| of the four blocks of each query (x, y, Z...):
+    Z, y + Z, x + Z, y + x + Z (each variable is a block of W columns)."""
+    def cols(vs):
+        return (vs[:, None] * W + jnp.arange(W)[None, :]).reshape(-1)
+
+    def logdet(c):
+        if c.shape[0] == 0:
+            return 0.0
+        return jnp.linalg.slogdet(Sp[c[:, None], c[None, :]])[1]
+
+    def one(ix):
+        x, y, Z = ix[0:1], ix[1:2], ix[2:]
+        return jnp.stack([logdet(cols(Z)), logdet(cols(jnp.concatenate([y, Z]))),
+                          logdet(cols(jnp.concatenate([x, Z]))),
+                          logdet(cols(jnp.concatenate([y, x, Z])))])
+    return jax.vmap(one)(idx)

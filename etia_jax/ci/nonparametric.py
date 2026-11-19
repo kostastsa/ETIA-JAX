@@ -18,7 +18,7 @@ import jax.numpy as jnp
 from jax.scipy.special import digamma
 from jax.scipy.stats import norm
 
-from .base import CITest, normal_sf_two_sided, as_index_batch
+from .base import CITest, normal_sf_two_sided, as_index_batch, pad_batch
 
 
 # --------------------------------------------------------------------------
@@ -201,11 +201,11 @@ class GPDC(CITest):
         return float(v), float(jnp.mean(self.null > jnp.abs(v)))
 
     def test_batch(self, xs, ys, Zs):
-        idx = jnp.asarray(as_index_batch(xs, ys, Zs))
-        self.n_calls += len(idx)
-        v = _gpdc_batch(self.X, idx, idx.shape[1] - 2)
+        idx, B = pad_batch(as_index_batch(xs, ys, Zs), min_size=1)
+        self.n_calls += B
+        v = _gpdc_batch(self.X, jnp.asarray(idx), idx.shape[1] - 2)
         p = jnp.mean(self.null[None, :] > jnp.abs(v)[:, None], axis=1)
-        return np.asarray(v), np.asarray(p)
+        return np.asarray(v)[:B], np.asarray(p)[:B]
 
 
 # --------------------------------------------------------------------------

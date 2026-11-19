@@ -1,0 +1,117 @@
+case,group,test,algo,mode,shd,adj_f1
+cont10_s0,cont10,FisherZ,pc,Tetrad (same as ETIA),4,0.9
+cont10_s0,cont10,FisherZ,pc,PC-stable (default),2,0.9
+cont10_s0,cont10,FisherZ,cpc,Tetrad (same as ETIA),3,0.9
+cont10_s0,cont10,FisherZ,cpc,PC-stable (default),3,0.9
+cont10_s1,cont10,FisherZ,pc,Tetrad (same as ETIA),0,1.0
+cont10_s1,cont10,FisherZ,pc,PC-stable (default),0,1.0
+cont10_s1,cont10,FisherZ,cpc,Tetrad (same as ETIA),2,1.0
+cont10_s1,cont10,FisherZ,cpc,PC-stable (default),0,1.0
+cont10_s2,cont10,FisherZ,pc,Tetrad (same as ETIA),2,0.9090909090909091
+cont10_s2,cont10,FisherZ,pc,PC-stable (default),2,0.9090909090909091
+cont10_s2,cont10,FisherZ,cpc,Tetrad (same as ETIA),4,0.9090909090909091
+cont10_s2,cont10,FisherZ,cpc,PC-stable (default),2,0.9090909090909091
+cont10_s3,cont10,FisherZ,pc,Tetrad (same as ETIA),7,0.8275862068965518
+cont10_s3,cont10,FisherZ,pc,PC-stable (default),9,0.7407407407407408
+cont10_s3,cont10,FisherZ,cpc,Tetrad (same as ETIA),10,0.8275862068965518
+cont10_s3,cont10,FisherZ,cpc,PC-stable (default),10,0.7407407407407408
+cont10_s4,cont10,FisherZ,pc,Tetrad (same as ETIA),11,0.8461538461538461
+cont10_s4,cont10,FisherZ,pc,PC-stable (default),11,0.8461538461538461
+cont10_s4,cont10,FisherZ,cpc,Tetrad (same as ETIA),8,0.8461538461538461
+cont10_s4,cont10,FisherZ,cpc,PC-stable (default),8,0.8461538461538461
+cont10_s5,cont10,FisherZ,pc,Tetrad (same as ETIA),2,0.8888888888888888
+cont10_s5,cont10,FisherZ,pc,PC-stable (default),2,0.8888888888888888
+cont10_s5,cont10,FisherZ,cpc,Tetrad (same as ETIA),2,0.8888888888888888
+cont10_s5,cont10,FisherZ,cpc,PC-stable (default),2,0.8888888888888888
+cont20_s0,cont20,FisherZ,pc,Tetrad (same as ETIA),5,0.9361702127659574
+cont20_s0,cont20,FisherZ,pc,PC-stable (default),10,0.9130434782608695
+cont20_s0,cont20,FisherZ,cpc,Tetrad (same as ETIA),3,0.9361702127659574
+cont20_s0,cont20,FisherZ,cpc,PC-stable (default),6,0.9130434782608695
+cont20_s1,cont20,FisherZ,pc,Tetrad (same as ETIA),6,0.8947368421052632
+cont20_s1,cont20,FisherZ,pc,PC-stable (default),6,0.8947368421052632
+cont20_s1,cont20,FisherZ,cpc,Tetrad (same as ETIA),8,0.8947368421052632
+cont20_s1,cont20,FisherZ,cpc,PC-stable (default),8,0.8947368421052632
+cont20_s2,cont20,FisherZ,pc,Tetrad (same as ETIA),23,0.75
+cont20_s2,cont20,FisherZ,pc,PC-stable (default),24,0.7419354838709677
+cont20_s2,cont20,FisherZ,cpc,Tetrad (same as ETIA),28,0.75
+cont20_s2,cont20,FisherZ,cpc,PC-stable (default),25,0.7419354838709677
+cont20_s3,cont20,FisherZ,pc,Tetrad (same as ETIA),10,0.9166666666666666
+cont20_s3,cont20,FisherZ,pc,PC-stable (default),10,0.9361702127659575
+cont20_s3,cont20,FisherZ,cpc,Tetrad (same as ETIA),8,0.9166666666666666
+cont20_s3,cont20,FisherZ,cpc,PC-stable (default),7,0.9361702127659575
+cont30_s0,cont30,FisherZ,pc,Tetrad (same as ETIA),26,0.8333333333333334
+cont30_s0,cont30,FisherZ,pc,PC-stable (default),16,0.8421052631578947
+cont30_s0,cont30,FisherZ,cpc,Tetrad (same as ETIA),16,0.8333333333333334
+cont30_s0,cont30,FisherZ,cpc,PC-stable (default),16,0.8421052631578947
+cont30_s1,cont30,FisherZ,pc,Tetrad (same as ETIA),13,0.8648648648648649
+cont30_s1,cont30,FisherZ,pc,PC-stable (default),12,0.8695652173913043
+cont30_s1,cont30,FisherZ,cpc,Tetrad (same as ETIA),12,0.8648648648648649
+cont30_s1,cont30,FisherZ,cpc,PC-stable (default),11,0.8695652173913043
+cont30_s2,cont30,FisherZ,pc,Tetrad (same as ETIA),15,0.935064935064935
+cont30_s2,cont30,FisherZ,pc,PC-stable (default),13,0.9473684210526315
+cont30_s2,cont30,FisherZ,cpc,Tetrad (same as ETIA),10,0.935064935064935
+cont30_s2,cont30,FisherZ,cpc,PC-stable (default),7,0.9473684210526315
+disc10_s0,disc10,chisquare,pc,Tetrad (same as ETIA),5,0.9696969696969697
+disc10_s0,disc10,chisquare,pc,PC-stable (default),5,0.9696969696969697
+disc10_s0,disc10,chisquare,cpc,Tetrad (same as ETIA),6,0.9696969696969697
+disc10_s0,disc10,chisquare,cpc,PC-stable (default),6,0.9696969696969697
+disc10_s0,disc10,gsquare,pc,Tetrad (same as ETIA),5,0.9696969696969697
+disc10_s0,disc10,gsquare,pc,PC-stable (default),5,0.9696969696969697
+disc10_s0,disc10,gsquare,cpc,Tetrad (same as ETIA),2,0.9696969696969697
+disc10_s0,disc10,gsquare,cpc,PC-stable (default),2,0.9696969696969697
+disc10_s1,disc10,chisquare,pc,Tetrad (same as ETIA),0,1.0
+disc10_s1,disc10,chisquare,pc,PC-stable (default),0,1.0
+disc10_s1,disc10,chisquare,cpc,Tetrad (same as ETIA),4,1.0
+disc10_s1,disc10,chisquare,cpc,PC-stable (default),4,1.0
+disc10_s1,disc10,gsquare,pc,Tetrad (same as ETIA),0,1.0
+disc10_s1,disc10,gsquare,pc,PC-stable (default),0,1.0
+disc10_s1,disc10,gsquare,cpc,Tetrad (same as ETIA),4,1.0
+disc10_s1,disc10,gsquare,cpc,PC-stable (default),4,1.0
+disc10_s2,disc10,chisquare,pc,Tetrad (same as ETIA),5,1.0
+disc10_s2,disc10,chisquare,pc,PC-stable (default),5,1.0
+disc10_s2,disc10,chisquare,cpc,Tetrad (same as ETIA),3,1.0
+disc10_s2,disc10,chisquare,cpc,PC-stable (default),3,1.0
+disc10_s2,disc10,gsquare,pc,Tetrad (same as ETIA),5,1.0
+disc10_s2,disc10,gsquare,pc,PC-stable (default),6,1.0
+disc10_s2,disc10,gsquare,cpc,Tetrad (same as ETIA),3,1.0
+disc10_s2,disc10,gsquare,cpc,PC-stable (default),3,1.0
+mixed10_s0,mixed10,cg_lrt,pc,Tetrad (same as ETIA),7,0.9166666666666666
+mixed10_s0,mixed10,cg_lrt,pc,PC-stable (default),7,0.9166666666666666
+mixed10_s0,mixed10,cg_lrt,cpc,Tetrad (same as ETIA),6,0.9166666666666666
+mixed10_s0,mixed10,cg_lrt,cpc,PC-stable (default),8,0.9166666666666666
+mixed10_s0,mixed10,dg_lrt,pc,Tetrad (same as ETIA),3,0.9565217391304348
+mixed10_s0,mixed10,dg_lrt,pc,PC-stable (default),3,0.9565217391304348
+mixed10_s0,mixed10,dg_lrt,cpc,Tetrad (same as ETIA),5,0.9565217391304348
+mixed10_s0,mixed10,dg_lrt,cpc,PC-stable (default),5,0.9565217391304348
+mixed10_s1,mixed10,cg_lrt,pc,Tetrad (same as ETIA),6,0.9
+mixed10_s1,mixed10,cg_lrt,pc,PC-stable (default),3,0.9
+mixed10_s1,mixed10,cg_lrt,cpc,Tetrad (same as ETIA),5,0.9
+mixed10_s1,mixed10,cg_lrt,cpc,PC-stable (default),5,0.9
+mixed10_s1,mixed10,dg_lrt,pc,Tetrad (same as ETIA),9,0.8333333333333333
+mixed10_s1,mixed10,dg_lrt,pc,PC-stable (default),7,0.8333333333333333
+mixed10_s1,mixed10,dg_lrt,cpc,Tetrad (same as ETIA),5,0.8333333333333333
+mixed10_s1,mixed10,dg_lrt,cpc,PC-stable (default),5,0.8333333333333333
+mixed10_s2,mixed10,cg_lrt,pc,Tetrad (same as ETIA),3,0.896551724137931
+mixed10_s2,mixed10,cg_lrt,pc,PC-stable (default),3,0.896551724137931
+mixed10_s2,mixed10,cg_lrt,cpc,Tetrad (same as ETIA),7,0.896551724137931
+mixed10_s2,mixed10,cg_lrt,cpc,PC-stable (default),7,0.896551724137931
+mixed10_s2,mixed10,dg_lrt,pc,Tetrad (same as ETIA),10,0.8666666666666667
+mixed10_s2,mixed10,dg_lrt,pc,PC-stable (default),10,0.8666666666666667
+mixed10_s2,mixed10,dg_lrt,cpc,Tetrad (same as ETIA),11,0.8666666666666667
+mixed10_s2,mixed10,dg_lrt,cpc,PC-stable (default),11,0.8666666666666667
+cont50_s0,cont50,FisherZ,pc,Tetrad (same as ETIA),35,0.888888888888889
+cont50_s0,cont50,FisherZ,pc,PC-stable (default),29,0.9090909090909091
+cont50_s0,cont50,FisherZ,cpc,Tetrad (same as ETIA),25,0.888888888888889
+cont50_s0,cont50,FisherZ,cpc,PC-stable (default),22,0.9090909090909091
+cont50_s1,cont50,FisherZ,pc,Tetrad (same as ETIA),14,0.9056603773584906
+cont50_s1,cont50,FisherZ,pc,PC-stable (default),17,0.9142857142857143
+cont50_s1,cont50,FisherZ,cpc,Tetrad (same as ETIA),14,0.9056603773584906
+cont50_s1,cont50,FisherZ,cpc,PC-stable (default),12,0.9142857142857143
+cont100_s0,cont100,FisherZ,pc,Tetrad (same as ETIA),48,0.8833333333333333
+cont100_s0,cont100,FisherZ,pc,PC-stable (default),50,0.8936170212765957
+cont100_s0,cont100,FisherZ,cpc,Tetrad (same as ETIA),38,0.8833333333333333
+cont100_s0,cont100,FisherZ,cpc,PC-stable (default),36,0.8936170212765957
+cont100_s1,cont100,FisherZ,pc,Tetrad (same as ETIA),50,0.8851063829787235
+cont100_s1,cont100,FisherZ,pc,PC-stable (default),44,0.8956521739130435
+cont100_s1,cont100,FisherZ,cpc,Tetrad (same as ETIA),36,0.8851063829787235
+cont100_s1,cont100,FisherZ,cpc,PC-stable (default),29,0.8956521739130435

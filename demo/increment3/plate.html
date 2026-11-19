@@ -1,0 +1,112 @@
+<title>ETIA-JAX increment 3</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 3 of 10 · PC and CPC</div>
+    <h1>PC and CPC in JAX, with batched CI levels</h1>
+    <p class="lede">The searches of ETIA (Tetrad 7.6.5) and of ETIA-JAX on the same 116 cases: the same graphs, the run times, and the accuracy of the Tetrad mode against PC-stable.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>Same graphs as ETIA <span class="tag">agreement.csv</span></h2>
+    <div id="agree"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Run time against the number of variables <span class="tag">by_size_long.csv · by_size.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="algo1"></div></div></div>
+    <div id="size_chart"></div>
+    <div id="size_table"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the searches <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Accuracy: Tetrad mode and PC-stable <span class="tag">quality_summary.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="algo2"></div></div></div>
+    <div id="quality_chart"></div>
+    <div id="quality_table"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What Tetrad 7.6.5 does in PC and CPC</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What Tetrad does</th><th>ETIA-JAX</th></tr>
+      <tr><td>FAS ("stable")</td><td>Copies the adjacencies at each depth, then changes the copy: later pairs see earlier removals, so the result depends on the variable order.</td><td>Default: real PC-stable. <code>tetrad_compat</code>: the same as Tetrad.</td></tr>
+      <tr><td>colliderAllowed</td><td>Skips x → y ← z when y is an ancestor of z; a typo tests z twice and never x.</td><td>Default: tests x and z. <code>tetrad_compat</code>: only z.</td></tr>
+      <tr><td>CPC separating sets</td><td>Uses adj(x) or adj(z) only with ≥ 2 nodes: a collider whose ends have only y as adjacent stays ambiguous.</td><td>Default: each side with ≥ 1 node. <code>tetrad_compat</code>: ≥ 2.</td></tr>
+      <tr><td>Order of orientation</td><td>Visits adjacents and edges in Java HashSet order; collider and Meek results depend on it.</td><td><code>tetrad_compat</code> copies this order.</td></tr>
+      <tr><td>Cache of CI results</td><td>hashCode() = 1 and a directional compareTo(): for CG-LRT and DG-LRT each direction of a pair has its own answer.</td><td>The same, in all modes.</td></tr>
+      <tr><td>Pc.getSepsets()</td><td>Returns the empty sets of an unused FAS object.</td><td>Returns the separating sets of the search.</td></tr>
+    </table>
+    <div id="defects_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment3/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, Java 17). Times on algo29: Intel i9-14900K, RTX 4090, float64.</footer>
+</div>
+<script>
+const HOWTO = {
+ "agree": "<p>This table compares the graphs of ETIA-JAX with the graphs of ETIA. Each row is one group of datasets, one CI test and one algorithm. ETIA-JAX uses the Tetrad mode here.</p><p>The column \"searches\" gives the number of searches in the group: each dataset with two values of alpha. The column \"same_graph\" gives the number of searches where all the edge marks are the same. A value of 100 in the last column shows that all the graphs in the group are the same.</p>",
+ "size_chart": "<p>This chart shows the median time of one search for a number of variables. Select PC or CPC above the chart. Each line is ETIA or ETIA-JAX in one mode. The data are continuous, and the CI test is FisherZ.</p><p>The x axis is the number of variables. The y axis has a logarithmic scale. A lower line shows a shorter time. The lines \"compiled\" show the time after JAX compiled the code. The lines \"first call\" show the time of the first search of this size in the benchmark. This time includes the compilation of the new shapes.</p>",
+ "size_table": "<p>This table gives the values of the chart and more columns. Each row is one number of variables and one algorithm. All the times are medians in seconds.</p><p>The column \"ETIA data copy\" gives the time that ETIA uses to copy the data into Tetrad before each search. The column \"tests\" gives the number of CI queries that the search uses. The column \"computed\" gives the number of queries that JAX calculates in the batched calls. This number is larger, because a batched call also calculates queries that the search does not use.</p>",
+ "timing": "<p>This table gives the times of all the 116 searches. Each row is one search: one dataset, one CI test, one value of alpha and one algorithm. All the times are in seconds. Type in the filter box to show only some rows.</p><p>The column \"speed-up\" divides the time of the Tetrad search by the shorter compiled time of ETIA-JAX. A value above 1 shows that ETIA-JAX is faster. The column \"same_as_tetrad\" must be \"True\" in all the rows.</p>",
+ "quality_chart": "<p>This chart shows how near the graphs are to the correct graph. Select PC or CPC above the chart. Each group of bars is one group of datasets. Each color is one mode of ETIA-JAX.</p><p>The y axis is the mean structural Hamming distance (SHD) to the correct CPDAG. The SHD is the number of node pairs with an incorrect edge. A lower bar shows a better graph. Compare the two bars of each group. On the larger graphs, the PC-stable mode has a lower SHD than the Tetrad mode.</p>",
+ "quality_table": "<p>This table gives the values of the quality chart and also the adjacency F1 score. Each row is one group of datasets, one algorithm and one mode. The column \"runs\" gives the number of datasets in the group. All the searches use alpha 0.05.</p><p>An F1 score of 1 shows that the skeleton is the same as the skeleton of the correct graph. The two modes find the same edges on the small graphs. They are different only in the sequence of the tests.</p>",
+ "defects": "<p>This table shows what Tetrad 7.6.5 does in PC and CPC that the definitions of the algorithms do not tell. Each row is one behavior. The last column tells how ETIA-JAX does it. ETIA uses Tetrad 7.6.5, thus ETIA has these behaviors.</p>",
+ "tests": "<p>This table shows the tests of the test suite after increment 3. Each row is one test function. The column result shows \"pass\" or \"fail\". The column time_s gives the time of each test in seconds. Start the slow tests with the command \"pytest -m slow\".</p>"
+};
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('defects_howto').innerHTML = box('table', HOWTO.defects);
+pv.need(['summary.json', 'agreement.csv', 'by_size.csv', 'by_size_long.csv', 'timing.csv', 'quality_summary.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.same_graph} / ${s.n_searches}`, 'Same graph as ETIA', `10 to ${s.p_max} variables, 5 CI tests`) +
+    card(`${pv.fmt(s.speedup_warm_p100_pc, 1)}×`, 'PC, 100 variables', 'compiled, against the Tetrad search') +
+    card(`${pv.fmt(s.speedup_warm_p100_cpc, 1)}×`, 'CPC, 100 variables', 'compiled, against the Tetrad search') +
+    card('6', 'Tetrad behaviors found', 'kept only in tetrad_compat');
+});
+
+pv.table('#agree', 'agreement.csv', {cols: 'group,test,algo,p,n,searches,same_graph,same_pct',
+  labels: 'same_pct: Same (%)', dec: 'same_pct:0', howto: HOWTO.agree});
+
+let algo1 = 'PC', algo2 = 'pc';
+const drawSize = () => pv.chart('#size_chart', 'by_size_long.csv', {type: 'line', x: 'p', y: 'seconds', color: 'series',
+  'log-y': true, 'x-label': 'number of variables', 'y-label': 'seconds per search (log scale)', height: 380, wide: true,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.series.startsWith(algo1 + ' ·'))), howto: HOWTO.size_chart});
+pv.seg('#algo1', {options: [['PC', 'PC'], ['CPC', 'CPC']], value: algo1, onChange: v => { algo1 = v; drawSize(); }});
+drawSize();
+pv.table('#size_table', 'by_size.csv', {
+  labels: 'etia_search_s: ETIA search | etia_prep_s: ETIA data copy | gpu_warm_s: GPU compiled | cpu_warm_s: CPU compiled | gpu_first_s: GPU first call | cpu_first_s: CPU first call | gpu_stable_warm_s: GPU PC-stable | n_tests: tests | n_computed: computed',
+  dec: 'etia_search_s:4 etia_prep_s:4 gpu_warm_s:4 cpu_warm_s:4 gpu_first_s:3 cpu_first_s:3 gpu_stable_warm_s:4 n_tests:0 n_computed:0',
+  wide: true, howto: HOWTO.size_table});
+
+pv.table('#timing', 'timing.csv', {
+  labels: 'etia_search_s: ETIA search | etia_prep_s: ETIA data copy | gpu_first_s: GPU first | gpu_warm_s: GPU compiled | cpu_first_s: CPU first | cpu_warm_s: CPU compiled | gpu_stable_warm_s: GPU PC-stable | speedup_warm: speed-up',
+  dec: 'etia_search_s:4 etia_prep_s:4 gpu_first_s:3 gpu_warm_s:4 cpu_first_s:3 cpu_warm_s:4 gpu_stable_warm_s:4 speedup_warm:1',
+  sort: 'speedup_warm:desc', height: 460, wide: true, howto: HOWTO.timing});
+
+const drawQuality = () => pv.chart('#quality_chart', 'quality_summary.csv', {type: 'bar', x: 'group', y: 'shd_mean', color: 'mode',
+  'x-label': 'dataset group', 'y-label': 'mean SHD to the correct CPDAG', height: 320,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.algo === algo2)), howto: HOWTO.quality_chart});
+pv.seg('#algo2', {options: [['pc', 'PC'], ['cpc', 'CPC']], value: algo2, onChange: v => { algo2 = v; drawQuality(); }});
+drawQuality();
+pv.table('#quality_table', 'quality_summary.csv', {labels: 'shd_mean: mean SHD | adj_f1_mean: adjacency F1',
+  dec: 'shd_mean:2 adj_f1_mean:3', howto: HOWTO.quality_table});
+
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

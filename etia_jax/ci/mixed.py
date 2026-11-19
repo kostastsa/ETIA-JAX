@@ -13,7 +13,7 @@ import jax
 import jax.numpy as jnp
 from jax.scipy.special import logsumexp
 
-from .base import CITest, chi2_sf
+from .base import CITest, chi2_sf, as_index_batch, pad_batch
 
 
 # --------------------------------------------------------------------------
@@ -236,6 +236,7 @@ class CGLrt(CITest):
     equal-frequency discretization into 3 bins. y is the child:
     stat = -2 (L(y | Z) - L(y | x, Z)), dof from f(A) h(X) + f(A).
     """
+    symmetric = False                     # y is the child of the likelihood ratio
     name = "cg_lrt"
     data_types = ("continuous", "discrete", "mixed")
 
@@ -251,8 +252,10 @@ class CGLrt(CITest):
             else:
                 self.codes[:, j], self.n_cat[j] = tetrad_equal_freq(self.data[:, j], n_bins), n_bins
         self.X = jnp.asarray(self.data)
+        self.codes_j = jnp.asarray(self.codes)
 
     def _joint(self, X, A):
+        """Unbatched reference of J(X, A) (used by the tests)."""
         cell, n_cells = _cells(self.codes[:, A])
         n_cells = 1 << max(0, int(n_cells - 1).bit_length())   # empty cells: count 0, skipped
         ll = float(_joint_ll(self.X[:, X], jnp.asarray(cell), n_cells, float(self.n), bool(A), self.min_cell))
@@ -260,23 +263,89 @@ class CGLrt(CITest):
         hX = len(X) * (len(X) + 1) // 2
         return ll, fA * hX + fA
 
-    def loglik(self, child, parents):
+    def _parts(self, child, parents):
+        """(X1, A1, X0, A0) of L(child | parents) = J(X1, A1) - J(X0, A0)."""
         X0 = [q for q in parents if not self.is_discrete[q]]
         A0 = [q for q in parents if self.is_discrete[q]]
         if self.discretize and self.is_discrete[child]:
             A0, X0 = A0 + X0, []
         X1, A1 = (X0, A0 + [child]) if self.is_discrete[child] else (X0 + [child], A0)
+        return X1, A1, X0, A0
+
+    def loglik(self, child, parents):
+        X1, A1, X0, A0 = self._parts(child, parents)
         l1, d1 = self._joint(X1, A1)
         l0, d0 = self._joint(X0, A0)
         return l1 - l0, d1 - d0
 
+    def _dof(self, X, A):
+        fA = int(np.prod(self.n_cat[list(A)])) if len(A) else 1
+        return fA * (len(X) * (len(X) + 1) // 2) + fA
+
+    def test_batch(self, xs, ys, Zs):
+        """Queries grouped by the shapes of their four joint likelihoods; one
+        vmapped call for each group."""
+        idx = as_index_batch(xs, ys, Zs)
+        self.n_calls += len(idx)
+        out_s, out_p = np.empty(len(idx)), np.empty(len(idx))
+        jobs = {}
+        for q, row in enumerate(idx):
+            x, y, Z = int(row[0]), int(row[1]), sorted(int(z) for z in row[2:])
+            parts = self._parts(y, Z) + self._parts(y, [x] + Z)      # 8 lists: 4 x (X, A)
+            shape = tuple(len(v) for v in parts)
+            jobs.setdefault(shape, []).append((q, parts))
+        r = int(self.n_cat.max())
+        for shape, items in jobs.items():
+            arrs = [np.array([it[1][k] for it in items], dtype=np.int32).reshape(len(items), shape[k])
+                    for k in range(8)]
+            J = []
+            for k in range(0, 8, 2):                                 # J(X, A) for the 4 pairs
+                Xi, B = pad_batch(arrs[k], min_size=1)
+                Ai, _ = pad_batch(arrs[k + 1], min_size=1)
+                J.append(np.asarray(_cg_joint_batch(self.X, self.codes_j, jnp.asarray(Xi), jnp.asarray(Ai),
+                                                    r, float(self.n), self.min_cell))[:B])
+            l0 = J[0] - J[1]                                         # L(y | Z)
+            l1 = J[2] - J[3]                                         # L(y | x, Z)
+            for t, (q, parts) in enumerate(items):
+                d0 = self._dof(parts[0], parts[1]) - self._dof(parts[2], parts[3])
+                d1 = self._dof(parts[4], parts[5]) - self._dof(parts[6], parts[7])
+                stat = -2.0 * (l0[t] - l1[t])
+                ddof = d1 - d0
+                out_s[q] = stat
+                out_p[q] = (float(chi2_sf(stat, ddof)) if ddof > 0 and np.isfinite(stat) else np.nan)
+        return out_s, out_p
+
     def test(self, x, y, Z=()):
-        self.n_calls += 1
-        Z = sorted(Z)
-        l0, d0 = self.loglik(y, Z)
-        l1, d1 = self.loglik(y, [x] + Z)
-        ddof = d1 - d0
-        stat = -2.0 * (l0 - l1)
-        if ddof <= 0 or not np.isfinite(stat):
-            return float(stat), float("nan")      # Tetrad: undefined, dependent
-        return float(stat), float(chi2_sf(stat, ddof))
+        s, p = self.test_batch([x], [y], [sorted(Z)])
+        return float(s[0]), float(p[0])
+
+
+@partial(jax.jit, static_argnums=(4, 6))
+def _cg_joint_batch(X, codes, Xidx, Aidx, r, n_total, min_cell):
+    """J(X, A) of Tetrad's conditional Gaussian likelihood for a batch of
+    (X columns, A columns): cells of A (mixed radix r), a multinomial part
+    and a Gaussian part per cell (cells with < min_cell rows are skipped)."""
+    kX, kA = Xidx.shape[1], Aidx.shape[1]
+    n_cells = r ** kA
+
+    def one(xi, ai):
+        cell = jnp.zeros(X.shape[0], dtype=jnp.int32)
+        for j in range(kA):
+            cell = cell * r + codes[:, ai[j]]
+        cnt = jax.ops.segment_sum(jnp.ones(X.shape[0]), cell, n_cells)
+        ok = cnt >= min_cell
+        c1 = jnp.sum(jnp.where(ok, cnt * jnp.log(jnp.maximum(cnt, 1.0) / n_total), 0.0)) if kA else 0.0
+        if kX == 0:
+            return c1
+        Xc = X[:, xi]
+        s1 = jax.ops.segment_sum(Xc, cell, n_cells)
+        s2 = jax.ops.segment_sum(Xc[:, :, None] * Xc[:, None, :], cell, n_cells)
+        mean = s1 / jnp.maximum(cnt, 1.0)[:, None]
+        S = (s2 - cnt[:, None, None] * mean[:, :, None] * mean[:, None, :]) \
+            / jnp.maximum(cnt - 1.0, 1.0)[:, None, None]
+        det = jnp.linalg.det(S)
+        okg = ok & (cnt >= kX) & (det != 0) & jnp.isfinite(det)
+        gl = -0.5 * jnp.log(jnp.abs(jnp.where(okg, det, 1.0))) - 0.5 * kX * (1.0 + LOG2PI)
+        return c1 + jnp.sum(jnp.where(okg, cnt * gl, 0.0))
+
+    return jax.vmap(one)(Xidx, Aidx)

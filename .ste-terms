@@ -6,3 +6,8 @@ logarithmic
 batched       # batched JAX call (vmap over queries)
 query
 queries
+graph
+orient
+separating     # separating set
+return         # a function returns a value
+call           # a function call

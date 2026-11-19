@@ -16,7 +16,7 @@ import jax
 import jax.numpy as jnp
 from jax.scipy.special import xlogy
 
-from .base import CITest, chi2_sf, as_index_batch
+from .base import CITest, chi2_sf, as_index_batch, pad_batch
 
 
 def _codes(data):
@@ -42,6 +42,7 @@ def _tables(D, idx, rx, ry, n_strata):
     return jax.vmap(one)(idx)
 
 
+@jax.jit
 def _g2_stats(T):
     """G^2, X^2 and dof from tables (B, S, rx, ry)."""
     T = T.astype(jnp.float64)
@@ -79,6 +80,7 @@ class _TableTest(CITest):
         return float(s[0]), float(p[0])
 
 
+@jax.jit
 def _tetrad_stats(T, ax, ay):
     """Tetrad 7.6.5 ChiSquareTest (minCountPerCell = 1) on tables (B, S, r, r).
 
@@ -114,18 +116,18 @@ class _TetradTableTest(_TableTest):
     _which = None
 
     def test_batch(self, xs, ys, Zs):
-        idx = as_index_batch(xs, ys, Zs)
-        self.n_calls += len(idx)
+        idx, B = pad_batch(as_index_batch(xs, ys, Zs), min_size=128)
+        self.n_calls += B
         ar = jnp.asarray(self.arity)
         x2, g2, dof = _tetrad_stats(self.tables(idx), ar[idx[:, 0]], ar[idx[:, 1]])
         stat = x2 if self._which == "x2" else g2
         # no valid stratum: Tetrad returns p = NaN and "independent"
         p = jnp.where(dof > 0, chi2_sf(stat, jnp.maximum(dof, 1)), jnp.nan)
-        return np.asarray(stat), np.asarray(p)
+        return np.asarray(stat)[:B], np.asarray(p)[:B]
 
-    def independent(self, x, y, Z, alpha):
-        stat, pval = self.test(x, y, Z)
-        return bool(np.isnan(pval) or pval > alpha), stat, pval
+    def decide(self, stat, pval, alpha):
+        # Tetrad: a table test without a valid stratum (dof = 0) is "independent"
+        return bool(np.isnan(pval) or pval > alpha)
 
 
 class GSquare(_TetradTableTest):
@@ -145,11 +147,11 @@ class Gsquared(_TableTest):
     name = "Gsquared"
 
     def test_batch(self, xs, ys, Zs):
-        idx = as_index_batch(xs, ys, Zs)
-        self.n_calls += len(idx)
+        idx, B = pad_batch(as_index_batch(xs, ys, Zs), min_size=128)
+        self.n_calls += B
         g2, _, dof = _g2_stats(self.tables(idx))
         p = chi2_sf(g2, jnp.maximum(dof, 1))
-        return np.asarray(g2), np.asarray(p)
+        return np.asarray(g2)[:B], np.asarray(p)[:B]
 
 
 # --------------------------------------------------------------------------

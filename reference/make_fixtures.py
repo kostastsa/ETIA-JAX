@@ -271,6 +271,53 @@ def make_ci_scale(jpype):
     print("wrote", OUT / "ci_scale_ref.npz")
 
 
+# ---------------------------------------------------------------------------
+# Searches (PC, CPC) as ETIA runs them: Pc(test) / Cpc(test) with
+# setStable(true) and setGuaranteeCpdag(true). Times: data preparation (ETIA's
+# prepare_data_tetrad) and the search itself.
+# ---------------------------------------------------------------------------
+def make_search(jpype, algos=("pc", "cpc")):
+    import time
+    import pandas as pd
+    from ETIA.data.Dataset import Dataset
+    from ETIA.CausalLearning.algorithms.utils import prepare_data_tetrad
+    S = "edu.cmu.tetrad.search."
+    f = np.load(OUT / "search_data.npz")
+    out = {}
+    for case in f["cases"]:
+        case = str(case)
+        X, disc = f[f"{case}|X"], f[f"{case}|discrete"]
+        p = X.shape[1]
+        df = pd.DataFrame(X, columns=[f"V{i}" for i in range(p)])
+        for j in np.flatnonzero(disc):
+            df[f"V{j}"] = df[f"V{j}"].astype(int)
+        t0 = time.perf_counter()
+        ds, _ = prepare_data_tetrad(Dataset(data=df), {})
+        prep = time.perf_counter() - t0
+        names = [str(v.getName()) for v in ds.getVariables()]
+        out[f"{case}|prep_time"] = np.array(prep)
+        for test_name in f[f"{case}|tests"]:
+            test_name = str(test_name)
+            for alpha in f["alphas"]:
+                for algo in algos:
+                    test = _tetrad_test(jpype, test_name, ds)
+                    test.setAlpha(float(alpha)) if hasattr(test, "setAlpha") else None
+                    alg = jpype.JClass(S + ("Pc" if algo == "pc" else "Cpc"))(test)
+                    alg.setStable(True)
+                    alg.setGuaranteeCpdag(True)
+                    t0 = time.perf_counter()
+                    g = alg.search()
+                    dt = time.perf_counter() - t0
+                    key = f"{case}|{test_name}|{float(alpha)}|{algo}"
+                    out[key + "|graph"] = to_marks(g, names)
+                    out[key + "|time"] = np.array(dt)
+                    out[key + "|ntests"] = np.array(int(alg.getNumIndependenceTests())
+                                                    if hasattr(alg, "getNumIndependenceTests") else -1)
+                    print(f"{key:40s} {dt:8.3f}s", flush=True)
+    np.savez_compressed(OUT / "search_ref.npz", **out)
+    print("wrote", OUT / "search_ref.npz")
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     jp = start_jvm()
@@ -281,3 +328,5 @@ if __name__ == "__main__":
         make_ci(jp)
     if "scale" in which:
         make_ci_scale(jp)
+    if "search" in which:
+        make_search(jp)

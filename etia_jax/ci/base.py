@@ -23,6 +23,7 @@ class CITest:
     name = "base"
     data_types = ("continuous",)          # data kinds the test accepts
     fixed_threshold = False
+    symmetric = True                      # test(x, y, Z) == test(y, x, Z)
 
     def __init__(self, data, kinds=None):
         self.data = np.asarray(data, dtype=np.float64)
@@ -42,11 +43,16 @@ class CITest:
         s, p = zip(*out) if out else ((), ())
         return np.array(s, dtype=float), np.array(p, dtype=float)
 
+    def decide(self, stat, pval, alpha):
+        """The decision "independent" from a statistic and a p-value. A NaN
+        p-value is "dependent" (Tetrad's rule for an undefined test)."""
+        if self.fixed_threshold:
+            return bool(stat <= alpha)
+        return bool(pval > alpha)
+
     def independent(self, x, y, Z, alpha):
         stat, pval = self.test(x, y, Z)
-        if self.fixed_threshold:
-            return bool(stat <= alpha), stat, pval
-        return bool(pval > alpha), stat, pval
+        return self.decide(stat, pval, alpha), stat, pval
 
     def __call__(self, x, y, Z=()):
         """p-value only (the oracle interface)."""
@@ -83,6 +89,18 @@ def as_index_batch(xs, ys, Zs):
     ys = np.asarray(ys, dtype=np.int32)
     Zs = np.asarray(Zs, dtype=np.int32).reshape(len(xs), -1)
     return np.concatenate([xs[:, None], ys[:, None], Zs], axis=1)
+
+
+def pad_batch(idx, min_size=8):
+    """Pad an index batch (B, k + 2) to a power-of-two number of rows (copies
+    of the first row), so that jit compiles once per size class and not once
+    per B. Returns (padded, B); slice the results with [:B]."""
+    idx = np.asarray(idx)
+    B = len(idx)
+    size = max(min_size, 1 << max(0, (B - 1).bit_length()))
+    if size == B:
+        return idx, B
+    return np.concatenate([idx, np.repeat(idx[:1], size - B, axis=0)]), B
 
 
 def ranks(x):

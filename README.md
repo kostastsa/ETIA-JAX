@@ -67,6 +67,29 @@ The formulas come from the Tetrad 7.6.5 source (the version of `tetradlib.jar` i
 
 The default mode of ETIA-JAX uses the correct formulas.
 
+## PC and CPC (increment 3)
+
+`etia_jax.search.pc` and `etia_jax.search.cpc` take a CI test or the d-separation oracle. They return the graph (a mark matrix), the skeleton with its separating sets, and the number of CI queries.
+
+```python
+from etia_jax.ci import FisherZ
+from etia_jax.search import pc
+res = pc(FisherZ(X), alpha=0.05)                       # PC-stable (Colombo and Maathuis 2014)
+res = pc(FisherZ(X), alpha=0.05, tetrad_compat=True)   # the same graph as ETIA (Tetrad 7.6.5)
+```
+
+- **Batched levels.** At the start of each depth, the search finds all the queries that are possible at that depth. It sends them to the CI test in one `test_batch` call. Then it replays the sequential logic from a cache. The result is the same as with one query at a time (a test checks this).
+- **Agreement with ETIA.** With `tetrad_compat=True`, PC and CPC give the same graph as ETIA on all 116 fixture searches (10 to 100 variables, FisherZ, chi-square, G-square, CG-LRT and DG-LRT, alpha 0.05 and 0.01).
+- **Compiled code on disk.** JAX keeps its compiled code in `~/.cache/etia_jax/jax`. Set `ETIA_JAX_CACHE_DIR` to change the folder. An empty value disables the cache.
+
+### What Tetrad 7.6.5 does in PC and CPC (kept only in `tetrad_compat` mode)
+
+- **The "stable" FAS is not stable.** At each depth, the FAS copies the adjacencies, but then it changes that copy. Later pairs thus see the removals of earlier pairs, and the result changes with the sequence of the variables. ETIA asks for `stable=True`. Thus the default of ETIA-JAX is the PC-stable algorithm of Colombo and Maathuis.
+- **colliderAllowed.** Tetrad does not orient a collider x -> y <- z when y is an ancestor of z. A typo makes it test z two times, and it does not test x. The default of ETIA-JAX tests x and z.
+- **CPC.** Tetrad looks for separating sets in adj(x) or adj(z) only when that set has two or more nodes. Thus a collider x -> y <- z, where x and z have only y as adjacent, stays ambiguous. The default of ETIA-JAX uses each side that has one or more nodes.
+- **The sequence of the orientation steps.** Tetrad visits the adjacent nodes and the edges in the sequence of Java hash sets. The collider rules and the Meek rules give different results for a different sequence. Thus ETIA-JAX copies this sequence in `tetrad_compat` mode.
+- **The cache of the CI tests.** Some tests are not symmetric (CG-LRT, DG-LRT). For these tests, the cache of Tetrad gives a different answer for each direction of a pair. ETIA-JAX does the same.
+
 ## Plan of increments
 
 Each increment has a build step, a test step and a check step.

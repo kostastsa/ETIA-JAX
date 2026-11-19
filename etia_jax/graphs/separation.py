@@ -53,8 +53,20 @@ class DSepOracle:
         self.observed = np.arange(n) if observed is None else np.asarray(observed)
         self.n_calls = 0
 
+    symmetric = True
+    fixed_threshold = False
+    name = "dsep_oracle"
+
     def __call__(self, x, y, Z=()):
         """Return p-value-like 1.0 (independent) or 0.0 (dependent)."""
         self.n_calls += 1
         o = self.observed
         return 1.0 if d_separated(self.A, int(o[x]), int(o[y]), [int(o[z]) for z in Z]) else 0.0
+
+    def test(self, x, y, Z=()):
+        p = self(x, y, Z)
+        return p, p
+
+    def independent(self, x, y, Z, alpha):
+        p = self(x, y, Z)
+        return p > alpha, p, p

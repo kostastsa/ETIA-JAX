@@ -1,0 +1,9 @@
+{
+ "n_searches": 116,
+ "same_graph": 116,
+ "p_max": 100,
+ "speedup_warm_p100_pc": 3.2940523888427764,
+ "speedup_warm_p100_cpc": 6.065133410518225,
+ "first_call_median_s": 0.17563516599875584,
+ "etia_prep_median_s": 0.051008504000492394
+}
