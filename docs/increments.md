@@ -20,14 +20,14 @@ ETIA-JAX is a port of ETIA to Python and JAX, without Java and R. The work has 1
 | 2 | The 14 CI tests of ETIA | done | 43 | `bd4402c` |
 | 3 | PC and CPC | done | 53 | `726d050` |
 | 4 | FCI, FCI-Max, RFCI and CFCI | done | 61 | `6d6264c` |
-| 5 | Five scores, FGES and GFCI | done | 130 | this commit |
+| 5 | Five scores, FGES and GFCI | done | 130 | `e219726` |
 | 6 | Time series: SVAR-FCI, SVAR-GFCI, PCMCI family | next | | |
 | 7 | NOTEARS and SAM | planned | | |
 | 8 | Predictive models and AFS | planned | | |
 | 9 | OCT and CausalLearner | planned | | |
 | 10 | CRV | planned | | |
 
-The "Tests" column gives the number of tests in the suite at the end of the increment (slow tests included).
+The same table is in `deck/increments.csv` (the deck reads it). The "Tests" column gives the number of tests in the suite at the end of the increment (slow tests included).
 
 ## Increment 1: graph core and GenJAX data
 

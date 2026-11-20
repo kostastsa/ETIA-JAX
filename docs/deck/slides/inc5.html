@@ -1,0 +1,22 @@
+<section id="inc5" data-transition="slide">
+<p class="eyebrow">INCREMENT 5 · SCORES, FGES AND GFCI</p>
+<h2>Five scores, FGES and GFCI, with the Tetrad sequences</h2>
+<div class="stats" id="k5"></div>
+<ul class="rise" style="--i:4">
+  <li>Scores: SEM BIC, BDeu, discrete BIC, CG BIC and DG BIC. FGES: a port of <code>Fges</code>, <code>Bes</code> and <code>MeekRules</code>.</li>
+  <li>GFCI: the graph before R4 is the same as in Tetrad in all searches. Tetrad runs R4 in parallel, so the PAG is one of the Tetrad outputs.</li>
+  <li>GFCI is faster than ETIA (CI tests in batches). FGES is slower than ETIA (its search runs in Python).</li>
+</ul>
+<div class="foot"><span>demo/increment5/summary.json · plate 9149fa95e827</span><span>8 / 11</span></div>
+<aside>With a d-separation score, FGES gives the correct CPDAG and GFCI gives the correct PAG.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment5/summary.json', s => {
+  document.getElementById('k5').innerHTML =
+    card(0, 'Local scores', s.score_queries, 'error below ' + s.score_max_rel_error.toExponential(0)) +
+    card(1, 'FGES', `${s.fges_same} / ${s.fges_searches}`, 'same CPDAG as ETIA') +
+    card(2, 'GFCI', `${s.gfci_agree} / ${s.gfci_searches}`, `${s.gfci_tetrad_crashes} with Tetrad crashes`) +
+    card(3, 'Median speed-up', pv.fmt(s.median_speedup_gfci_default, 1) + '×', `GFCI (FGES: ${pv.fmt(s.median_speedup_fges_default, 2)}×)`);
+});
+}</script>
+</section>

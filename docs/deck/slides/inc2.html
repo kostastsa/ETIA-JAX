@@ -1,0 +1,21 @@
+<section id="inc2" data-transition="slide">
+<p class="eyebrow">INCREMENT 2 · THE 14 CI TESTS</p>
+<h2>All the CI tests of ETIA, batched with jax.vmap</h2>
+<div class="stats" id="k2"></div>
+<ul class="rise" style="--i:3">
+  <li>FisherZ, ParCor, RobustParCor, ParCorrWLS, chi-square, G-square, Gsquared, CMIsymb, CG-LRT, DG-LRT, RegressionCI, CMIknn, GPDC and CCI.</li>
+  <li>The Tetrad tests and the parametric tigramite tests give the same p-values. The random tests give the same decisions.</li>
+  <li>Tetrad defects: CCI uses the wrong rows in its kernel distance. DG-LRT uses a wrong mean and drops a different category.</li>
+</ul>
+<div class="foot"><span>demo/increment2/summary.json · plate 9bafa2416f53</span><span>5 / 11</span></div>
+<aside>Most of the ETIA time is CMIsymb, which is very slow in tigramite.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment2/summary.json', s => {
+  document.getElementById('k2').innerHTML =
+    card(0, 'Timing set, ETIA', pv.fmt(s.etia_total_s, 0) + ' s', 'all the queries') +
+    card(1, 'ETIA-JAX', pv.fmt(s.jax_gpu_total_s, 0) + ' s', `GPU (CPU: ${pv.fmt(s.jax_cpu_total_s, 0)} s)`) +
+    card(2, 'Largest speed-up', pv.fmt(s.scale_best_speedup_gpu, 0) + '×', 'GPU, large batches');
+});
+}</script>
+</section>

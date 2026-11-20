@@ -1,0 +1,20 @@
+<section id="inc3" data-transition="slide">
+<p class="eyebrow">INCREMENT 3 · PC AND CPC</p>
+<h2>One batch of CI queries for each depth</h2>
+<div class="stats" id="k3"></div>
+<ul class="rise" style="--i:3">
+  <li>At each depth, the search sends all the possible queries in one batch, then replays the sequential logic from a cache.</li>
+  <li>Tetrad defects: the "stable" FAS is not stable; a typo in <code>colliderAllowed</code>; CPC does not search a side with one node; the steps follow the Java hash-set sequence.</li>
+</ul>
+<div class="foot"><span>demo/increment3/summary.json · plate 944c7c26d4e2</span><span>6 / 11</span></div>
+<aside>The searches have 10 to 100 variables, five CI tests and two values of alpha.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment3/summary.json', s => {
+  document.getElementById('k3').innerHTML =
+    card(0, 'Same graph as ETIA', `${s.same_graph} / ${s.n_searches}`, 'PC and CPC, Tetrad mode') +
+    card(1, 'PC speed-up', pv.fmt(s.speedup_warm_p100_pc, 1) + '×', `${s.p_max} variables`) +
+    card(2, 'CPC speed-up', pv.fmt(s.speedup_warm_p100_cpc, 1) + '×', `${s.p_max} variables`);
+});
+}</script>
+</section>

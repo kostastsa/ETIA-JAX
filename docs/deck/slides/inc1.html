@@ -1,0 +1,21 @@
+<section id="inc1" data-transition="slide">
+<p class="eyebrow">INCREMENT 1 · GRAPH CORE AND GENJAX DATA</p>
+<h2>Graphs, separation and conversions, as in Tetrad</h2>
+<div class="stats" id="k1"></div>
+<ul class="rise" style="--i:3">
+  <li>Modules: <code>etia_jax/graphs</code> (encoding, d-separation, CPDAG, MAG and PAG conversions, metrics) and <code>etia_jax/data/scm.py</code> (GenJAX SCMs).</li>
+  <li>Tetrad defect: <code>DagToPag</code> is not exact. A search of all the MAGs of the class shows tails that are not invariant and arrowheads that it misses.</li>
+  <li>Demo: the pageview page <code>demo/increment1/increment1.md</code>.</li>
+</ul>
+<div class="foot"><span>demo/increment1/summary.json</span><span>4 / 11</span></div>
+<aside>The PAGs differ from Tetrad only where Tetrad is wrong; the slow test checks each of these marks.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment1/summary.json', s => {
+  document.getElementById('k1').innerHTML =
+    card(0, 'CPDAGs and MAGs', `${s.cpdag_same} / ${s.n_graphs}`, 'the same as Tetrad') +
+    card(1, 'PAGs', `${s.pag_same} / ${s.n_graphs}`, `Tetrad: ${s.tetrad_wrong_tails} wrong tails, ${s.tetrad_missed_arrows} missed arrowheads`) +
+    card(2, 'SCM weights', pv.fmt(s.weights_max_abs_error, 3), 'largest error of the regression');
+});
+}</script>
+</section>

@@ -1,0 +1,16 @@
+<section id="defects" data-transition="slide">
+<p class="eyebrow">WHAT THE PORT FOUND IN TETRAD 7.6.5</p>
+<h2>Defects that ETIA has, kept only in the Tetrad mode</h2>
+<div class="row">
+  <div class="col">
+    <div class="card rise" style="--i:0"><h3>Threads</h3><p>FCI, its family and GFCI use one CI test object from parallel threads. Chi-square and G-square are not thread-safe: searches crash or get incorrect p-values. R4 runs in a random sequence.</p></div>
+    <div class="card rise" style="--i:1"><h3>Search steps</h3><p>The "stable" FAS is not stable. <code>colliderAllowed</code> has a typo. R4 accepts only the shortest discriminating paths. R10 does not change marks. GFCI has no Possible-D-SEP step.</p></div>
+  </div>
+  <div class="col">
+    <div class="card rise" style="--i:2"><h3>Statistics</h3><p>CCI uses the wrong rows. DG-LRT uses a wrong mean. The BDeu prior uses the number of rows. The discrete BIC prior has the wrong sign. FGES stops at a degree of ceil(ln n).</p></div>
+    <div class="card rise" style="--i:3"><h3>Separating sets</h3><p>CPC does not search a side with one node. GFCI keeps a set only if all subsets show independence, and it does not search adj(y). <code>DagToPag</code> is not exact.</p></div>
+  </div>
+</div>
+<div class="foot"><span>README.md: the defect lists of each increment</span><span>9 / 11</span></div>
+<aside>The default mode of ETIA-JAX has none of these defects.</aside>
+</section>

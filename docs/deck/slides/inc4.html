@@ -1,0 +1,21 @@
+<section id="inc4" data-transition="slide">
+<p class="eyebrow">INCREMENT 4 · THE FCI FAMILY</p>
+<h2>FCI, FCI-Max, RFCI and CFCI on a copy of EdgeListGraph</h2>
+<div class="stats" id="k4"></div>
+<ul class="rise" style="--i:3">
+  <li><code>TGraph</code> copies the <code>EdgeListGraph</code> of Tetrad with the same iteration sequence.</li>
+  <li>Tetrad defects: one CI test object in parallel threads (crashes on discrete data); R4 in a random sequence; R4 accepts only the shortest paths; R10 does not change marks.</li>
+  <li>The textbook Possible-D-SEP step makes 14.6 million tests on one dataset; a chunked search does them in 2.2 s.</li>
+</ul>
+<div class="foot"><span>demo/increment4/summary.json · plate 1d60395c2236</span><span>7 / 11</span></div>
+<aside>A search agrees when its PAG is the PAG of ETIA, or one of the PAGs of a race-free Tetrad.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment4/summary.json', s => {
+  document.getElementById('k4').innerHTML =
+    card(0, 'PAGs that agree', `${s.all_among} / ${s.searches}`, 'with ETIA or race-free Tetrad') +
+    card(1, 'Tetrad crashes', s.tetrad_crashes, 'FCI on discrete data') +
+    card(2, 'Median speed-up', pv.fmt(s.median_speedup_default, 1) + '×', 'default mode');
+});
+}</script>
+</section>

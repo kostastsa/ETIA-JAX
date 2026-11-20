@@ -1,0 +1,11 @@
+increment,content,status,tests,commit
+1,Graph core and GenJAX data,done,17,bd4402c
+2,The 14 CI tests of ETIA,done,43,bd4402c
+3,PC and CPC,done,53,726d050
+4,"FCI, FCI-Max, RFCI and CFCI",done,61,6d6264c
+5,"Five scores, FGES and GFCI",done,130,e219726
+6,"Time series: SVAR-FCI, SVAR-GFCI, PCMCI family",next,,
+7,NOTEARS and SAM,planned,,
+8,Predictive models and AFS,planned,,
+9,OCT and CausalLearner,planned,,
+10,CRV,planned,,
