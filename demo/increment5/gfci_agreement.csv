@@ -1,0 +1,9 @@
+test,group,searches,tetrad_crashes,race_free_deterministic,agree
+FisherZ,cont10,36,0,33,36
+FisherZ,cont20,24,0,12,24
+FisherZ,cont30,18,0,10,18
+FisherZ,cont50,12,0,0,12
+cg_lrt,mixed10,12,0,10,12
+chisquare,disc10,24,15,22,24
+dg_lrt,mixed10,12,0,10,12
+gsquare,disc10,24,15,22,24

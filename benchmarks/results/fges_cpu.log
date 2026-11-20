@@ -1,0 +1,232 @@
+cpu fges cont100_s0   cg_bic         etia 34.897  compat   6.898s  default   6.661s  same True
+cpu fges cont100_s0   dg_bic         etia 0.516  compat   2.113s  default   1.961s  same True
+cpu fges cont100_s0   sem_bic_score  etia 0.532  compat   1.846s  default   1.708s  same True
+cpu fges cont100_s1   cg_bic         etia 33.320  compat   6.308s  default   6.384s  same True
+cpu fges cont100_s1   dg_bic         etia 0.521  compat   1.980s  default   1.920s  same True
+cpu fges cont100_s1   sem_bic_score  etia 0.517  compat   1.804s  default   1.679s  same True
+cpu fges cont10_s0    cg_bic         etia 0.215  compat   0.062s  default   0.067s  same True
+cpu fges cont10_s0    dg_bic         etia 0.009  compat   0.024s  default   0.022s  same True
+cpu fges cont10_s0    sem_bic_score  etia 0.020  compat   0.021s  default   0.019s  same True
+cpu fges cont10_s1    cg_bic         etia 0.164  compat   0.034s  default   0.033s  same True
+cpu fges cont10_s1    dg_bic         etia 0.004  compat   0.013s  default   0.013s  same True
+cpu fges cont10_s1    sem_bic_score  etia 0.004  compat   0.012s  default   0.011s  same True
+cpu fges cont10_s2    cg_bic         etia 0.110  compat   0.038s  default   0.036s  same True
+cpu fges cont10_s2    dg_bic         etia 0.004  compat   0.015s  default   0.014s  same True
+cpu fges cont10_s2    sem_bic_score  etia 0.004  compat   0.013s  default   0.012s  same True
+cpu fges cont10_s3    cg_bic         etia 0.307  compat   0.109s  default   0.092s  same True
+cpu fges cont10_s3    dg_bic         etia 0.011  compat   0.052s  default   0.045s  same True
+cpu fges cont10_s3    sem_bic_score  etia 0.010  compat   0.049s  default   0.041s  same True
+cpu fges cont10_s4    cg_bic         etia 0.266  compat   0.072s  default   0.096s  same True
+cpu fges cont10_s4    dg_bic         etia 0.005  compat   0.032s  default   0.042s  same True
+cpu fges cont10_s4    sem_bic_score  etia 0.006  compat   0.028s  default   0.037s  same True
+cpu fges cont10_s5    cg_bic         etia 0.087  compat   0.036s  default   0.032s  same True
+cpu fges cont10_s5    dg_bic         etia 0.003  compat   0.012s  default   0.012s  same True
+cpu fges cont10_s5    sem_bic_score  etia 0.003  compat   0.011s  default   0.010s  same True
+cpu fges cont20_s0    cg_bic         etia 0.512  compat   0.172s  default   0.170s  same True
+cpu fges cont20_s0    dg_bic         etia 0.011  compat   0.065s  default   0.060s  same True
+cpu fges cont20_s0    sem_bic_score  etia 0.010  compat   0.056s  default   0.051s  same True
+cpu fges cont20_s1    cg_bic         etia 0.628  compat   0.215s  default   0.209s  same True
+cpu fges cont20_s1    dg_bic         etia 0.013  compat   0.097s  default   0.088s  same True
+cpu fges cont20_s1    sem_bic_score  etia 0.016  compat   0.085s  default   0.078s  same True
+cpu fges cont20_s2    cg_bic         etia 1.262  compat   0.448s  default   0.465s  same True
+cpu fges cont20_s2    dg_bic         etia 0.026  compat   0.177s  default   0.189s  same True
+cpu fges cont20_s2    sem_bic_score  etia 0.028  compat   0.160s  default   0.171s  same True
+cpu fges cont20_s3    cg_bic         etia 0.470  compat   0.168s  default   0.162s  same True
+cpu fges cont20_s3    dg_bic         etia 0.009  compat   0.065s  default   0.061s  same True
+cpu fges cont20_s3    sem_bic_score  etia 0.010  compat   0.057s  default   0.053s  same True
+cpu fges cont30_s0    cg_bic         etia 1.567  compat   0.506s  default   0.495s  same True
+cpu fges cont30_s0    dg_bic         etia 0.028  compat   0.201s  default   0.190s  same True
+cpu fges cont30_s0    sem_bic_score  etia 0.026  compat   0.178s  default   0.165s  same True
+cpu fges cont30_s1    cg_bic         etia 1.737  compat   0.556s  default   0.583s  same True
+cpu fges cont30_s1    dg_bic         etia 0.024  compat   0.210s  default   0.185s  same True
+cpu fges cont30_s1    sem_bic_score  etia 0.024  compat   0.184s  default   0.158s  same True
+cpu fges cont30_s2    cg_bic         etia 1.519  compat   0.566s  default   0.534s  same True
+cpu fges cont30_s2    dg_bic         etia 0.034  compat   0.250s  default   0.219s  same True
+cpu fges cont30_s2    sem_bic_score  etia 0.028  compat   0.225s  default   0.196s  same True
+cpu fges cont50_s0    cg_bic         etia 8.899  compat   1.818s  default   1.856s  same True
+cpu fges cont50_s0    dg_bic         etia 0.075  compat   0.507s  default   0.469s  same True
+cpu fges cont50_s0    sem_bic_score  etia 0.140  compat   0.494s  default   0.399s  same True
+cpu fges cont50_s1    cg_bic         etia 7.241  compat   1.418s  default   1.551s  same True
+cpu fges cont50_s1    dg_bic         etia 0.056  compat   0.415s  default   0.414s  same True
+cpu fges cont50_s1    sem_bic_score  etia 0.053  compat   0.359s  default   0.313s  same True
+cpu fges disc10_s0    bdeu           etia 0.050  compat   0.025s  default   0.023s  same True
+cpu fges disc10_s0    cg_bic         etia 0.672  compat   0.078s  default   0.071s  same True
+cpu fges disc10_s0    dg_bic         etia 0.008  compat   0.039s  default   0.037s  same True
+cpu fges disc10_s0    discrete_bic   etia 0.020  compat   0.025s  default   0.022s  same True
+cpu fges disc10_s1    bdeu           etia 0.014  compat   0.015s  default   0.014s  same True
+cpu fges disc10_s1    cg_bic         etia 0.458  compat   0.052s  default   0.049s  same True
+cpu fges disc10_s1    dg_bic         etia 0.005  compat   0.022s  default   0.021s  same True
+cpu fges disc10_s1    discrete_bic   etia 0.010  compat   0.017s  default   0.016s  same True
+cpu fges disc10_s2    bdeu           etia 0.014  compat   0.017s  default   0.016s  same True
+cpu fges disc10_s2    cg_bic         etia 0.683  compat   0.084s  default   0.071s  same True
+cpu fges disc10_s2    dg_bic         etia 0.006  compat   0.024s  default   0.023s  same True
+cpu fges disc10_s2    discrete_bic   etia 0.012  compat   0.022s  default   0.019s  same True
+cpu fges mixed10_s0   cg_bic         etia 0.218  compat   0.053s  default   0.051s  same True
+cpu fges mixed10_s0   dg_bic         etia 0.004  compat   0.019s  default   0.018s  same True
+cpu fges mixed10_s1   cg_bic         etia 0.447  compat   0.076s  default   0.067s  same True
+cpu fges mixed10_s1   dg_bic         etia 0.005  compat   0.025s  default   0.023s  same True
+cpu fges mixed10_s2   cg_bic         etia 0.201  compat   0.054s  default   0.053s  same True
+cpu fges mixed10_s2   dg_bic         etia 0.007  compat   0.035s  default   0.031s  same True
+cpu gfci cont10_s0|FisherZ|0.01|cg_bic|gfci           etia 0.08885331499914173  compat   0.025s  default   0.027s
+cpu gfci cont10_s0|FisherZ|0.01|dg_bic|gfci           etia 0.004246748998411931  compat   0.012s  default   0.014s
+cpu gfci cont10_s0|FisherZ|0.01|sem_bic_score|gfci    etia 0.004579269007081166  compat   0.011s  default   0.012s
+cpu gfci cont10_s0|FisherZ|0.05|cg_bic|gfci           etia 0.09791313800087664  compat   0.024s  default   0.030s
+cpu gfci cont10_s0|FisherZ|0.05|dg_bic|gfci           etia 0.005647062003845349  compat   0.012s  default   0.014s
+cpu gfci cont10_s0|FisherZ|0.05|sem_bic_score|gfci    etia 0.013805795009830035  compat   0.011s  default   0.013s
+cpu gfci cont10_s1|FisherZ|0.01|cg_bic|gfci           etia 0.09228220699878875  compat   0.035s  default   0.034s
+cpu gfci cont10_s1|FisherZ|0.01|dg_bic|gfci           etia 0.008551488004741259  compat   0.018s  default   0.025s
+cpu gfci cont10_s1|FisherZ|0.01|sem_bic_score|gfci    etia 0.009005226995213889  compat   0.017s  default   0.018s
+cpu gfci cont10_s1|FisherZ|0.05|cg_bic|gfci           etia 0.0872537280083634  compat   0.032s  default   0.039s
+cpu gfci cont10_s1|FisherZ|0.05|dg_bic|gfci           etia 0.010421587008750066  compat   0.019s  default   0.021s
+cpu gfci cont10_s1|FisherZ|0.05|sem_bic_score|gfci    etia 0.013754302999586798  compat   0.017s  default   0.022s
+cpu gfci cont10_s2|FisherZ|0.01|cg_bic|gfci           etia 0.1058267679909477  compat   0.037s  default   0.040s
+cpu gfci cont10_s2|FisherZ|0.01|dg_bic|gfci           etia 0.006038084989995696  compat   0.019s  default   0.022s
+cpu gfci cont10_s2|FisherZ|0.01|sem_bic_score|gfci    etia 0.011406864010496065  compat   0.017s  default   0.020s
+cpu gfci cont10_s2|FisherZ|0.05|cg_bic|gfci           etia 0.10238623000623193  compat   0.037s  default   0.040s
+cpu gfci cont10_s2|FisherZ|0.05|dg_bic|gfci           etia 0.006556481006555259  compat   0.018s  default   0.022s
+cpu gfci cont10_s2|FisherZ|0.05|sem_bic_score|gfci    etia 0.007732121011940762  compat   0.017s  default   0.021s
+cpu gfci cont10_s3|FisherZ|0.01|cg_bic|gfci           etia 0.1475857290060958  compat   0.060s  default   0.061s
+cpu gfci cont10_s3|FisherZ|0.01|dg_bic|gfci           etia 0.005866936990059912  compat   0.032s  default   0.032s
+cpu gfci cont10_s3|FisherZ|0.01|sem_bic_score|gfci    etia 0.007742123998468742  compat   0.029s  default   0.030s
+cpu gfci cont10_s3|FisherZ|0.05|cg_bic|gfci           etia 0.1448583050078014  compat   0.059s  default   0.060s
+cpu gfci cont10_s3|FisherZ|0.05|dg_bic|gfci           etia 0.006689039000775665  compat   0.031s  default   0.032s
+cpu gfci cont10_s3|FisherZ|0.05|sem_bic_score|gfci    etia 0.009764166010427289  compat   0.029s  default   0.030s
+cpu gfci cont10_s4|FisherZ|0.01|cg_bic|gfci           etia 0.25220931599324103  compat   0.092s  default   0.083s
+cpu gfci cont10_s4|FisherZ|0.01|dg_bic|gfci           etia 0.02098782100074459  compat   0.048s  default   0.039s
+cpu gfci cont10_s4|FisherZ|0.01|sem_bic_score|gfci    etia 0.019157520990120247  compat   0.046s  default   0.036s
+cpu gfci cont10_s4|FisherZ|0.05|cg_bic|gfci           etia 0.24939529699622653  compat   0.092s  default   0.102s
+cpu gfci cont10_s4|FisherZ|0.05|dg_bic|gfci           etia 0.021759029012173414  compat   0.047s  default   0.041s
+cpu gfci cont10_s4|FisherZ|0.05|sem_bic_score|gfci    etia 0.023251131002325565  compat   0.044s  default   0.038s
+cpu gfci cont10_s5|FisherZ|0.01|cg_bic|gfci           etia 0.06789098099397961  compat   0.026s  default   0.027s
+cpu gfci cont10_s5|FisherZ|0.01|dg_bic|gfci           etia 0.003044143013539724  compat   0.013s  default   0.014s
+cpu gfci cont10_s5|FisherZ|0.01|sem_bic_score|gfci    etia 0.002665555992280133  compat   0.012s  default   0.012s
+cpu gfci cont10_s5|FisherZ|0.05|cg_bic|gfci           etia 0.07094910200976301  compat   0.027s  default   0.028s
+cpu gfci cont10_s5|FisherZ|0.05|dg_bic|gfci           etia 0.0027008180040866137  compat   0.013s  default   0.014s
+cpu gfci cont10_s5|FisherZ|0.05|sem_bic_score|gfci    etia 0.002706969011342153  compat   0.012s  default   0.013s
+cpu gfci cont20_s0|FisherZ|0.01|cg_bic|gfci           etia 0.9324488030106295  compat   0.331s  default   0.343s
+cpu gfci cont20_s0|FisherZ|0.01|dg_bic|gfci           etia 0.19397385300544556  compat   0.187s  default   0.165s
+cpu gfci cont20_s0|FisherZ|0.01|sem_bic_score|gfci    etia 0.18097964901244268  compat   0.178s  default   0.153s
+cpu gfci cont20_s0|FisherZ|0.05|cg_bic|gfci           etia 0.9758823509910144  compat   0.336s  default   0.316s
+cpu gfci cont20_s0|FisherZ|0.05|dg_bic|gfci           etia 0.24285053100902587  compat   0.188s  default   0.168s
+cpu gfci cont20_s0|FisherZ|0.05|sem_bic_score|gfci    etia 0.17212850700889248  compat   0.177s  default   0.155s
+cpu gfci cont20_s1|FisherZ|0.01|cg_bic|gfci           etia 0.9197465790057322  compat   0.207s  default   0.307s
+cpu gfci cont20_s1|FisherZ|0.01|dg_bic|gfci           etia 0.2698799979989417  compat   0.103s  default   0.112s
+cpu gfci cont20_s1|FisherZ|0.01|sem_bic_score|gfci    etia 0.38532906299224123  compat   0.097s  default   0.104s
+cpu gfci cont20_s1|FisherZ|0.05|cg_bic|gfci           etia 0.8666118200053461  compat   0.205s  default   0.226s
+cpu gfci cont20_s1|FisherZ|0.05|dg_bic|gfci           etia 0.32869035001203883  compat   0.104s  default   0.112s
+cpu gfci cont20_s1|FisherZ|0.05|sem_bic_score|gfci    etia 0.3366943090077257  compat   0.095s  default   0.106s
+cpu gfci cont20_s2|FisherZ|0.01|cg_bic|gfci           etia 0.8446156990103191  compat   0.152s  default   0.141s
+cpu gfci cont20_s2|FisherZ|0.01|dg_bic|gfci           etia 0.3689590739959385  compat   0.077s  default   0.067s
+cpu gfci cont20_s2|FisherZ|0.01|sem_bic_score|gfci    etia 0.42849871900398284  compat   0.072s  default   0.062s
+cpu gfci cont20_s2|FisherZ|0.05|cg_bic|gfci           etia 0.9159660419973079  compat   0.164s  default   0.143s
+cpu gfci cont20_s2|FisherZ|0.05|dg_bic|gfci           etia 0.4320374999952037  compat   0.078s  default   0.069s
+cpu gfci cont20_s2|FisherZ|0.05|sem_bic_score|gfci    etia 0.42648957400524523  compat   0.072s  default   0.063s
+cpu gfci cont20_s3|FisherZ|0.01|cg_bic|gfci           etia 0.6015093490132131  compat   0.191s  default   0.183s
+cpu gfci cont20_s3|FisherZ|0.01|dg_bic|gfci           etia 0.13704112700361293  compat   0.116s  default   0.095s
+cpu gfci cont20_s3|FisherZ|0.01|sem_bic_score|gfci    etia 0.12938104900240432  compat   0.096s  default   0.087s
+cpu gfci cont20_s3|FisherZ|0.05|cg_bic|gfci           etia 0.609341695002513  compat   0.192s  default   0.182s
+cpu gfci cont20_s3|FisherZ|0.05|dg_bic|gfci           etia 0.2062587969994638  compat   0.102s  default   0.093s
+cpu gfci cont20_s3|FisherZ|0.05|sem_bic_score|gfci    etia 0.167570057004923  compat   0.097s  default   0.087s
+cpu gfci cont30_s0|FisherZ|0.01|cg_bic|gfci           etia 3.168676458997652  compat   0.538s  default   0.457s
+cpu gfci cont30_s0|FisherZ|0.01|dg_bic|gfci           etia 1.774959640999441  compat   0.311s  default   0.309s
+cpu gfci cont30_s0|FisherZ|0.01|sem_bic_score|gfci    etia 2.118006709002657  compat   0.295s  default   0.194s
+cpu gfci cont30_s0|FisherZ|0.05|cg_bic|gfci           etia 3.4622130039933836  compat   0.595s  default   0.465s
+cpu gfci cont30_s0|FisherZ|0.05|dg_bic|gfci           etia 2.186740208999254  compat   0.311s  default   0.207s
+cpu gfci cont30_s0|FisherZ|0.05|sem_bic_score|gfci    etia 1.74455454100098  compat   0.294s  default   0.192s
+cpu gfci cont30_s1|FisherZ|0.01|cg_bic|gfci           etia 1.2563845020049484  compat   0.376s  default   0.371s
+cpu gfci cont30_s1|FisherZ|0.01|dg_bic|gfci           etia 0.05239841299771797  compat   0.180s  default   0.168s
+cpu gfci cont30_s1|FisherZ|0.01|sem_bic_score|gfci    etia 0.050865597993833944  compat   0.165s  default   0.152s
+cpu gfci cont30_s1|FisherZ|0.05|cg_bic|gfci           etia 1.2460355700022774  compat   0.404s  default   0.375s
+cpu gfci cont30_s1|FisherZ|0.05|dg_bic|gfci           etia 0.05144975100120064  compat   0.181s  default   0.169s
+cpu gfci cont30_s1|FisherZ|0.05|sem_bic_score|gfci    etia 0.04996201100584585  compat   0.165s  default   0.152s
+cpu gfci cont30_s2|FisherZ|0.01|cg_bic|gfci           etia 4.474981759005459  compat   0.437s  default   0.395s
+cpu gfci cont30_s2|FisherZ|0.01|dg_bic|gfci           etia 3.4648526569944806  compat   0.255s  default   0.224s
+cpu gfci cont30_s2|FisherZ|0.01|sem_bic_score|gfci    etia 3.2196338180074235  compat   0.247s  default   0.185s
+cpu gfci cont30_s2|FisherZ|0.05|cg_bic|gfci           etia 4.167463290010346  compat   0.433s  default   0.383s
+cpu gfci cont30_s2|FisherZ|0.05|dg_bic|gfci           etia 3.101845951998257  compat   0.255s  default   0.203s
+cpu gfci cont30_s2|FisherZ|0.05|sem_bic_score|gfci    etia 3.003580716002034  compat   0.246s  default   0.191s
+cpu gfci cont50_s0|FisherZ|0.01|cg_bic|gfci           etia 5.451354322998668  compat   1.115s  default   0.895s
+cpu gfci cont50_s0|FisherZ|0.01|dg_bic|gfci           etia 0.6057704160048161  compat   0.430s  default   0.400s
+cpu gfci cont50_s0|FisherZ|0.01|sem_bic_score|gfci    etia 0.618670342999394  compat   0.406s  default   0.361s
+cpu gfci cont50_s0|FisherZ|0.05|cg_bic|gfci           etia 5.334127844995237  compat   1.075s  default   0.937s
+cpu gfci cont50_s0|FisherZ|0.05|dg_bic|gfci           etia 0.5533450039947638  compat   0.432s  default   0.526s
+cpu gfci cont50_s0|FisherZ|0.05|sem_bic_score|gfci    etia 0.6191736170003423  compat   0.402s  default   0.399s
+cpu gfci cont50_s1|FisherZ|0.01|cg_bic|gfci           etia 9.557562046989915  compat   1.583s  default   1.727s
+cpu gfci cont50_s1|FisherZ|0.01|dg_bic|gfci           etia 2.527629814998363  compat   0.665s  default   0.870s
+cpu gfci cont50_s1|FisherZ|0.01|sem_bic_score|gfci    etia 2.888659182994161  compat   0.621s  default   0.770s
+cpu gfci cont50_s1|FisherZ|0.05|cg_bic|gfci           etia 9.648675582997384  compat   1.519s  default   1.845s
+cpu gfci cont50_s1|FisherZ|0.05|dg_bic|gfci           etia 2.8654132099909475  compat   0.683s  default   0.817s
+cpu gfci cont50_s1|FisherZ|0.05|sem_bic_score|gfci    etia 2.5415785549994325  compat   0.621s  default   0.798s
+cpu gfci disc10_s0|chisquare|0.01|bdeu|gfci           etia 0.005920206996961497  compat   0.008s  default   0.037s
+cpu gfci disc10_s0|chisquare|0.01|cg_bic|gfci         etia None  compat   0.086s  default   0.143s
+cpu gfci disc10_s0|chisquare|0.01|dg_bic|gfci         etia 0.0038458569906651974  compat   0.015s  default   0.062s
+cpu gfci disc10_s0|chisquare|0.01|discrete_bic|gfci   etia 0.011658628995064646  compat   0.011s  default   0.040s
+cpu gfci disc10_s0|chisquare|0.05|bdeu|gfci           etia 0.011937390998355113  compat   0.008s  default   0.040s
+cpu gfci disc10_s0|chisquare|0.05|cg_bic|gfci         etia 0.30270035901048686  compat   0.104s  default   0.136s
+cpu gfci disc10_s0|chisquare|0.05|dg_bic|gfci         etia 0.0031759910052642226  compat   0.014s  default   0.063s
+cpu gfci disc10_s0|chisquare|0.05|discrete_bic|gfci   etia 0.027025046991184354  compat   0.011s  default   0.044s
+cpu gfci disc10_s0|gsquare|0.01|bdeu|gfci             etia 0.0053270329954102635  compat   0.007s  default   0.041s
+cpu gfci disc10_s0|gsquare|0.01|cg_bic|gfci           etia None  compat   0.088s  default   0.132s
+cpu gfci disc10_s0|gsquare|0.01|dg_bic|gfci           etia 0.003480120998574421  compat   0.015s  default   0.067s
+cpu gfci disc10_s0|gsquare|0.01|discrete_bic|gfci     etia 0.005800653001642786  compat   0.011s  default   0.043s
+cpu gfci disc10_s0|gsquare|0.05|bdeu|gfci             etia 0.006612545010284521  compat   0.007s  default   0.039s
+cpu gfci disc10_s0|gsquare|0.05|cg_bic|gfci           etia None  compat   0.149s  default   0.144s
+cpu gfci disc10_s0|gsquare|0.05|dg_bic|gfci           etia 0.0037031410029157996  compat   0.014s  default   0.065s
+cpu gfci disc10_s0|gsquare|0.05|discrete_bic|gfci     etia 0.02809141800389625  compat   0.011s  default   0.043s
+cpu gfci disc10_s1|chisquare|0.01|bdeu|gfci           etia 0.008424846004345454  compat   0.011s  default   0.081s
+cpu gfci disc10_s1|chisquare|0.01|cg_bic|gfci         etia None  compat   0.199s  default   0.278s
+cpu gfci disc10_s1|chisquare|0.01|dg_bic|gfci         etia None  compat   0.119s  default   0.255s
+cpu gfci disc10_s1|chisquare|0.01|discrete_bic|gfci   etia None  compat   0.040s  default   0.084s
+cpu gfci disc10_s1|chisquare|0.05|bdeu|gfci           etia 0.009974977001547813  compat   0.011s  default   0.073s
+cpu gfci disc10_s1|chisquare|0.05|cg_bic|gfci         etia None  compat   0.303s  default   0.280s
+cpu gfci disc10_s1|chisquare|0.05|dg_bic|gfci         etia None  compat   0.122s  default   0.323s
+cpu gfci disc10_s1|chisquare|0.05|discrete_bic|gfci   etia 0.01889461999235209  compat   0.036s  default   0.085s
+cpu gfci disc10_s1|gsquare|0.01|bdeu|gfci             etia 0.010042281006462872  compat   0.011s  default   0.073s
+cpu gfci disc10_s1|gsquare|0.01|cg_bic|gfci           etia None  compat   0.223s  default   0.285s
+cpu gfci disc10_s1|gsquare|0.01|dg_bic|gfci           etia None  compat   0.119s  default   0.217s
+cpu gfci disc10_s1|gsquare|0.01|discrete_bic|gfci     etia 0.021213553001871333  compat   0.036s  default   0.090s
+cpu gfci disc10_s1|gsquare|0.05|bdeu|gfci             etia 0.013588211993919685  compat   0.011s  default   0.083s
+cpu gfci disc10_s1|gsquare|0.05|cg_bic|gfci           etia None  compat   0.198s  default   0.296s
+cpu gfci disc10_s1|gsquare|0.05|dg_bic|gfci           etia None  compat   0.105s  default   0.222s
+cpu gfci disc10_s1|gsquare|0.05|discrete_bic|gfci     etia 0.1291270829970017  compat   0.035s  default   0.071s
+cpu gfci disc10_s2|chisquare|0.01|bdeu|gfci           etia 0.03214873700926546  compat   0.054s  default   0.111s
+cpu gfci disc10_s2|chisquare|0.01|cg_bic|gfci         etia None  compat   0.106s  default   0.187s
+cpu gfci disc10_s2|chisquare|0.01|dg_bic|gfci         etia 0.022054223998566158  compat   0.151s  default   0.285s
+cpu gfci disc10_s2|chisquare|0.01|discrete_bic|gfci   etia 0.03213851200416684  compat   0.067s  default   0.153s
+cpu gfci disc10_s2|chisquare|0.05|bdeu|gfci           etia 0.023460923999664374  compat   0.060s  default   0.108s
+cpu gfci disc10_s2|chisquare|0.05|cg_bic|gfci         etia 0.4480847289960366  compat   0.131s  default   0.193s
+cpu gfci disc10_s2|chisquare|0.05|dg_bic|gfci         etia 0.02011341499746777  compat   0.099s  default   0.386s
+cpu gfci disc10_s2|chisquare|0.05|discrete_bic|gfci   etia 0.12233015800302383  compat   0.084s  default   0.128s
+cpu gfci disc10_s2|gsquare|0.01|bdeu|gfci             etia 0.03619850499671884  compat   0.057s  default   0.142s
+cpu gfci disc10_s2|gsquare|0.01|cg_bic|gfci           etia None  compat   0.137s  default   0.235s
+cpu gfci disc10_s2|gsquare|0.01|dg_bic|gfci           etia None  compat   0.101s  default   0.286s
+cpu gfci disc10_s2|gsquare|0.01|discrete_bic|gfci     etia 0.1193075549963396  compat   0.077s  default   0.126s
+cpu gfci disc10_s2|gsquare|0.05|bdeu|gfci             etia 0.025598997992346995  compat   0.069s  default   0.116s
+cpu gfci disc10_s2|gsquare|0.05|cg_bic|gfci           etia None  compat   0.117s  default   0.196s
+cpu gfci disc10_s2|gsquare|0.05|dg_bic|gfci           etia 0.06006994700874202  compat   0.125s  default   0.308s
+cpu gfci disc10_s2|gsquare|0.05|discrete_bic|gfci     etia 0.022438247993704863  compat   0.073s  default   0.120s
+cpu gfci mixed10_s0|cg_lrt|0.01|cg_bic|gfci           etia 0.34613636700669304  compat   0.131s  default   0.125s
+cpu gfci mixed10_s0|cg_lrt|0.01|dg_bic|gfci           etia 0.003534050003509037  compat   0.018s  default   0.046s
+cpu gfci mixed10_s0|cg_lrt|0.05|cg_bic|gfci           etia 0.417698144010501  compat   0.133s  default   0.130s
+cpu gfci mixed10_s0|cg_lrt|0.05|dg_bic|gfci           etia 0.0035890389990527183  compat   0.018s  default   0.045s
+cpu gfci mixed10_s0|dg_lrt|0.01|cg_bic|gfci           etia 0.33209213899681345  compat   0.078s  default   0.084s
+cpu gfci mixed10_s0|dg_lrt|0.01|dg_bic|gfci           etia 0.00336208198859822  compat   0.018s  default   0.031s
+cpu gfci mixed10_s0|dg_lrt|0.05|cg_bic|gfci           etia 0.34799894399475306  compat   0.078s  default   0.087s
+cpu gfci mixed10_s0|dg_lrt|0.05|dg_bic|gfci           etia 0.0033660949993645772  compat   0.017s  default   0.032s
+cpu gfci mixed10_s1|cg_lrt|0.01|cg_bic|gfci           etia 0.5609178699960466  compat   0.228s  default   0.258s
+cpu gfci mixed10_s1|cg_lrt|0.01|dg_bic|gfci           etia 0.03406816899951082  compat   0.053s  default   0.143s
+cpu gfci mixed10_s1|cg_lrt|0.05|cg_bic|gfci           etia 0.5353404600027716  compat   0.228s  default   0.256s
+cpu gfci mixed10_s1|cg_lrt|0.05|dg_bic|gfci           etia 0.040193463006289676  compat   0.055s  default   0.143s
+cpu gfci mixed10_s1|dg_lrt|0.01|cg_bic|gfci           etia 0.5083390600048006  compat   0.107s  default   0.097s
+cpu gfci mixed10_s1|dg_lrt|0.01|dg_bic|gfci           etia 0.029460030011250637  compat   0.035s  default   0.062s
+cpu gfci mixed10_s1|dg_lrt|0.05|cg_bic|gfci           etia 0.4784873580065323  compat   0.108s  default   0.101s
+cpu gfci mixed10_s1|dg_lrt|0.05|dg_bic|gfci           etia 0.03944615500222426  compat   0.039s  default   0.064s
+cpu gfci mixed10_s2|cg_lrt|0.01|cg_bic|gfci           etia 0.3251809149951441  compat   0.117s  default   0.128s
+cpu gfci mixed10_s2|cg_lrt|0.01|dg_bic|gfci           etia 0.031058893000590615  compat   0.046s  default   0.138s
+cpu gfci mixed10_s2|cg_lrt|0.05|cg_bic|gfci           etia 0.30998473199724685  compat   0.115s  default   0.128s
+cpu gfci mixed10_s2|cg_lrt|0.05|dg_bic|gfci           etia 0.027212277011130936  compat   0.046s  default   0.134s
+cpu gfci mixed10_s2|dg_lrt|0.01|cg_bic|gfci           etia 0.33140682299563196  compat   0.074s  default   0.085s
+cpu gfci mixed10_s2|dg_lrt|0.01|dg_bic|gfci           etia 0.03321850800421089  compat   0.031s  default   0.052s
+cpu gfci mixed10_s2|dg_lrt|0.05|cg_bic|gfci           etia 0.329266030996223  compat   0.073s  default   0.083s
+cpu gfci mixed10_s2|dg_lrt|0.05|dg_bic|gfci           etia 0.028177628992125392  compat   0.031s  default   0.051s
+wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/fges_jax_cpu.csv

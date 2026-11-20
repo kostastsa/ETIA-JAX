@@ -1,0 +1,6 @@
+score,datasets,queries,max_rel_error,same_nan,same_max_degree
+bdeu,3,360,2.8e-15,True,True
+cg_bic,19,2280,4.1e-13,True,True
+dg_bic,19,2280,1.6e-12,True,True
+discrete_bic,3,360,1.1e-15,True,True
+sem_bic_score,13,1560,1.6e-12,True,True

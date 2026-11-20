@@ -14,7 +14,10 @@ import numpy as np
 import pandas as pd
 import jpype
 
-from make_fixtures import OUT, start_jvm, to_marks, _tetrad_test, TETRAD_CLASS
+import sys
+
+from make_fixtures import (OUT, start_jvm, to_marks, _tetrad_test, TETRAD_CLASS, GFCI_TESTS, SCORES_FOR,
+                           data_kind, tetrad_score, _etia_dataset)
 
 REPS = 5   # the 4 cases of disc10_s2 that need more were run 40 times (all outputs are merged)
 
@@ -89,5 +92,83 @@ def main():
     print("wrote", OUT / "search_fci_ref_serial.npz")
 
 
+def main_gfci(reps=10):
+    """GFCI, ``reps`` runs each, all distinct outputs kept
+    (search_gfci_ref_more.npz). Discrete and mixed data: serialized test
+    calls. Continuous data: the FisherZ test directly (it is thread-safe,
+    and the proxy is slow)."""
+    jp = start_jvm()
+    f = np.load(OUT / "search_fci_data.npz")
+    out = {}
+    for case in f["cases"]:
+        case = str(case)
+        X, disc = f[f"{case}|X"], f[f"{case}|discrete"]
+        ds = _etia_dataset(X, disc)
+        names = [str(v.getName()) for v in ds.getVariables()]
+        for t in [str(t) for t in f[f"{case}|tests"] if str(t) in GFCI_TESTS]:
+            for alpha in f["alphas"]:
+                for name in SCORES_FOR[data_kind(disc)]:
+                    graphs = []
+                    for _ in range(reps):
+                        real = _tetrad_test(jp, t, ds)
+                        real.setAlpha(float(alpha))
+                        test = serialized(real) if disc.any() else real     # continuous: FisherZ is thread-safe
+                        alg = jp.JClass("edu.cmu.tetrad.search.GFci")(test, tetrad_score(jp, name, ds))
+                        G = to_marks(alg.search(), names)
+                        if not any((G == h).all() for h in graphs):
+                            graphs.append(G)
+                    key = f"{case}|{t}|{float(alpha)}|{name}|gfci"
+                    out[key + "|graphs"] = np.stack(graphs)
+                    print(f"{key:48s} distinct outputs: {len(graphs)}", flush=True)
+    np.savez_compressed(OUT / "search_gfci_ref_more.npz", **out)
+    print("wrote", OUT / "search_gfci_ref_more.npz")
+
+
+def main_gfci_steps():
+    """The deterministic steps of GFCI (serialized test calls, one run):
+    the FGES CPDAG, the graph after the extra-edge removal, and the graph
+    after gfciR0 (search_gfci_steps.npz). Only the final orientation
+    (parallel R4) can vary between runs."""
+    jp = start_jvm()
+    S = "edu.cmu.tetrad.search."
+    GU = jp.JClass("edu.cmu.tetrad.graph.GraphUtils")
+    f = np.load(OUT / "search_fci_data.npz")
+    out = {}
+    for case in f["cases"]:
+        case = str(case)
+        X, disc = f[f"{case}|X"], f[f"{case}|discrete"]
+        ds = _etia_dataset(X, disc)
+        names = [str(v.getName()) for v in ds.getVariables()]
+        for t in [str(t) for t in f[f"{case}|tests"] if str(t) in GFCI_TESTS]:
+            for alpha in f["alphas"]:
+                for name in SCORES_FOR[data_kind(disc)]:
+                    real = _tetrad_test(jp, t, ds)
+                    real.setAlpha(float(alpha))
+                    test = serialized(real) if disc.any() else real
+                    fg = jp.JClass(S + "Fges")(tetrad_score(jp, name, ds))
+                    fg.setFaithfulnessAssumed(True)
+                    fg.setMaxDegree(-1)
+                    fg.setVerbose(False)
+                    g = fg.search()
+                    key = f"{case}|{t}|{float(alpha)}|{name}|gfci"
+                    out[key + "|fges"] = to_marks(g, names)
+                    cpdag = jp.JClass("edu.cmu.tetrad.graph.EdgeListGraph")(g)
+                    seps = jp.JClass(S + "utils.SepsetsMinP")(g, test, -1)
+                    GU.gfciExtraEdgeRemovalStep(g, cpdag, jp.JClass("java.util.ArrayList")(test.getVariables()),
+                                                seps, -1, False)
+                    out[key + "|removal"] = to_marks(g, names)
+                    GU.gfciR0(g, cpdag, seps, jp.JClass("edu.cmu.tetrad.data.Knowledge")(), False,
+                              jp.JClass("java.util.HashSet")())
+                    out[key + "|r0"] = to_marks(g, names)
+                    print(f"{key:48s} steps saved", flush=True)
+    np.savez_compressed(OUT / "search_gfci_steps.npz", **out)
+    print("wrote", OUT / "search_gfci_steps.npz")
+
+
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:] == ["gfci"]:
+        main_gfci()
+    elif sys.argv[1:] == ["gfci_steps"]:
+        main_gfci_steps()
+    else:
+        main()

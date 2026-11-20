@@ -112,7 +112,36 @@ res = pc(FisherZ(X), alpha=0.05, tetrad_compat=True)   # the same graph as ETIA 
 - **The possible-m-sep step** of FCI starts its search only from x. CFCI uses a different possible-m-sep step that tests only the side of x.
 - **CFCI** keeps its own map of separating sets. At the first R0 this map is empty.
 
+## Scores, FGES and GFCI (increment 5)
+
+`etia_jax.scores` has the five scores of ETIA: `SemBicScore`, `BdeuScore`, `DiscreteBicScore`, `ConditionalGaussianScore` and `DegenerateGaussianScore`. `ETIA_SETTINGS` gives the settings that ETIA uses. A score gives `local_score(i, parents)`, and a cache keeps each local score. The SEM BIC score uses stacked numpy solves for small batches and one JAX call for large batches. The CG BIC score uses the vmapped kernel of the CG-LRT test.
+
+- **Agreement of the scores.** For random queries on the search datasets, the local scores of ETIA-JAX and of Tetrad have a relative difference below 2e-12. The NaN values and the degree limits are also the same.
+
+`etia_jax.search.fges.fges(score)` returns a CPDAG. `etia_jax.search.gfci.gfci(ci, score, alpha)` returns a PAG.
+
+- **Default mode.** FGES uses the same three rounds of forward steps and backward steps as Tetrad, but with index orders and no degree limit. GFCI follows Ogarrio et al. (2016): FGES, the removal of extra edges, the GFCI collider rule, the Possible-D-SEP step of FCI, and the rules of Zhang. For a pair that FGES did not connect, R4 needs a separating set. Thus the default mode finds one when R4 asks for it. With a d-separation score and d-separation tests, FGES gives the correct CPDAG, and GFCI gives the correct PAG.
+- **`tetrad_compat=True`.** A Python version of Tetrad 7.6.5 `Fges`, `Bes`, `MeekRules` and `GFci`, on `TGraph`. FGES gives the same CPDAG as ETIA in all 69 fixture searches.
+- **Run time.** FGES of ETIA-JAX is 3 to 6 times slower than Tetrad on continuous data, because the search runs in Python. GFCI of ETIA-JAX is faster than Tetrad on 20 to 50 variables (for example 0.29 s and 2.15 s on 30 variables), because the CI tests run in batches.
+
+### Agreement of GFCI with ETIA
+
+- **The steps before R4.** FGES, the removal of extra edges and the GFCI collider rule are deterministic in Tetrad. ETIA-JAX gives the same graph after these steps in all 162 searches.
+- **The last step.** As in FCI, Tetrad starts its R4 tasks in parallel on a hash set without hash codes. Thus 43 searches have more than one possible PAG (up to 7). The PAG of ETIA-JAX is one of the PAGs of Tetrad in all 162 searches. Some searches have the same data, test, alpha and graph before R4. These searches have the same possible PAGs, thus the test uses all their outputs.
+- **Discrete data.** The search for separating sets of GFCI uses the CI test from parallel threads. Thus GFCI with the chi-square or G-square test stops with an error or gets incorrect p-values. The fixtures use a changed Tetrad that sends the test calls through a lock (`reference/make_fixtures_serial.py gfci`).
+
+### What Tetrad 7.6.5 does in the scores, FGES and GFCI (kept only in `tetrad_compat` mode)
+
+- **Degree limit of FGES.** FGES takes the degree limit of the score. For most scores, the limit is ceil(ln n). For the discrete BIC score, the limit is 1000. GFCI sets no limit.
+- **BDeu structure prior.** The prior uses N - 1, where N is the number of rows. It must use the number of other variables.
+- **Discrete BIC structure prior.** The prior term has the wrong sign. Thus more parents give a higher score.
+- **Separating sets of GFCI (`SepsetsMinP`).** The search takes the subset of adj(x) with the smallest p-value. It keeps this subset only if its p-value is above alpha. Thus all the subsets must show independence. The second search uses adj(x) again. Thus the search does not use adj(y).
+- **No Possible-D-SEP step in GFCI.** The FGES of GFCI also assumes faithfulness, thus it does only two rounds.
+- **GFCI collider rule.** The rule also looks at a pair x, z that is adjacent in the CPDAG and in the graph. It searches for a separating set of x and z. If it finds one, it removes the edge.
+
 ## Plan of increments
+
+The details and the status of each increment are in [docs/increments.md](docs/increments.md).
 
 Each increment has a build step, a test step and a check step.
 

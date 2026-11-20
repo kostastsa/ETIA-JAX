@@ -144,6 +144,8 @@ class TGraph:
         self.edge_lists = {i: JHashSet() for i in range(p)}
         self.edges_set = JHashSet()
         self.parents_hash = {}
+        self.adj_cache = {}            # node -> its getAdjacentNodes() order (cleared when its edges change)
+        self.edges_of_cache = {}       # node -> its getEdges(node) order (the same)
 
     # -------------------------------------------------------------- edges
     def edge(self, a, b, ea, eb):
@@ -158,6 +160,10 @@ class TGraph:
         self.edges_set.add(e)
         self.parents_hash.pop(e.n1, None)
         self.parents_hash.pop(e.n2, None)
+        self.adj_cache.pop(e.n1, None)
+        self.adj_cache.pop(e.n2, None)
+        self.edges_of_cache.pop(e.n1, None)
+        self.edges_of_cache.pop(e.n2, None)
         return True
 
     def remove_edge(self, e):
@@ -171,6 +177,10 @@ class TGraph:
         self.edge_lists[e.n1], self.edge_lists[e.n2] = s1, s2
         self.parents_hash.pop(e.n1, None)
         self.parents_hash.pop(e.n2, None)
+        self.adj_cache.pop(e.n1, None)
+        self.adj_cache.pop(e.n2, None)
+        self.edges_of_cache.pop(e.n1, None)
+        self.edges_of_cache.pop(e.n2, None)
         return True
 
     def add_undirected_edge(self, a, b):
@@ -190,7 +200,10 @@ class TGraph:
         return list(JHashSet.copy(self.edges_set))
 
     def get_edges_of(self, node):
-        return list(JHashSet.copy(self.edge_lists[node]))
+        r = self.edges_of_cache.get(node)
+        if r is None:
+            r = self.edges_of_cache[node] = list(JHashSet.copy(self.edge_lists[node]))
+        return list(r)
 
     def get_endpoint(self, a, b):
         """The mark at b on the edge a - b (None if not adjacent)."""
@@ -215,10 +228,13 @@ class TGraph:
         return any(e.distal(a) == b for e in self.edge_lists[a])
 
     def get_adjacent_nodes(self, a):
-        adj = JHashSet()
-        for e in self.edge_lists[a]:
-            adj.add(JNode(e.distal(a), self.h[e.distal(a)]))
-        return [n.i for n in adj]
+        r = self.adj_cache.get(a)
+        if r is None:
+            adj = JHashSet()
+            for e in self.edge_lists[a]:
+                adj.add(JNode(e.distal(a), self.h[e.distal(a)]))
+            r = self.adj_cache[a] = [n.i for n in adj]
+        return list(r)
 
     def get_nodes_in_to(self, node, ep):
         return [e.distal(node) for e in self.get_edges_of(node) if e.proximal_endpoint(node) == ep]

@@ -1,0 +1,119 @@
+<title>ETIA-JAX increment 5</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 5 of 10 · scores, FGES and GFCI</div>
+    <h1>Five scores, FGES and GFCI in JAX</h1>
+    <p class="lede">The score-based searches of ETIA (Tetrad 7.6.5) and of ETIA-JAX: the same local scores, the same CPDAGs and PAGs, what Tetrad does differently from the papers, the run times, and the accuracy.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>Local scores <span class="tag">scores.csv</span></h2>
+    <div id="scores"></div>
+  </section>
+
+  <div class="row2">
+    <section class="panel">
+      <h2>FGES: same CPDAGs as ETIA <span class="tag">fges_agreement.csv</span></h2>
+      <div id="fges_agree"></div>
+    </section>
+    <section class="panel">
+      <h2>GFCI: same PAGs as Tetrad <span class="tag">gfci_agreement.csv</span></h2>
+      <div id="gfci_agree"></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">by_group_long.csv · by_group.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="algo1"></div></div></div>
+    <div id="time_chart"></div>
+    <div id="time_table"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the searches <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Accuracy: Tetrad mode and default <span class="tag">quality_summary.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="algo2"></div></div></div>
+    <div id="quality_chart"></div>
+    <div id="quality_table"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What Tetrad 7.6.5 does in the scores, FGES and GFCI</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What Tetrad does</th><th>ETIA-JAX</th></tr>
+      <tr><td>FGES degree limit</td><td>FGES takes the score's <code>getMaxDegree()</code>: no new edge at a node with ⌈ln n⌉ edges (1000 for discrete BIC).</td><td>Default: no limit. <code>tetrad_compat</code>: the same as Tetrad.</td></tr>
+      <tr><td>BDeu structure prior</td><td>The prior uses N − 1 (N = number of rows) where it should use the number of other variables.</td><td>Default: p − 1. <code>tetrad_compat</code>: N − 1.</td></tr>
+      <tr><td>Discrete BIC structure prior</td><td>The prior term has the wrong sign: more parents give a higher score.</td><td>Default: the log prior. <code>tetrad_compat</code>: the same as Tetrad.</td></tr>
+      <tr><td>GFCI separating sets (MinP)</td><td>Takes the subset of adj(x) with the smallest p-value and keeps it only if that p-value is above alpha (all subsets must show independence); the second search uses adj(x) again, so adj(y) is never searched.</td><td>Default: the first separating set among the subsets of adj(x) or adj(y). <code>tetrad_compat</code>: the same as Tetrad.</td></tr>
+      <tr><td>GFCI steps</td><td>No Possible-D-SEP step. FGES inside GFCI assumes faithfulness (two rounds) and has no degree limit.</td><td>Default: the Possible-D-SEP step of the paper, and separating sets for the pairs that FGES did not connect (needed by R4).</td></tr>
+      <tr><td>Threads (GFCI)</td><td>The MinP search tests subsets from parallel threads on one CI test object: χ² and G² searches crash or get incorrect p-values.</td><td>No threads; the fixtures use a race-free Tetrad (serialized test calls).</td></tr>
+      <tr><td>R4 order (GFCI)</td><td>As in FCI: parallel R4 tasks over a HashSet with identity hashes; the PAG can change between runs.</td><td>A fixed order; the graph before R4 is always the same as in Tetrad, and the PAG is one of Tetrad's outputs.</td></tr>
+    </table>
+    <div id="defects_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment5/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, Java 17). Times on algo29: Intel i9-14900K, RTX 4090, float64.</footer>
+</div>
+<script>
+const HOWTO = @HOWTO@;
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('defects_howto').innerHTML = box('table', HOWTO.defects);
+pv.need(['summary.json', 'scores.csv', 'fges_agreement.csv', 'gfci_agreement.csv', 'by_group.csv', 'by_group_long.csv',
+         'timing.csv', 'quality_summary.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.score_queries}`, 'Local scores checked', `largest relative error ${s.score_max_rel_error.toExponential(1)}`) +
+    card(`${s.fges_same} / ${s.fges_searches}`, 'FGES: same CPDAG', 'as ETIA') +
+    card(`${s.gfci_agree} / ${s.gfci_searches}`, 'GFCI: agree with Tetrad', `${s.gfci_tetrad_crashes} with Tetrad crashes, ${s.gfci_nondeterministic} nondeterministic`) +
+    card(`${pv.fmt(s.median_speedup_fges_default, 2)}× · ${pv.fmt(s.median_speedup_gfci_default, 2)}×`, 'Median speed-up, default',
+         `FGES · GFCI. Tetrad mode: ${pv.fmt(s.median_speedup_fges_compat, 2)}× · ${pv.fmt(s.median_speedup_gfci_compat, 2)}×`);
+});
+
+pv.table('#scores', 'scores.csv', {howto: HOWTO.scores});
+pv.table('#fges_agree', 'fges_agreement.csv', {howto: HOWTO.fges_agree});
+pv.table('#gfci_agree', 'gfci_agreement.csv', {howto: HOWTO.gfci_agree});
+
+const ALG = [['fges', 'FGES'], ['gfci', 'GFCI']];
+let algo1 = 'fges', algo2 = 'fges';
+const drawTime = () => pv.chart('#time_chart', 'by_group_long.csv', {type: 'bar', x: 'group', y: 'seconds', color: 'who',
+  'log-y': true, 'x-label': 'dataset group', 'y-label': 'median seconds per search (log scale)', height: 380, wide: true,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.algo === algo1)), howto: HOWTO.time_chart});
+pv.seg('#algo1', {options: ALG, value: algo1, onChange: v => { algo1 = v; drawTime(); }});
+drawTime();
+pv.table('#time_table', 'by_group.csv', {
+  labels: 'etia_s: ETIA | etia_prep_s: ETIA data copy | gpu_compat_s: Tetrad mode GPU | cpu_compat_s: Tetrad mode CPU | gpu_default_s: default GPU | cpu_default_s: default CPU',
+  dec: 'etia_s:4 etia_prep_s:4 gpu_compat_s:4 cpu_compat_s:4 gpu_default_s:4 cpu_default_s:4', wide: true, howto: HOWTO.time_table});
+
+pv.table('#timing', 'timing.csv', {
+  cols: 'algo,case,score,test,alpha,p,etia_s,gpu_compat_s,cpu_compat_s,gpu_default_s,cpu_default_s,speedup_compat,speedup_default,tetrad_crashed',
+  labels: 'etia_s: ETIA | gpu_compat_s: Tetrad mode GPU | cpu_compat_s: Tetrad mode CPU | gpu_default_s: default GPU | cpu_default_s: default CPU | speedup_compat: speed-up compat | speedup_default: speed-up default',
+  dec: 'etia_s:4 gpu_compat_s:3 cpu_compat_s:3 gpu_default_s:3 cpu_default_s:3 speedup_compat:2 speedup_default:2',
+  sort: 'speedup_default:desc', height: 460, wide: true, howto: HOWTO.timing});
+
+const drawQuality = () => pv.chart('#quality_chart', 'quality_summary.csv', {type: 'bar', x: 'group', y: 'shd_mean', color: 'mode',
+  'x-label': 'dataset group', 'y-label': 'mean SHD to the correct graph', height: 320,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.algo === algo2)), howto: HOWTO.quality_chart});
+pv.seg('#algo2', {options: ALG, value: algo2, onChange: v => { algo2 = v; drawQuality(); }});
+drawQuality();
+pv.table('#quality_table', 'quality_summary.csv', {labels: 'shd_mean: mean SHD | adj_f1_mean: adjacency F1',
+  dec: 'shd_mean:2 adj_f1_mean:3', howto: HOWTO.quality_table});
+
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

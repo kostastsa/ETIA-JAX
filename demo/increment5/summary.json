@@ -1,0 +1,14 @@
+{
+ "score_queries": 6840,
+ "score_max_rel_error": 1.5798589542486855e-12,
+ "fges_searches": 69,
+ "fges_same": 69,
+ "gfci_searches": 162,
+ "gfci_agree": 162,
+ "gfci_tetrad_crashes": 30,
+ "gfci_nondeterministic": 43,
+ "median_speedup_fges_compat": 0.28763135692226693,
+ "median_speedup_gfci_compat": 1.4933500019960757,
+ "median_speedup_fges_default": 0.30824754593651704,
+ "median_speedup_gfci_default": 1.3121304340985485
+}

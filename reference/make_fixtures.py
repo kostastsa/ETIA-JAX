@@ -288,6 +288,166 @@ def make_ci_scale(jpype):
 TETRAD_CLASS = {"pc": "Pc", "cpc": "Cpc", "fci": "Fci", "fcimax": "FciMax", "rfci": "Rfci", "cfci": "Cfci"}
 
 
+SCORES_FOR = {"continuous": ("sem_bic_score", "cg_bic", "dg_bic"),
+              "discrete": ("bdeu", "discrete_bic", "cg_bic", "dg_bic"),
+              "mixed": ("cg_bic", "dg_bic")}
+
+
+def tetrad_score(jpype, name, ds, penalty=1.0, structure_prior=1.0):
+    """The score object as ETIA's TetradAlgorithm._score makes it."""
+    S = "edu.cmu.tetrad.search.score."
+    if name == "sem_bic_score":
+        sc = jpype.JClass(S + "SemBicScore")(ds, True)
+        sc.setPenaltyDiscount(penalty)
+    elif name == "bdeu":
+        sc = jpype.JClass(S + "BdeuScore")(ds)
+        sc.setStructurePrior(structure_prior)
+    elif name == "discrete_bic":
+        sc = jpype.JClass(S + "DiscreteBicScore")(ds)
+        sc.setPenaltyDiscount(penalty)
+        sc.setStructurePrior(structure_prior)
+    elif name == "cg_bic":
+        sc = jpype.JClass(S + "ConditionalGaussianScore")(ds, penalty, True)
+    elif name == "dg_bic":
+        sc = jpype.JClass(S + "DegenerateGaussianScore")(ds, True)
+        sc.setPenaltyDiscount(penalty)
+    else:
+        raise ValueError(name)
+    return sc
+
+
+def data_kind(disc):
+    return "discrete" if disc.all() else ("continuous" if not disc.any() else "mixed")
+
+
+def _etia_dataset(X, disc):
+    import pandas as pd
+    from ETIA.data.Dataset import Dataset
+    from ETIA.CausalLearning.algorithms.utils import prepare_data_tetrad
+    p = X.shape[1]
+    df = pd.DataFrame(X, columns=[f"V{i}" for i in range(p)])
+    for j in np.flatnonzero(disc):
+        df[f"V{j}"] = df[f"V{j}"].astype(int)
+    ds, _ = prepare_data_tetrad(Dataset(data=df), {})
+    return ds
+
+
+def make_scores(jpype, n_queries=120, seed=0, max_p=30):
+    """localScore(i, parents) of the five scores of ETIA, for random queries
+    on the search datasets. Writes scores.npz."""
+    f = np.load(OUT / "search_data.npz")
+    rng = np.random.default_rng(seed)
+    out = {}
+    for case in f["cases"]:
+        case = str(case)
+        X, disc = f[f"{case}|X"], f[f"{case}|discrete"]
+        p = X.shape[1]
+        if p > max_p:
+            continue
+        ds = _etia_dataset(X, disc)
+        names = [str(v.getName()) for v in ds.getVariables()]
+        assert names == [f"V{i}" for i in range(p)] or len(names) == p
+        Q = []
+        for _ in range(n_queries):
+            i = int(rng.integers(p))
+            k = int(rng.integers(0, 5))
+            par = rng.choice([v for v in range(p) if v != i], size=k, replace=False)
+            Q.append([i] + [int(v) for v in par] + [-1] * (4 - k))
+        Q = np.array(Q, dtype=np.int32)
+        out[f"{case}|queries"] = Q
+        for name in SCORES_FOR[data_kind(disc)]:
+            sc = tetrad_score(jpype, name, ds)
+            vals = []
+            for row in Q:
+                par = [int(v) for v in row[1:] if v >= 0]
+                vals.append(float(sc.localScore(int(row[0]), jpype.JArray(jpype.JInt)(par))))
+            out[f"{case}|{name}|local"] = np.array(vals)
+            out[f"{case}|{name}|max_degree"] = np.array(int(sc.getMaxDegree()))
+            print(case, name, "done", flush=True)
+    np.savez_compressed(OUT / "scores.npz", **out)
+    print("wrote", OUT / "scores.npz")
+
+
+def make_fges(jpype, data_file="search_data.npz", out_file="search_fges_ref.npz", reps=1):
+    """FGES as ETIA runs it: new Fges(score), search(). One search for each
+    dataset and score of its data kind."""
+    import time
+    f = np.load(OUT / data_file)
+    out = {}
+    for case in f["cases"]:
+        case = str(case)
+        X, disc = f[f"{case}|X"], f[f"{case}|discrete"]
+        t0 = time.perf_counter()
+        ds = _etia_dataset(X, disc)
+        out[f"{case}|prep_time"] = np.array(time.perf_counter() - t0)
+        names = [str(v.getName()) for v in ds.getVariables()]
+        for name in SCORES_FOR[data_kind(disc)]:
+            key = f"{case}|{name}|fges"
+            graphs, times = [], []
+            for _ in range(reps):
+                sc = tetrad_score(jpype, name, ds)
+                alg = jpype.JClass("edu.cmu.tetrad.search.Fges")(sc)
+                alg.setVerbose(False)
+                t0 = time.perf_counter()
+                g = alg.search()
+                times.append(time.perf_counter() - t0)
+                graphs.append(to_marks(g, names))
+            out[key + "|graph"] = graphs[0]
+            out[key + "|time"] = np.array(min(times))
+            out[key + "|same_each_run"] = np.array(all((h == graphs[0]).all() for h in graphs))
+            print(f"{key:40s} {min(times):8.3f}s  edges {int((graphs[0] != 0).sum() // 2)}", flush=True)
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
+GFCI_TESTS = ("FisherZ", "cg_lrt", "dg_lrt", "chisquare", "gsquare")     # ETIA causal_configs["gfci"]
+
+
+def make_gfci(jpype, data_file="search_fci_data.npz", out_file="search_gfci_ref.npz", reps=3):
+    """GFCI as ETIA runs it: new GFci(test, score), search()."""
+    import time
+    f = np.load(OUT / data_file)
+    out = {}
+    for case in f["cases"]:
+        case = str(case)
+        X, disc = f[f"{case}|X"], f[f"{case}|discrete"]
+        t0 = time.perf_counter()
+        ds = _etia_dataset(X, disc)
+        out[f"{case}|prep_time"] = np.array(time.perf_counter() - t0)
+        names = [str(v.getName()) for v in ds.getVariables()]
+        for test_name in [str(t) for t in f[f"{case}|tests"] if str(t) in GFCI_TESTS]:
+            for alpha in f["alphas"]:
+                for name in SCORES_FOR[data_kind(disc)]:
+                    key = f"{case}|{test_name}|{float(alpha)}|{name}|gfci"
+                    graphs, times, errors = [], [], []
+                    for _ in range(reps):
+                        test = _tetrad_test(jpype, test_name, ds)
+                        test.setAlpha(float(alpha))
+                        sc = tetrad_score(jpype, name, ds)
+                        alg = jpype.JClass("edu.cmu.tetrad.search.GFci")(test, sc)
+                        alg.setVerbose(False)
+                        t0 = time.perf_counter()
+                        try:
+                            g = alg.search()
+                        except Exception as exc:
+                            errors.append(f"{exc.__class__.__name__}: {exc}")
+                            continue
+                        times.append(time.perf_counter() - t0)
+                        graphs.append(to_marks(g, names))
+                    if errors:
+                        out[key + "|error"] = np.array(errors[0])
+                        out[key + "|n_errors"] = np.array(len(errors))
+                    if graphs:
+                        out[key + "|graph"] = graphs[0]
+                        out[key + "|graphs"] = np.array(graphs)
+                        out[key + "|time"] = np.array(min(times))
+                        out[key + "|same_each_run"] = np.array(all((h == graphs[0]).all() for h in graphs))
+                    print(f"{key:48s} {min(times) if times else -1:8.3f}s errors {len(errors)} "
+                          f"same {all((h == graphs[0]).all() for h in graphs) if graphs else None}", flush=True)
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
 def make_search(jpype, algos=("pc", "cpc"), data_file="search_data.npz", out_file="search_ref.npz"):
     import time
     import pandas as pd
@@ -352,6 +512,12 @@ if __name__ == "__main__":
         make_ci_scale(jp)
     if "search" in which:
         make_search(jp)
+    if "scores" in which:
+        make_scores(jp)
+    if "fges" in which:
+        make_fges(jp, reps=3)
+    if "gfci" in which:
+        make_gfci(jp)
     if "fci" in which:
         make_search(jp, ("fci", "fcimax", "rfci", "cfci"), "search_fci_data.npz", "search_fci_ref.npz")
     if "fci1" in which:

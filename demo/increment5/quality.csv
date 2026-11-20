@@ -1,0 +1,289 @@
+algo,score,case,group,mode,shd,adj_f1
+fges,cg_bic,cont10_s0,cont10,Tetrad (same as ETIA),7,0.9090909090909091
+fges,cg_bic,cont10_s0,cont10,default,7,0.9090909090909091
+fges,dg_bic,cont10_s0,cont10,Tetrad (same as ETIA),7,0.9090909090909091
+fges,dg_bic,cont10_s0,cont10,default,7,0.9090909090909091
+fges,sem_bic_score,cont10_s0,cont10,Tetrad (same as ETIA),7,0.9090909090909091
+fges,sem_bic_score,cont10_s0,cont10,default,7,0.9090909090909091
+fges,cg_bic,cont10_s1,cont10,Tetrad (same as ETIA),0,1.0
+fges,cg_bic,cont10_s1,cont10,default,0,1.0
+fges,dg_bic,cont10_s1,cont10,Tetrad (same as ETIA),0,1.0
+fges,dg_bic,cont10_s1,cont10,default,0,1.0
+fges,sem_bic_score,cont10_s1,cont10,Tetrad (same as ETIA),0,1.0
+fges,sem_bic_score,cont10_s1,cont10,default,0,1.0
+fges,cg_bic,cont10_s2,cont10,Tetrad (same as ETIA),0,1.0
+fges,cg_bic,cont10_s2,cont10,default,0,1.0
+fges,dg_bic,cont10_s2,cont10,Tetrad (same as ETIA),0,1.0
+fges,dg_bic,cont10_s2,cont10,default,0,1.0
+fges,sem_bic_score,cont10_s2,cont10,Tetrad (same as ETIA),0,1.0
+fges,sem_bic_score,cont10_s2,cont10,default,0,1.0
+fges,cg_bic,cont10_s3,cont10,Tetrad (same as ETIA),12,0.8484848484848485
+fges,cg_bic,cont10_s3,cont10,default,12,0.8484848484848485
+fges,dg_bic,cont10_s3,cont10,Tetrad (same as ETIA),12,0.8484848484848485
+fges,dg_bic,cont10_s3,cont10,default,12,0.8484848484848485
+fges,sem_bic_score,cont10_s3,cont10,Tetrad (same as ETIA),12,0.8484848484848485
+fges,sem_bic_score,cont10_s3,cont10,default,12,0.8484848484848485
+fges,cg_bic,cont10_s4,cont10,Tetrad (same as ETIA),11,0.742857142857143
+fges,cg_bic,cont10_s4,cont10,default,5,0.8666666666666666
+fges,dg_bic,cont10_s4,cont10,Tetrad (same as ETIA),11,0.742857142857143
+fges,dg_bic,cont10_s4,cont10,default,5,0.8666666666666666
+fges,sem_bic_score,cont10_s4,cont10,Tetrad (same as ETIA),11,0.742857142857143
+fges,sem_bic_score,cont10_s4,cont10,default,5,0.8666666666666666
+fges,cg_bic,cont10_s5,cont10,Tetrad (same as ETIA),0,1.0
+fges,cg_bic,cont10_s5,cont10,default,0,1.0
+fges,dg_bic,cont10_s5,cont10,Tetrad (same as ETIA),0,1.0
+fges,dg_bic,cont10_s5,cont10,default,0,1.0
+fges,sem_bic_score,cont10_s5,cont10,Tetrad (same as ETIA),0,1.0
+fges,sem_bic_score,cont10_s5,cont10,default,0,1.0
+fges,cg_bic,cont20_s0,cont20,Tetrad (same as ETIA),2,0.9787234042553191
+fges,cg_bic,cont20_s0,cont20,default,2,0.9787234042553191
+fges,dg_bic,cont20_s0,cont20,Tetrad (same as ETIA),2,0.9787234042553191
+fges,dg_bic,cont20_s0,cont20,default,2,0.9787234042553191
+fges,sem_bic_score,cont20_s0,cont20,Tetrad (same as ETIA),2,0.9787234042553191
+fges,sem_bic_score,cont20_s0,cont20,default,2,0.9787234042553191
+fges,cg_bic,cont20_s1,cont20,Tetrad (same as ETIA),6,0.9500000000000001
+fges,cg_bic,cont20_s1,cont20,default,6,0.9500000000000001
+fges,dg_bic,cont20_s1,cont20,Tetrad (same as ETIA),6,0.9500000000000001
+fges,dg_bic,cont20_s1,cont20,default,6,0.9500000000000001
+fges,sem_bic_score,cont20_s1,cont20,Tetrad (same as ETIA),6,0.9500000000000001
+fges,sem_bic_score,cont20_s1,cont20,default,6,0.9500000000000001
+fges,cg_bic,cont20_s2,cont20,Tetrad (same as ETIA),20,0.8717948717948717
+fges,cg_bic,cont20_s2,cont20,default,16,0.9189189189189189
+fges,dg_bic,cont20_s2,cont20,Tetrad (same as ETIA),20,0.8717948717948717
+fges,dg_bic,cont20_s2,cont20,default,16,0.9189189189189189
+fges,sem_bic_score,cont20_s2,cont20,Tetrad (same as ETIA),20,0.8717948717948717
+fges,sem_bic_score,cont20_s2,cont20,default,16,0.9189189189189189
+fges,cg_bic,cont20_s3,cont20,Tetrad (same as ETIA),8,0.923076923076923
+fges,cg_bic,cont20_s3,cont20,default,8,0.923076923076923
+fges,dg_bic,cont20_s3,cont20,Tetrad (same as ETIA),8,0.923076923076923
+fges,dg_bic,cont20_s3,cont20,default,8,0.923076923076923
+fges,sem_bic_score,cont20_s3,cont20,Tetrad (same as ETIA),8,0.923076923076923
+fges,sem_bic_score,cont20_s3,cont20,default,8,0.923076923076923
+fges,cg_bic,cont30_s0,cont30,Tetrad (same as ETIA),16,0.8823529411764706
+fges,cg_bic,cont30_s0,cont30,default,16,0.8823529411764706
+fges,dg_bic,cont30_s0,cont30,Tetrad (same as ETIA),16,0.8823529411764706
+fges,dg_bic,cont30_s0,cont30,default,16,0.8823529411764706
+fges,sem_bic_score,cont30_s0,cont30,Tetrad (same as ETIA),16,0.8823529411764706
+fges,sem_bic_score,cont30_s0,cont30,default,16,0.8823529411764706
+fges,cg_bic,cont30_s1,cont30,Tetrad (same as ETIA),5,0.9600000000000001
+fges,cg_bic,cont30_s1,cont30,default,5,0.9600000000000001
+fges,dg_bic,cont30_s1,cont30,Tetrad (same as ETIA),5,0.9600000000000001
+fges,dg_bic,cont30_s1,cont30,default,5,0.9600000000000001
+fges,sem_bic_score,cont30_s1,cont30,Tetrad (same as ETIA),5,0.9600000000000001
+fges,sem_bic_score,cont30_s1,cont30,default,5,0.9600000000000001
+fges,cg_bic,cont30_s2,cont30,Tetrad (same as ETIA),10,0.9285714285714286
+fges,cg_bic,cont30_s2,cont30,default,10,0.9285714285714286
+fges,dg_bic,cont30_s2,cont30,Tetrad (same as ETIA),10,0.9285714285714286
+fges,dg_bic,cont30_s2,cont30,default,10,0.9285714285714286
+fges,sem_bic_score,cont30_s2,cont30,Tetrad (same as ETIA),10,0.9285714285714286
+fges,sem_bic_score,cont30_s2,cont30,default,10,0.9285714285714286
+fges,cg_bic,cont50_s0,cont50,Tetrad (same as ETIA),15,0.9166666666666666
+fges,cg_bic,cont50_s0,cont50,default,15,0.9166666666666666
+fges,dg_bic,cont50_s0,cont50,Tetrad (same as ETIA),15,0.9166666666666666
+fges,dg_bic,cont50_s0,cont50,default,15,0.9166666666666666
+fges,sem_bic_score,cont50_s0,cont50,Tetrad (same as ETIA),15,0.9166666666666666
+fges,sem_bic_score,cont50_s0,cont50,default,15,0.9166666666666666
+fges,cg_bic,cont50_s1,cont50,Tetrad (same as ETIA),14,0.923076923076923
+fges,cg_bic,cont50_s1,cont50,default,14,0.923076923076923
+fges,dg_bic,cont50_s1,cont50,Tetrad (same as ETIA),14,0.923076923076923
+fges,dg_bic,cont50_s1,cont50,default,14,0.923076923076923
+fges,sem_bic_score,cont50_s1,cont50,Tetrad (same as ETIA),14,0.923076923076923
+fges,sem_bic_score,cont50_s1,cont50,default,14,0.923076923076923
+fges,bdeu,disc10_s0,disc10,Tetrad (same as ETIA),15,0.8000000000000002
+fges,bdeu,disc10_s0,disc10,default,15,0.8000000000000002
+fges,cg_bic,disc10_s0,disc10,Tetrad (same as ETIA),13,0.85
+fges,cg_bic,disc10_s0,disc10,default,13,0.85
+fges,dg_bic,disc10_s0,disc10,Tetrad (same as ETIA),12,0.8888888888888888
+fges,dg_bic,disc10_s0,disc10,default,12,0.8888888888888888
+fges,discrete_bic,disc10_s0,disc10,Tetrad (same as ETIA),10,0.8666666666666666
+fges,discrete_bic,disc10_s0,disc10,default,10,0.8666666666666666
+fges,bdeu,disc10_s1,disc10,Tetrad (same as ETIA),4,1.0
+fges,bdeu,disc10_s1,disc10,default,4,1.0
+fges,cg_bic,disc10_s1,disc10,Tetrad (same as ETIA),9,0.88
+fges,cg_bic,disc10_s1,disc10,default,9,0.88
+fges,dg_bic,disc10_s1,disc10,Tetrad (same as ETIA),0,1.0
+fges,dg_bic,disc10_s1,disc10,default,0,1.0
+fges,discrete_bic,disc10_s1,disc10,Tetrad (same as ETIA),4,1.0
+fges,discrete_bic,disc10_s1,disc10,default,4,1.0
+fges,bdeu,disc10_s2,disc10,Tetrad (same as ETIA),4,0.9523809523809523
+fges,bdeu,disc10_s2,disc10,default,4,0.9523809523809523
+fges,cg_bic,disc10_s2,disc10,Tetrad (same as ETIA),14,0.6666666666666666
+fges,cg_bic,disc10_s2,disc10,default,14,0.6666666666666666
+fges,dg_bic,disc10_s2,disc10,Tetrad (same as ETIA),8,0.9166666666666666
+fges,dg_bic,disc10_s2,disc10,default,8,0.9166666666666666
+fges,discrete_bic,disc10_s2,disc10,Tetrad (same as ETIA),3,1.0
+fges,discrete_bic,disc10_s2,disc10,default,3,1.0
+fges,cg_bic,mixed10_s0,mixed10,Tetrad (same as ETIA),10,0.88
+fges,cg_bic,mixed10_s0,mixed10,default,10,0.88
+fges,dg_bic,mixed10_s0,mixed10,Tetrad (same as ETIA),0,1.0
+fges,dg_bic,mixed10_s0,mixed10,default,0,1.0
+fges,cg_bic,mixed10_s1,mixed10,Tetrad (same as ETIA),11,0.6666666666666667
+fges,cg_bic,mixed10_s1,mixed10,default,11,0.6666666666666667
+fges,dg_bic,mixed10_s1,mixed10,Tetrad (same as ETIA),1,0.9523809523809523
+fges,dg_bic,mixed10_s1,mixed10,default,1,0.9523809523809523
+fges,cg_bic,mixed10_s2,mixed10,Tetrad (same as ETIA),14,0.7428571428571429
+fges,cg_bic,mixed10_s2,mixed10,default,14,0.7428571428571429
+fges,dg_bic,mixed10_s2,mixed10,Tetrad (same as ETIA),0,1.0
+fges,dg_bic,mixed10_s2,mixed10,default,0,1.0
+gfci,cg_bic,cont10_s0,cont10,Tetrad (same as ETIA),0,1.0
+gfci,cg_bic,cont10_s0,cont10,default,0,1.0
+gfci,dg_bic,cont10_s0,cont10,Tetrad (same as ETIA),0,1.0
+gfci,dg_bic,cont10_s0,cont10,default,0,1.0
+gfci,sem_bic_score,cont10_s0,cont10,Tetrad (same as ETIA),0,1.0
+gfci,sem_bic_score,cont10_s0,cont10,default,0,1.0
+gfci,cg_bic,cont10_s1,cont10,Tetrad (same as ETIA),6,0.923076923076923
+gfci,cg_bic,cont10_s1,cont10,default,2,0.9565217391304348
+gfci,dg_bic,cont10_s1,cont10,Tetrad (same as ETIA),6,0.923076923076923
+gfci,dg_bic,cont10_s1,cont10,default,2,0.9565217391304348
+gfci,sem_bic_score,cont10_s1,cont10,Tetrad (same as ETIA),6,0.923076923076923
+gfci,sem_bic_score,cont10_s1,cont10,default,2,0.9565217391304348
+gfci,cg_bic,cont10_s2,cont10,Tetrad (same as ETIA),0,1.0
+gfci,cg_bic,cont10_s2,cont10,default,0,1.0
+gfci,dg_bic,cont10_s2,cont10,Tetrad (same as ETIA),0,1.0
+gfci,dg_bic,cont10_s2,cont10,default,0,1.0
+gfci,sem_bic_score,cont10_s2,cont10,Tetrad (same as ETIA),0,1.0
+gfci,sem_bic_score,cont10_s2,cont10,default,0,1.0
+gfci,cg_bic,cont10_s3,cont10,Tetrad (same as ETIA),6,0.888888888888889
+gfci,cg_bic,cont10_s3,cont10,default,5,0.9166666666666666
+gfci,dg_bic,cont10_s3,cont10,Tetrad (same as ETIA),6,0.888888888888889
+gfci,dg_bic,cont10_s3,cont10,default,5,0.9166666666666666
+gfci,sem_bic_score,cont10_s3,cont10,Tetrad (same as ETIA),6,0.888888888888889
+gfci,sem_bic_score,cont10_s3,cont10,default,5,0.9166666666666666
+gfci,cg_bic,cont10_s4,cont10,Tetrad (same as ETIA),10,0.8571428571428571
+gfci,cg_bic,cont10_s4,cont10,default,2,0.9565217391304348
+gfci,dg_bic,cont10_s4,cont10,Tetrad (same as ETIA),10,0.8571428571428571
+gfci,dg_bic,cont10_s4,cont10,default,2,0.9565217391304348
+gfci,sem_bic_score,cont10_s4,cont10,Tetrad (same as ETIA),10,0.8571428571428571
+gfci,sem_bic_score,cont10_s4,cont10,default,2,0.9565217391304348
+gfci,cg_bic,cont10_s5,cont10,Tetrad (same as ETIA),1,0.9473684210526316
+gfci,cg_bic,cont10_s5,cont10,default,0,1.0
+gfci,dg_bic,cont10_s5,cont10,Tetrad (same as ETIA),1,0.9473684210526316
+gfci,dg_bic,cont10_s5,cont10,default,0,1.0
+gfci,sem_bic_score,cont10_s5,cont10,Tetrad (same as ETIA),1,0.9473684210526316
+gfci,sem_bic_score,cont10_s5,cont10,default,0,1.0
+gfci,cg_bic,cont20_s0,cont20,Tetrad (same as ETIA),23,0.898550724637681
+gfci,cg_bic,cont20_s0,cont20,default,19,0.76
+gfci,dg_bic,cont20_s0,cont20,Tetrad (same as ETIA),23,0.898550724637681
+gfci,dg_bic,cont20_s0,cont20,default,19,0.76
+gfci,sem_bic_score,cont20_s0,cont20,Tetrad (same as ETIA),23,0.898550724637681
+gfci,sem_bic_score,cont20_s0,cont20,default,19,0.76
+gfci,cg_bic,cont20_s1,cont20,Tetrad (same as ETIA),11,0.9722222222222222
+gfci,cg_bic,cont20_s1,cont20,default,19,0.8333333333333333
+gfci,dg_bic,cont20_s1,cont20,Tetrad (same as ETIA),11,0.9722222222222222
+gfci,dg_bic,cont20_s1,cont20,default,19,0.8333333333333333
+gfci,sem_bic_score,cont20_s1,cont20,Tetrad (same as ETIA),11,0.9722222222222222
+gfci,sem_bic_score,cont20_s1,cont20,default,19,0.8333333333333333
+gfci,cg_bic,cont20_s2,cont20,Tetrad (same as ETIA),10,1.0
+gfci,cg_bic,cont20_s2,cont20,default,16,0.8636363636363636
+gfci,dg_bic,cont20_s2,cont20,Tetrad (same as ETIA),10,1.0
+gfci,dg_bic,cont20_s2,cont20,default,16,0.8636363636363636
+gfci,sem_bic_score,cont20_s2,cont20,Tetrad (same as ETIA),10,1.0
+gfci,sem_bic_score,cont20_s2,cont20,default,16,0.8636363636363636
+gfci,cg_bic,cont20_s3,cont20,Tetrad (same as ETIA),23,0.8852459016393444
+gfci,cg_bic,cont20_s3,cont20,default,15,0.7755102040816326
+gfci,dg_bic,cont20_s3,cont20,Tetrad (same as ETIA),23,0.8852459016393444
+gfci,dg_bic,cont20_s3,cont20,default,15,0.7755102040816326
+gfci,sem_bic_score,cont20_s3,cont20,Tetrad (same as ETIA),23,0.8852459016393444
+gfci,sem_bic_score,cont20_s3,cont20,default,15,0.7755102040816326
+gfci,cg_bic,cont30_s0,cont30,Tetrad (same as ETIA),27,0.8192771084337349
+gfci,cg_bic,cont30_s0,cont30,default,21,0.8387096774193548
+gfci,dg_bic,cont30_s0,cont30,Tetrad (same as ETIA),27,0.8192771084337349
+gfci,dg_bic,cont30_s0,cont30,default,21,0.8387096774193548
+gfci,sem_bic_score,cont30_s0,cont30,Tetrad (same as ETIA),27,0.8192771084337349
+gfci,sem_bic_score,cont30_s0,cont30,default,21,0.8387096774193548
+gfci,cg_bic,cont30_s1,cont30,Tetrad (same as ETIA),20,0.9350649350649352
+gfci,cg_bic,cont30_s1,cont30,default,9,0.9090909090909091
+gfci,dg_bic,cont30_s1,cont30,Tetrad (same as ETIA),20,0.9350649350649352
+gfci,dg_bic,cont30_s1,cont30,default,9,0.9090909090909091
+gfci,sem_bic_score,cont30_s1,cont30,Tetrad (same as ETIA),20,0.9350649350649352
+gfci,sem_bic_score,cont30_s1,cont30,default,9,0.9090909090909091
+gfci,cg_bic,cont30_s2,cont30,Tetrad (same as ETIA),42,0.8222222222222222
+gfci,cg_bic,cont30_s2,cont30,default,24,0.8115942028985507
+gfci,dg_bic,cont30_s2,cont30,Tetrad (same as ETIA),42,0.8222222222222222
+gfci,dg_bic,cont30_s2,cont30,default,24,0.8115942028985507
+gfci,sem_bic_score,cont30_s2,cont30,Tetrad (same as ETIA),42,0.8222222222222222
+gfci,sem_bic_score,cont30_s2,cont30,default,24,0.8115942028985507
+gfci,cg_bic,cont50_s0,cont50,Tetrad (same as ETIA),21,0.9402985074626865
+gfci,cg_bic,cont50_s0,cont50,default,31,0.8739495798319328
+gfci,dg_bic,cont50_s0,cont50,Tetrad (same as ETIA),21,0.9402985074626865
+gfci,dg_bic,cont50_s0,cont50,default,31,0.8739495798319328
+gfci,sem_bic_score,cont50_s0,cont50,Tetrad (same as ETIA),21,0.9402985074626865
+gfci,sem_bic_score,cont50_s0,cont50,default,31,0.8739495798319328
+gfci,cg_bic,cont50_s1,cont50,Tetrad (same as ETIA),35,0.891566265060241
+gfci,cg_bic,cont50_s1,cont50,default,29,0.8226950354609929
+gfci,dg_bic,cont50_s1,cont50,Tetrad (same as ETIA),35,0.891566265060241
+gfci,dg_bic,cont50_s1,cont50,default,29,0.8226950354609929
+gfci,sem_bic_score,cont50_s1,cont50,Tetrad (same as ETIA),35,0.891566265060241
+gfci,sem_bic_score,cont50_s1,cont50,default,29,0.8226950354609929
+gfci,bdeu,disc10_s0,disc10,Tetrad (same as ETIA),2,0.9333333333333333
+gfci,bdeu,disc10_s0,disc10,default,2,0.9333333333333333
+gfci,cg_bic,disc10_s0,disc10,Tetrad (same as ETIA),9,0.8
+gfci,cg_bic,disc10_s0,disc10,default,0,1.0
+gfci,dg_bic,disc10_s0,disc10,Tetrad (same as ETIA),0,1.0
+gfci,dg_bic,disc10_s0,disc10,default,0,1.0
+gfci,discrete_bic,disc10_s0,disc10,Tetrad (same as ETIA),2,0.9333333333333333
+gfci,discrete_bic,disc10_s0,disc10,default,2,0.9333333333333333
+gfci,bdeu,disc10_s0,disc10,Tetrad (same as ETIA),2,0.9333333333333333
+gfci,bdeu,disc10_s0,disc10,default,2,0.9333333333333333
+gfci,cg_bic,disc10_s0,disc10,Tetrad (same as ETIA),9,0.8
+gfci,cg_bic,disc10_s0,disc10,default,0,1.0
+gfci,dg_bic,disc10_s0,disc10,Tetrad (same as ETIA),0,1.0
+gfci,dg_bic,disc10_s0,disc10,default,0,1.0
+gfci,discrete_bic,disc10_s0,disc10,Tetrad (same as ETIA),2,0.9333333333333333
+gfci,discrete_bic,disc10_s0,disc10,default,2,0.9333333333333333
+gfci,bdeu,disc10_s1,disc10,Tetrad (same as ETIA),15,0.6666666666666666
+gfci,bdeu,disc10_s1,disc10,default,15,0.6666666666666666
+gfci,cg_bic,disc10_s1,disc10,Tetrad (same as ETIA),17,0.875
+gfci,cg_bic,disc10_s1,disc10,default,16,0.8571428571428571
+gfci,dg_bic,disc10_s1,disc10,Tetrad (same as ETIA),12,0.896551724137931
+gfci,dg_bic,disc10_s1,disc10,default,12,0.896551724137931
+gfci,discrete_bic,disc10_s1,disc10,Tetrad (same as ETIA),15,0.72
+gfci,discrete_bic,disc10_s1,disc10,default,15,0.6666666666666666
+gfci,bdeu,disc10_s1,disc10,Tetrad (same as ETIA),15,0.6666666666666666
+gfci,bdeu,disc10_s1,disc10,default,15,0.6666666666666666
+gfci,cg_bic,disc10_s1,disc10,Tetrad (same as ETIA),17,0.875
+gfci,cg_bic,disc10_s1,disc10,default,15,0.896551724137931
+gfci,dg_bic,disc10_s1,disc10,Tetrad (same as ETIA),12,0.896551724137931
+gfci,dg_bic,disc10_s1,disc10,default,12,0.896551724137931
+gfci,discrete_bic,disc10_s1,disc10,Tetrad (same as ETIA),15,0.72
+gfci,discrete_bic,disc10_s1,disc10,default,15,0.6666666666666666
+gfci,bdeu,disc10_s2,disc10,Tetrad (same as ETIA),11,0.923076923076923
+gfci,bdeu,disc10_s2,disc10,default,11,0.923076923076923
+gfci,cg_bic,disc10_s2,disc10,Tetrad (same as ETIA),14,0.8571428571428571
+gfci,cg_bic,disc10_s2,disc10,default,8,0.923076923076923
+gfci,dg_bic,disc10_s2,disc10,Tetrad (same as ETIA),6,1.0
+gfci,dg_bic,disc10_s2,disc10,default,5,1.0
+gfci,discrete_bic,disc10_s2,disc10,Tetrad (same as ETIA),11,0.923076923076923
+gfci,discrete_bic,disc10_s2,disc10,default,11,0.923076923076923
+gfci,bdeu,disc10_s2,disc10,Tetrad (same as ETIA),11,0.923076923076923
+gfci,bdeu,disc10_s2,disc10,default,11,0.923076923076923
+gfci,cg_bic,disc10_s2,disc10,Tetrad (same as ETIA),14,0.8571428571428571
+gfci,cg_bic,disc10_s2,disc10,default,8,0.923076923076923
+gfci,dg_bic,disc10_s2,disc10,Tetrad (same as ETIA),6,1.0
+gfci,dg_bic,disc10_s2,disc10,default,5,1.0
+gfci,discrete_bic,disc10_s2,disc10,Tetrad (same as ETIA),11,0.923076923076923
+gfci,discrete_bic,disc10_s2,disc10,default,11,0.923076923076923
+gfci,cg_bic,mixed10_s0,mixed10,Tetrad (same as ETIA),11,0.8333333333333333
+gfci,cg_bic,mixed10_s0,mixed10,default,7,0.6666666666666666
+gfci,dg_bic,mixed10_s0,mixed10,Tetrad (same as ETIA),2,0.9473684210526316
+gfci,dg_bic,mixed10_s0,mixed10,default,5,0.8235294117647058
+gfci,cg_bic,mixed10_s0,mixed10,Tetrad (same as ETIA),11,0.8333333333333333
+gfci,cg_bic,mixed10_s0,mixed10,default,8,0.9523809523809523
+gfci,dg_bic,mixed10_s0,mixed10,Tetrad (same as ETIA),2,0.9473684210526316
+gfci,dg_bic,mixed10_s0,mixed10,default,2,0.9473684210526316
+gfci,cg_bic,mixed10_s1,mixed10,Tetrad (same as ETIA),14,0.7058823529411765
+gfci,cg_bic,mixed10_s1,mixed10,default,9,0.7200000000000001
+gfci,dg_bic,mixed10_s1,mixed10,Tetrad (same as ETIA),2,0.9655172413793104
+gfci,dg_bic,mixed10_s1,mixed10,default,8,0.8
+gfci,cg_bic,mixed10_s1,mixed10,Tetrad (same as ETIA),15,0.7058823529411765
+gfci,cg_bic,mixed10_s1,mixed10,default,5,0.888888888888889
+gfci,dg_bic,mixed10_s1,mixed10,Tetrad (same as ETIA),2,0.9655172413793104
+gfci,dg_bic,mixed10_s1,mixed10,default,2,0.9655172413793104
+gfci,cg_bic,mixed10_s2,mixed10,Tetrad (same as ETIA),15,0.8148148148148148
+gfci,cg_bic,mixed10_s2,mixed10,default,8,0.7368421052631579
+gfci,dg_bic,mixed10_s2,mixed10,Tetrad (same as ETIA),9,0.8799999999999999
+gfci,dg_bic,mixed10_s2,mixed10,default,9,0.8
+gfci,cg_bic,mixed10_s2,mixed10,Tetrad (same as ETIA),14,0.8148148148148148
+gfci,cg_bic,mixed10_s2,mixed10,default,6,0.9565217391304348
+gfci,dg_bic,mixed10_s2,mixed10,Tetrad (same as ETIA),9,0.8799999999999999
+gfci,dg_bic,mixed10_s2,mixed10,default,6,0.9565217391304348

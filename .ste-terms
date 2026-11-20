@@ -13,3 +13,4 @@ return         # a function returns a value
 call           # a function call
 discriminating   # discriminating path
 list             # a Java List
+fixture        # a reference file of Tetrad outputs

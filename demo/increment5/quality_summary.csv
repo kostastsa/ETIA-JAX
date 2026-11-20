@@ -1,0 +1,25 @@
+algo,group,mode,shd_mean,adj_f1_mean,runs
+fges,cont10,Tetrad (same as ETIA),5.0,0.9167388167388167,18
+fges,cont10,default,4.0,0.9373737373737373,18
+fges,cont20,Tetrad (same as ETIA),9.0,0.9308987997817785,12
+fges,cont20,default,8.0,0.9426798115627902,12
+fges,cont30,Tetrad (same as ETIA),10.333333333333334,0.9236414565826332,9
+fges,cont30,default,10.333333333333334,0.9236414565826332,9
+fges,cont50,Tetrad (same as ETIA),14.5,0.9198717948717948,6
+fges,cont50,default,14.5,0.9198717948717948,6
+fges,disc10,Tetrad (same as ETIA),8.0,0.9017724867724867,12
+fges,disc10,default,8.0,0.9017724867724867,12
+fges,mixed10,Tetrad (same as ETIA),6.0,0.8736507936507937,6
+fges,mixed10,default,6.0,0.8736507936507937,6
+gfci,cont10,Tetrad (same as ETIA),3.8333333333333335,0.9360795150268834,18
+gfci,cont10,default,1.5,0.9716183574879227,18
+gfci,cont20,Tetrad (same as ETIA),16.75,0.9390047121248118,12
+gfci,cont20,default,17.25,0.8081199752628324,12
+gfci,cont30,Tetrad (same as ETIA),29.666666666666668,0.8588547552402974,9
+gfci,cont30,default,18.0,0.8531315964696048,9
+gfci,cont50,Tetrad (same as ETIA),28.0,0.9159323862614638,6
+gfci,cont50,default,30.0,0.8483223076464629,6
+gfci,disc10,Tetrad (same as ETIA),9.5,0.8773484800639973,24
+gfci,disc10,default,8.041666666666666,0.8952191486674246,24
+gfci,mixed10,Tetrad (same as ETIA),8.833333333333334,0.8578193605868778,12
+gfci,mixed10,default,6.25,0.8511864304714319,12
