@@ -1,0 +1,13 @@
+{
+ "searches": 216,
+ "tetrad_crashes": 11,
+ "deterministic": 197,
+ "deterministic_same": 195,
+ "race_free_cases": 96,
+ "race_free_among": 48,
+ "nondeterministic": 12,
+ "nondeterministic_among": 12,
+ "all_among": 216,
+ "median_speedup_default": 1.5987054252834436,
+ "median_speedup_compat": 1.6740107053214293
+}

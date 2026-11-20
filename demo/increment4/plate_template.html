@@ -1,0 +1,104 @@
+<title>ETIA-JAX increment 4</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 4 of 10 · the FCI family</div>
+    <h1>FCI, FCI-Max, RFCI and CFCI in JAX</h1>
+    <p class="lede">The FCI family of ETIA (Tetrad 7.6.5) and of ETIA-JAX on 21 datasets with latent variables: the same PAGs, what Tetrad does differently from the textbook, the run times, and the accuracy.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>Same PAGs as ETIA <span class="tag">agreement.csv</span></h2>
+    <div id="agree"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">by_group_long.csv · by_group.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="algo1"></div></div></div>
+    <div id="time_chart"></div>
+    <div id="time_table"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the searches <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Accuracy: Tetrad mode and textbook default <span class="tag">quality_summary.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="algo2"></div></div></div>
+    <div id="quality_chart"></div>
+    <div id="quality_table"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What Tetrad 7.6.5 does in the FCI family</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What Tetrad does</th><th>ETIA-JAX</th></tr>
+      <tr><td>Threads (all four)</td><td>One CI test object is used from parallel threads; χ² and G² are not thread-safe: FCI crashes on 11 of 12 discrete searches, other p-values are corrupted.</td><td>No threads in the search; the fixtures use a race-free Tetrad (serialized test calls).</td></tr>
+      <tr><td>R4 order</td><td>Parallel tasks over a HashSet of DiscriminatingPath objects (identity hash): the order varies between runs.</td><td>A fixed order; in all 8 such cases the result is one of Tetrad's outputs.</td></tr>
+      <tr><td>R4 path length</td><td>The collider path is stored in the opposite order, so only the shortest discriminating paths pass.</td><td>Default: any length. <code>tetrad_compat</code>: the same as Tetrad.</td></tr>
+      <tr><td>FCI R0</td><td>A new greedy search for separating sets, not the FAS sets.</td><td>Default: FAS sets. <code>tetrad_compat</code>: greedy.</td></tr>
+      <tr><td>Rule schedule</td><td>R4 only if R1–R3 changed a mark in the cycle; R5–R7 (selection bias) applied; R10 never fires (List compared with an Edge).</td><td>Default: Zhang's R1–R4, R8–R10. <code>tetrad_compat</code>: the same as Tetrad.</td></tr>
+      <tr><td>Possible-m-sep</td><td>FCI: the search stays on pairs (x, ·); CFCI: a second variant that tests only x's side.</td><td>Default: Possible-D-SEP of Spirtes et al. <code>tetrad_compat</code>: both variants.</td></tr>
+      <tr><td>CFCI sepsets</td><td>Keeps its own map, empty at the first R0.</td><td><code>tetrad_compat</code>: the same.</td></tr>
+    </table>
+    <div id="defects_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment4/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, Java 17). Times on algo29: Intel i9-14900K, RTX 4090, float64.</footer>
+</div>
+<script>
+const HOWTO = @HOWTO@;
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('defects_howto').innerHTML = box('table', HOWTO.defects);
+pv.need(['summary.json', 'agreement.csv', 'by_group.csv', 'by_group_long.csv', 'timing.csv', 'quality_summary.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.all_among} / ${s.searches}`, 'PAGs that agree', 'with ETIA, or with race-free Tetrad') +
+    card(`${s.tetrad_crashes}`, 'Tetrad crashes', 'FCI on discrete data (thread safety)') +
+    card(`${s.nondeterministic}`, 'Nondeterministic in Tetrad', `ETIA-JAX is one of its outputs in ${s.nondeterministic_among}`) +
+    card(`${pv.fmt(s.median_speedup_default, 1)}×`, 'Median speed-up, default', `Tetrad mode: ${pv.fmt(s.median_speedup_compat, 2)}×`);
+});
+
+pv.table('#agree', 'agreement.csv', {howto: HOWTO.agree});
+
+const ALG = [['fci', 'FCI'], ['fcimax', 'FCI-Max'], ['rfci', 'RFCI'], ['cfci', 'CFCI']];
+let algo1 = 'fci', algo2 = 'fci';
+const drawTime = () => pv.chart('#time_chart', 'by_group_long.csv', {type: 'bar', x: 'group', y: 'seconds', color: 'who',
+  'log-y': true, 'x-label': 'dataset group', 'y-label': 'median seconds per search (log scale)', height: 380, wide: true,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.algo === algo1)), howto: HOWTO.time_chart});
+pv.seg('#algo1', {options: ALG, value: algo1, onChange: v => { algo1 = v; drawTime(); }});
+drawTime();
+pv.table('#time_table', 'by_group.csv', {
+  labels: 'etia_s: ETIA | etia_prep_s: ETIA data copy | gpu_compat_s: Tetrad mode GPU | cpu_compat_s: Tetrad mode CPU | gpu_default_s: default GPU | cpu_default_s: default CPU',
+  dec: 'etia_s:4 etia_prep_s:4 gpu_compat_s:4 cpu_compat_s:4 gpu_default_s:4 cpu_default_s:4', wide: true, howto: HOWTO.time_table});
+
+pv.table('#timing', 'timing.csv', {
+  cols: 'case,test,alpha,algo,p,etia_s,gpu_compat_s,cpu_compat_s,gpu_default_s,cpu_default_s,speedup_compat,speedup_default,tetrad_crashed',
+  labels: 'etia_s: ETIA | gpu_compat_s: Tetrad mode GPU | cpu_compat_s: Tetrad mode CPU | gpu_default_s: default GPU | cpu_default_s: default CPU | speedup_compat: speed-up compat | speedup_default: speed-up default',
+  dec: 'etia_s:4 gpu_compat_s:3 cpu_compat_s:3 gpu_default_s:4 cpu_default_s:4 speedup_compat:2 speedup_default:1',
+  sort: 'speedup_default:desc', height: 460, wide: true, howto: HOWTO.timing});
+
+const drawQuality = () => pv.chart('#quality_chart', 'quality_summary.csv', {type: 'bar', x: 'group', y: 'shd_mean', color: 'mode',
+  'x-label': 'dataset group', 'y-label': 'mean SHD to the correct PAG', height: 320,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.algo === algo2)), howto: HOWTO.quality_chart});
+pv.seg('#algo2', {options: ALG, value: algo2, onChange: v => { algo2 = v; drawQuality(); }});
+drawQuality();
+pv.table('#quality_table', 'quality_summary.csv', {labels: 'shd_mean: mean SHD | adj_f1_mean: adjacency F1',
+  dec: 'shd_mean:2 adj_f1_mean:3', howto: HOWTO.quality_table});
+
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

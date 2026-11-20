@@ -24,8 +24,8 @@ def _key(x, y, Z, symmetric=True):
 
 
 class CICache:
-    def __init__(self, ci, alpha):
-        self.ci, self.alpha = ci, float(alpha)
+    def __init__(self, ci, alpha, chunk=1 << 16):
+        self.ci, self.alpha, self.chunk = ci, float(alpha), int(chunk)
         self.facts = {}       # key -> (independent, stat, p), see _key
         self.store = {}       # (x, y, Z) -> (independent, stat, p): computed, directed
         self.n_tests = 0      # queries answered (as Tetrad counts them)
@@ -52,13 +52,48 @@ class CICache:
             need.setdefault(len(Z), {})[d] = None
         for k, qs in need.items():
             qs = list(qs)
-            xs = np.array([q[0] for q in qs], dtype=np.int32)
-            ys = np.array([q[1] for q in qs], dtype=np.int32)
-            Zs = np.array([q[2] for q in qs], dtype=np.int32).reshape(len(qs), k)
-            stats, ps = self.ci.test_batch(xs, ys, Zs)
-            self.n_computed += len(qs)
-            for q, s, p in zip(qs, stats, ps):
-                self.store[q] = (self.ci.decide(float(s), float(p), self.alpha), float(s), float(p))
+            for c0 in range(0, len(qs), self.chunk):     # bounded device memory per call
+                part = qs[c0:c0 + self.chunk]
+                xs = np.array([q[0] for q in part], dtype=np.int32)
+                ys = np.array([q[1] for q in part], dtype=np.int32)
+                Zs = np.array([q[2] for q in part], dtype=np.int32).reshape(len(part), k)
+                stats, ps = self.ci.test_batch(xs, ys, Zs)
+                self.n_computed += len(part)
+                for q, s, p in zip(part, stats, ps):
+                    self.store[q] = (self.ci.decide(float(s), float(p), self.alpha), float(s), float(p))
+
+    def first_independent(self, x, y, Zs):
+        """The index of the first row Z of ``Zs`` (an (m, k) array, in search
+        order) with x _||_ y | Z, or -1. A batched test computes the rows in
+        chunks of growing size and stops at the first chunk with a hit; the
+        results do not go into the cache (for very many sets, as in
+        Possible-D-SEP). The answer is the same as a query of each row in turn."""
+        Zs = np.asarray(Zs, dtype=np.int32)
+        m = len(Zs)
+        if not self.batched:
+            for i in range(m):
+                if self.independent(x, y, tuple(int(z) for z in Zs[i])):
+                    return i
+            return -1
+        plain = type(self.ci).decide is CITest.decide
+        i, size = 0, 256
+        while i < m:
+            part = Zs[i:i + size]
+            stats, ps = self.ci.test_batch(np.full(len(part), x, np.int32), np.full(len(part), y, np.int32), part)
+            stats, ps = np.asarray(stats), np.asarray(ps)
+            if plain:
+                dec = (stats <= self.alpha) if self.ci.fixed_threshold else (ps > self.alpha)
+            else:
+                dec = np.array([self.ci.decide(float(a), float(b), self.alpha) for a, b in zip(stats, ps)], bool)
+            self.n_computed += len(part)
+            hit = np.flatnonzero(dec)
+            if len(hit):
+                self.n_tests += int(hit[0]) + 1
+                return i + int(hit[0])
+            self.n_tests += len(part)
+            i += len(part)
+            size = min(size * 4, self.chunk)
+        return -1
 
     def query(self, x, y, Z):
         """(independent, stat, p) of x _||_ y | Z, as Tetrad's cached test."""

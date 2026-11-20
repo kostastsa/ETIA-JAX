@@ -1,0 +1,49 @@
+algo,group,mode,shd_mean,adj_f1_mean,runs
+cfci,cont10,Tetrad (same as ETIA),1.6666666666666667,0.964975845410628,6
+cfci,cont10,default (textbook),1.6666666666666667,0.964975845410628,6
+cfci,cont20,Tetrad (same as ETIA),18.5,0.8258989642368575,4
+cfci,cont20,default (textbook),20.0,0.7511792918327873,4
+cfci,cont30,Tetrad (same as ETIA),26.333333333333332,0.8318884818884819,3
+cfci,cont30,default (textbook),21.666666666666668,0.7882245069745069,3
+cfci,cont50,Tetrad (same as ETIA),30.0,0.8381542699724518,2
+cfci,cont50,default (textbook),42.5,0.8049601196410767,2
+cfci,disc10,Tetrad (same as ETIA),6.5,0.9655172413793104,6
+cfci,disc10,default (textbook),6.5,0.9655172413793104,6
+cfci,mixed10,Tetrad (same as ETIA),8.0,0.8612671378800411,6
+cfci,mixed10,default (textbook),9.166666666666666,0.7172007590111038,6
+fci,cont10,Tetrad (same as ETIA),2.8333333333333335,0.964975845410628,6
+fci,cont10,default (textbook),3.6666666666666665,0.964975845410628,6
+fci,cont20,Tetrad (same as ETIA),17.25,0.8312247787731983,4
+fci,cont20,default (textbook),22.75,0.7511792918327873,4
+fci,cont30,Tetrad (same as ETIA),23.0,0.8318884818884819,3
+fci,cont30,default (textbook),25.666666666666668,0.7882245069745069,3
+fci,cont50,Tetrad (same as ETIA),38.5,0.8381542699724518,2
+fci,cont50,default (textbook),41.5,0.8049601196410767,2
+fci,disc10,Tetrad (same as ETIA),5.5,0.9518944231587909,6
+fci,disc10,default (textbook),6.0,0.9655172413793104,6
+fci,mixed10,Tetrad (same as ETIA),8.666666666666666,0.8481462981462982,6
+fci,mixed10,default (textbook),9.5,0.7172007590111038,6
+fcimax,cont10,Tetrad (same as ETIA),3.5,0.964975845410628,6
+fcimax,cont10,default (textbook),3.5,0.964975845410628,6
+fcimax,cont20,Tetrad (same as ETIA),18.0,0.8312247787731983,4
+fcimax,cont20,default (textbook),20.25,0.7511792918327873,4
+fcimax,cont30,Tetrad (same as ETIA),24.666666666666668,0.8318884818884819,3
+fcimax,cont30,default (textbook),23.333333333333332,0.7882245069745069,3
+fcimax,cont50,Tetrad (same as ETIA),37.5,0.8461451375523605,2
+fcimax,cont50,default (textbook),42.0,0.8049601196410767,2
+fcimax,disc10,Tetrad (same as ETIA),6.333333333333333,0.9655172413793104,6
+fcimax,disc10,default (textbook),5.333333333333333,0.9655172413793104,6
+fcimax,mixed10,Tetrad (same as ETIA),7.5,0.8618764568764569,6
+fcimax,mixed10,default (textbook),8.5,0.7172007590111038,6
+rfci,cont10,Tetrad (same as ETIA),2.3333333333333335,0.964975845410628,6
+rfci,cont10,default (textbook),3.6666666666666665,0.964975845410628,6
+rfci,cont20,Tetrad (same as ETIA),20.0,0.8312247787731983,4
+rfci,cont20,default (textbook),20.75,0.8294294990723562,4
+rfci,cont30,Tetrad (same as ETIA),25.0,0.8318884818884819,3
+rfci,cont30,default (textbook),26.333333333333332,0.8299617552334944,3
+rfci,cont50,Tetrad (same as ETIA),39.5,0.8490738102023369,2
+rfci,cont50,default (textbook),39.5,0.8402777777777777,2
+rfci,disc10,Tetrad (same as ETIA),6.0,0.9655172413793104,6
+rfci,disc10,default (textbook),6.0,0.9655172413793104,6
+rfci,mixed10,Tetrad (same as ETIA),8.166666666666666,0.8659087149409731,6
+rfci,mixed10,default (textbook),8.0,0.8797335997335997,6

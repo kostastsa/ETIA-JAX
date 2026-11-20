@@ -16,11 +16,20 @@ OUT = Path(__file__).parent / "fixtures"
 ETIA_ROOT = Path.home() / "PROJECTS" / "ETIA"
 
 
-def start_jvm():
+def start_jvm(one_cpu=False):
+    """ETIA's JVM. With one_cpu, the JVM sees one processor
+    (-XX:ActiveProcessorCount=1): Tetrad's parallel streams and ForkJoin
+    pools then run on one thread, so its searches have no races."""
     sys.path.insert(0, str(ETIA_ROOT))
+    import jpype
+    if one_cpu and not jpype.isJVMStarted():
+        import glob, os
+        jars = glob.glob(str(ETIA_ROOT / "ETIA" / "CausalLearning" / "algorithms" / "jar_files" / "*.jar"))
+        jvm = os.path.join(os.environ["JAVA_HOME"], "lib", "server", "libjvm.so")
+        jpype.startJVM(jvm, "-ea", "-XX:ActiveProcessorCount=1", classpath=":".join(jars), convertStrings=False)
+        return jpype
     from ETIA.utils.jvm_manager import start_jvm as sj
     sj("ETIA.CausalLearning.algorithms.jar_files")
-    import jpype
     return jpype
 
 
@@ -276,13 +285,16 @@ def make_ci_scale(jpype):
 # setStable(true) and setGuaranteeCpdag(true). Times: data preparation (ETIA's
 # prepare_data_tetrad) and the search itself.
 # ---------------------------------------------------------------------------
-def make_search(jpype, algos=("pc", "cpc")):
+TETRAD_CLASS = {"pc": "Pc", "cpc": "Cpc", "fci": "Fci", "fcimax": "FciMax", "rfci": "Rfci", "cfci": "Cfci"}
+
+
+def make_search(jpype, algos=("pc", "cpc"), data_file="search_data.npz", out_file="search_ref.npz"):
     import time
     import pandas as pd
     from ETIA.data.Dataset import Dataset
     from ETIA.CausalLearning.algorithms.utils import prepare_data_tetrad
     S = "edu.cmu.tetrad.search."
-    f = np.load(OUT / "search_data.npz")
+    f = np.load(OUT / data_file)
     out = {}
     for case in f["cases"]:
         case = str(case)
@@ -302,26 +314,36 @@ def make_search(jpype, algos=("pc", "cpc")):
                 for algo in algos:
                     test = _tetrad_test(jpype, test_name, ds)
                     test.setAlpha(float(alpha)) if hasattr(test, "setAlpha") else None
-                    alg = jpype.JClass(S + ("Pc" if algo == "pc" else "Cpc"))(test)
-                    alg.setStable(True)
-                    alg.setGuaranteeCpdag(True)
+                    alg = jpype.JClass(S + TETRAD_CLASS[algo])(test)
+                    if algo in ("pc", "cpc"):          # ETIA sets these two for PC and CPC only
+                        alg.setStable(True)
+                        alg.setGuaranteeCpdag(True)
                     t0 = time.perf_counter()
-                    g = alg.search()
-                    dt = time.perf_counter() - t0
                     key = f"{case}|{test_name}|{float(alpha)}|{algo}"
+                    try:
+                        g = alg.search()
+                    except Exception as exc:                  # a crash inside Tetrad
+                        frames = [str(f) for f in exc.getStackTrace()[:6]] if hasattr(exc, "getStackTrace") else []
+                        out[key + "|error"] = np.array(f"{exc.__class__.__name__}: {exc} | " + " < ".join(frames))
+                        out[key + "|time"] = np.array(time.perf_counter() - t0)
+                        print(f"{key:40s} ERROR {exc}", flush=True)
+                        continue
+                    dt = time.perf_counter() - t0
                     out[key + "|graph"] = to_marks(g, names)
                     out[key + "|time"] = np.array(dt)
                     out[key + "|ntests"] = np.array(int(alg.getNumIndependenceTests())
                                                     if hasattr(alg, "getNumIndependenceTests") else -1)
                     print(f"{key:40s} {dt:8.3f}s", flush=True)
-    np.savez_compressed(OUT / "search_ref.npz", **out)
-    print("wrote", OUT / "search_ref.npz")
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
 
 
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
-    jp = start_jvm()
     which = sys.argv[1:] or ["graphs"]
+    jp = start_jvm(one_cpu="fci1" in which)
+    if "fci1" in which:
+        print("processors seen by the JVM:", jp.JClass("java.lang.Runtime").getRuntime().availableProcessors())
     if "graphs" in which:
         make_graphs(jp)
     if "ci" in which:
@@ -330,3 +352,7 @@ if __name__ == "__main__":
         make_ci_scale(jp)
     if "search" in which:
         make_search(jp)
+    if "fci" in which:
+        make_search(jp, ("fci", "fcimax", "rfci", "cfci"), "search_fci_data.npz", "search_fci_ref.npz")
+    if "fci1" in which:
+        make_search(jp, ("fci", "fcimax", "rfci", "cfci"), "search_fci_data.npz", "search_fci_ref_1cpu.npz")

@@ -90,6 +90,28 @@ res = pc(FisherZ(X), alpha=0.05, tetrad_compat=True)   # the same graph as ETIA 
 - **The sequence of the orientation steps.** Tetrad visits the adjacent nodes and the edges in the sequence of Java hash sets. The collider rules and the Meek rules give different results for a different sequence. Thus ETIA-JAX copies this sequence in `tetrad_compat` mode.
 - **The cache of the CI tests.** Some tests are not symmetric (CG-LRT, DG-LRT). For these tests, the cache of Tetrad gives a different answer for each direction of a pair. ETIA-JAX does the same.
 
+## FCI, FCI-Max, RFCI and CFCI (increment 4)
+
+`etia_jax.search.fci` has `fci`, `fcimax`, `rfci` and `cfci`. Each takes a CI test or the d-separation oracle and returns a PAG (a mark matrix).
+
+- **Default mode.** The textbook algorithms: FAS (PC-stable), R0 with the separating sets, the Possible-D-SEP step, and the rules R1 to R4 and R8 to R10 of Zhang (2008). FCI-Max finds the colliders with the Max-P rule. CFCI uses the conservative rule. RFCI uses the R0 of Colombo et al. (2012). With the d-separation oracle, FCI, FCI-Max and CFCI give the correct PAG, and RFCI is sound. The Possible-D-SEP step uses only the nodes of the biconnected component of the edge (Colombo et al. 2012). For each edge, it makes the subsets of each size as one index array. It tests these subsets in chunks that become larger. It stops at the first chunk that contains a separating set. The results do not go into the cache. On `cont50_s1`, this step makes 14.6 million tests in 2.2 s.
+- **`tetrad_compat=True`.** A Python version of Tetrad 7.6.5 `Fci`, `FciMax`, `Rfci` and `Cfci` with the defaults that ETIA uses. It runs on `TGraph`, an emulation of the `EdgeListGraph` of Tetrad. `TGraph` copies the iteration sequence of the Java hash sets. A test applies random graph operations in Tetrad and in `TGraph`, and the sequences are the same.
+
+### Agreement with ETIA
+
+- **Continuous and mixed data.** Tetrad gives the same result each time. ETIA-JAX gives the same PAG in all searches.
+- **Discrete data.** In Tetrad 7.6.5, FCI, FCI-Max, RFCI and CFCI use one CI test object from parallel threads. The chi-square and G-square tests are not safe for this. Thus FCI stops with an error in 11 of 12 searches, and other searches can get incorrect p-values. `reference/make_fixtures_serial.py` sends the calls of the test through a lock. With this change, Tetrad gives the same result each time in 88 of 96 searches, and ETIA-JAX gives the same PAG in all 88.
+- **The other 8 searches.** In Tetrad, R4 starts its tasks in parallel on a hash set without hash codes. Thus the sequence of the tasks can be different in two searches, and these 8 searches have two possible outputs. The output of ETIA-JAX is one of the outputs of Tetrad in all 8.
+
+### What Tetrad 7.6.5 does in the FCI family (kept only in `tetrad_compat` mode)
+
+- **R0 of FCI** finds a new separating set with a greedy search. It does not use the separating sets of FAS.
+- **R4** uses a search for separating sets that blocks paths. A defect in `DiscriminatingPath` puts the nodes of the path in the opposite sequence. Thus R4 accepts only the shortest discriminating paths.
+- **The rule schedule.** Tetrad uses R4 only when R1, R2 or R3 changed a mark in the same cycle. R5, R6 and R7 (the rules for selection bias) also apply.
+- **R10** does not change marks. The code compares a list of edges with one edge, and this is always false.
+- **The possible-m-sep step** of FCI starts its search only from x. CFCI uses a different possible-m-sep step that tests only the side of x.
+- **CFCI** keeps its own map of separating sets. At the first R0 this map is empty.
+
 ## Plan of increments
 
 Each increment has a build step, a test step and a check step.
