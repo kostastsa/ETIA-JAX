@@ -192,6 +192,42 @@ ETIA has two algorithms that use continuous optimization. ETIA-JAX has both, wit
 - **SAM processes.** cdt starts its runs in forked processes. When the calling program uses CUDA before the call, the runs stop with an error, and cdt waits with no end.
 - **CausalLearner.** The k-fold protocol of ETIA expects three return values from an algorithm. NOTEARS and SAM return two, so the protocol stops with a ValueError. NOTEARS also uses all the rows, not the rows of the fold. Increment 9 handles the protocols.
 
+## Feature selection and the AFS (increment 8)
+
+ETIA's AFS (automated feature selection) runs FBED and SES of the R package MXM, then a predictive model on the selected columns. ETIA-JAX has no R code.
+
+- **FBED and SES** (`etia_jax.afs.fs`). The modules copy the R functions that ETIA reaches with the Fisher test: `Rfast::cor.fbed` and `MXM:::cor.bsreg` for FBED, and `InternalSES` with `testIndFisher` for SES. They use NumPy (float64), because each step is a small regression.
+- **Predictive models** (`etia_jax.afs.models`). `LinearRegression` is least squares with an intercept, as sklearn. `MLP` (JAX and optax) replaces the random forest of ETIA.
+- **AFS** (`etia_jax.afs.afs.run_afs`). The folds of `KFold(5, shuffle=True, random_state=42)`, the 24 configurations of ETIA, the winner, the bootstrap, and the intersection of the selected sets. One FS result per fold serves all the models.
+- **Modes.** `etia_compat=True` copies ETIA, MXM and Rfast (the list below). The default mode honors `folds_to_run` and uses BBC-CV ([Tsamardinos et al. 2018](#ref-tsamardinos2018)).
+- **References.** MXM was archived on CRAN on 2026-11-03. `reference/install_mxm.R` installs MXM 1.5.8 into `~/R/library` for the fixtures.
+
+### Agreement with ETIA
+
+- **FBED and SES.** All 456 reference calls (19 datasets, 3 targets each, the 8 FS configurations of ETIA) give the same result as MXM in ETIA. For FBED, the sequence of the columns is also the same. In 58 of these calls, the R code of ETIA stops with one of the two errors below, and ETIA-JAX gives the same error.
+- **AFS.** With the linear grid, all 4 reference runs give the same winner and the same columns as ETIA, and the bootstrap mean is in ETIA's interval. With the full grid, the MLP replaces the random forest, so the winner can be different. In the 4 reference runs, linear regression wins in both programs.
+- **Oracle.** With exact-covariance data (50 DAGs), FBED finds the Markov blanket of the target. SES finds all the parents and children. A DAG is skipped when an edge of the target has a partial correlation below 0.01.
+
+### Speed
+
+- **One FS call.** ETIA writes a CSV file and starts R for each call (about 2 s). ETIA-JAX takes about 2 ms. The median speed-up is about 1000 times.
+- **A complete AFS run.** With the linear grid, ETIA takes 12 s and ETIA-JAX 0.06 to 0.23 s. With the full grid, ETIA takes 20 s and ETIA-JAX 1.2 to 2.4 s (the MLPs). ETIA runs its configurations in parallel on 32 cores, and ETIA-JAX runs them one after the other.
+
+### What ETIA, MXM and Rfast do (kept only in `etia_compat` mode)
+
+- **Rfast `cor.fbed`.** When the forward phase selects exactly one column, `z` stays a vector, and the K phase stops with "'x' is not a matrix". ETIA uses K = 3 or 5. Thus FBED fails, and ETIA skips the fold.
+- **ETIA's FBED script.** When FBED selects no column, MXM returns a result with no column `sel`. The script reads `fbed_object$res[, "sel"]` and stops with "subscript out of bounds". ETIA skips the fold, as for an empty selection.
+- **Folds.** The protocol of ETIA has `folds_to_run: 2`, but all 5 folds run.
+- **Bootstrap.** The "bootstrap bias correction" of ETIA is a plain bootstrap of the pooled test predictions of the winner. It does not correct the bias that comes from the selection of the winner. It runs in joblib workers without a seed, so its numbers change from run to run.
+- **No selected column.** When the main target has no selected column, ETIA returns the selection of the last target of the list.
+
+These details are in MXM itself, so both modes keep them:
+
+- `cor.fbed` compares a Fisher z statistic with a t quantile, and the p-value of the first column uses n - 2 degrees of freedom.
+- The backward phase of FBED uses `lm` with an intercept on the raw data.
+- In SES, the univariate statistics keep their sign, and a tie of p-values goes to the larger statistic.
+- SES conditions only on selected columns. Thus it finds all the parents and children of the target, and it can also keep a descendant.
+
 ## Plan of increments
 
 The details and the status of each increment are in [docs/increments.md](docs/increments.md).
@@ -222,4 +258,8 @@ ETIA-JAX copies the behavior of these programs. The licenses of the programs are
 | tigramite 5.2 | GNU GPL v3 | increment 6 (`lpcmci.py` is derived from it) |
 | causalnex 0.12.2 | Apache 2.0 (from the header of `notears.py`) | increment 7 (NOTEARS) |
 | cdt 0.6.0 | MIT | increment 7 (SAM) |
+
+## References (outside the corpus)
+
+- <a id="ref-tsamardinos2018"></a>Tsamardinos, I., Greasidou, E. and Borboudakis, G. (2018). Bootstrapping the out-of-sample predictions for efficient and accurate cross-validation. *Machine Learning* 107(12), 1895–1922. [doi:10.1007/s10994-018-5714-4](https://doi.org/10.1007/s10994-018-5714-4)
 

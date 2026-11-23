@@ -699,6 +699,94 @@ def make_sam(out_file="sam_ref.npz", full_case="sin10_s0"):
     print("wrote", OUT / out_file)
 
 
+AFS_CASES = ("cont10", "cont20", "cont30", "disc10", "mixed10")
+AFS_FS_CONFIGS = [dict(fs_name=f, alpha=a, k=k, ind_test_name="testIndFisher")
+                  for f in ("fbed", "ses") for a in (0.05, 0.01) for k in (3, 5)]
+
+
+def afs_targets(p, case):
+    """Three target columns per dataset (fixed by the case name)."""
+    rng = np.random.default_rng(sum(map(ord, case)))
+    return sorted(int(t) for t in rng.choice(p, 3, replace=False))
+
+
+def make_fs(out_file="fs_ref.npz"):
+    """FBED and SES of MXM 1.5.8 as ETIA runs them (AFS FeatureSelector:
+    CSV file, Rscript --vanilla, fbed_with_idx.R / ses_with_idx.R), on the
+    search datasets, three targets each, the 8 FS configurations of ETIA's
+    grid. MXM must be in ~/R/library (reference/install_mxm.R)."""
+    import os, time, warnings
+    import pandas as pd
+    warnings.filterwarnings("ignore")
+    os.environ["R_LIBS"] = str(Path.home() / "R" / "library")
+    sys.path.insert(0, str(ETIA_ROOT))
+    from ETIA.AFS.feature_selector import FeatureSelector
+    f = np.load(OUT / "search_data.npz")
+    out = dict(np.load(OUT / out_file)) if (OUT / out_file).exists() else {}
+    fs = FeatureSelector(r_path="Rscript")
+    for case in [str(c) for c in f["cases"] if str(c).split("_")[0] in AFS_CASES]:
+        X = f[f"{case}|X"]
+        p = X.shape[1]
+        cols = [f"X{i}" for i in range(p)]
+        for t in afs_targets(p, case):
+            feats = [c for c in cols if c != cols[t]]
+            df = pd.DataFrame(X, columns=cols)[feats + [cols[t]]]          # ETIA: features, then the target
+            for cfg in AFS_FS_CONFIGS:
+                key = f"{case}|{t}|{cfg['fs_name']}|{cfg['alpha']}|{cfg['k']}"
+                if key + "|sel" in out or key + "|error" in out:
+                    continue
+                t0 = time.perf_counter()
+                try:
+                    sel = fs.feature_selection(dict(cfg), cols[t], df, f"fsref_{case}_{t}")
+                    out[key + "|sel"] = np.asarray(sel["sel"].tolist(), dtype=int)   # index in feats
+                except Exception as exc:
+                    out[key + "|error"] = np.array(f"{exc.__class__.__name__}: {exc}")
+                out[key + "|time"] = np.array(time.perf_counter() - t0)
+                print(f"{key:36s} {float(out[key + '|time']):6.2f}s", out.get(key + "|sel", "ERROR"), flush=True)
+        np.savez_compressed(OUT / out_file, **out)
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
+def make_afs(out_file="afs_ref.npz"):
+    """The whole AFS of ETIA (5 folds, bootstrap) on cont10_s0..s2 and
+    cont20_s0, the first target of afs_targets: once with the linear
+    configurations only (exact in ETIA-JAX) and once with ETIA's full grid."""
+    import os, time, json, warnings
+    import pandas as pd
+    warnings.filterwarnings("ignore")
+    os.environ["R_LIBS"] = str(Path.home() / "R" / "library")
+    sys.path.insert(0, str(ETIA_ROOT))
+    from ETIA.AFS.AFS import AFS
+    from ETIA.AFS.predictive_configurator import PredictiveConfigurator
+    allc = PredictiveConfigurator().create_predictive_configs()
+    lin = [c for c in allc if c["model"] == "linear_regression"]
+    f = np.load(OUT / "search_data.npz")
+    out = dict(np.load(OUT / out_file)) if (OUT / out_file).exists() else {}
+    for case in ("cont10_s0", "cont10_s1", "cont10_s2", "cont20_s0"):
+        X = f[f"{case}|X"]
+        p = X.shape[1]
+        cols = [f"X{i}" for i in range(p)]
+        t = afs_targets(p, case)[0]
+        for tag, configs in (("linear", lin), ("full", allc)):
+            key = f"{case}|{t}|{tag}"
+            if key + "|result" in out:
+                continue
+            t0 = time.perf_counter()
+            res = AFS(random_seed=0).run_AFS(pd.DataFrame(X, columns=cols), [cols[t]],
+                                             pred_configs=[dict(c) for c in configs], dataset_name=f"afsref_{case}")
+            dt = time.perf_counter() - t0
+            sel = res["selected_features"]
+            sel = sel.get(cols[t], []) if isinstance(sel, dict) else sel
+            out[key + "|result"] = np.array(json.dumps(dict(
+                selected=sorted(sel), best_config=res["best_config"], bbc_score=float(res["bbc_score"]),
+                ci=[float(v) for v in res["ci"]] if res["ci"] is not None else None)))
+            out[key + "|time"] = np.array(dt)
+            print(f"{key:28s} {dt:8.1f}s", out[key + "|result"], flush=True)
+            np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
 def make_search(jpype, algos=("pc", "cpc"), data_file="search_data.npz", out_file="search_ref.npz"):
     import time
     import pandas as pd
@@ -756,7 +844,11 @@ if __name__ == "__main__":
         make_notears()
     if "sam" in which:
         make_sam()
-    if not set(which) - {"notears", "sam"}:
+    if "fs" in which:
+        make_fs()
+    if "afs" in which:
+        make_afs()
+    if not set(which) - {"notears", "sam", "fs", "afs"}:
         sys.exit(0)
     jp = start_jvm(one_cpu="fci1" in which)
     if "fci1" in which:

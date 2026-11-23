@@ -5,7 +5,7 @@ increment,content,status,tests,commit
 4,"FCI, FCI-Max, RFCI and CFCI",done,61,6d6264c
 5,"Five scores, FGES and GFCI",done,130,e219726
 6,"Time series: tiers, SVAR-FCI, SVAR-GFCI, PCMCI family",done,139,f08958a
-7,NOTEARS and SAM,done,167,this commit
-8,Predictive models and AFS,next,,
-9,OCT and CausalLearner,planned,,
+7,NOTEARS and SAM,done,167,ba4da9b
+8,Predictive models and AFS,done,632,this commit
+9,OCT and CausalLearner,next,,
 10,CRV,planned,,

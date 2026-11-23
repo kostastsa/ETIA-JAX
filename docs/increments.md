@@ -22,9 +22,9 @@ ETIA-JAX is a port of ETIA to Python and JAX, without Java and R. The work has 1
 | 4 | FCI, FCI-Max, RFCI and CFCI | done | 61 | `6d6264c` |
 | 5 | Five scores, FGES and GFCI | done | 130 | `e219726` |
 | 6 | Time series: tiers, SVAR-FCI, SVAR-GFCI, PCMCI family | done | 139 | `f08958a` |
-| 7 | NOTEARS and SAM | done | 167 | this commit |
-| 8 | Predictive models and AFS | next | | |
-| 9 | OCT and CausalLearner | planned | | |
+| 7 | NOTEARS and SAM | done | 167 | `ba4da9b` |
+| 8 | Predictive models and AFS | done | 632 | this commit |
+| 9 | OCT and CausalLearner | next | | |
 | 10 | CRV | planned | | |
 
 The same table is in `deck/increments.csv` (the deck reads it). The "Tests" column gives the number of tests in the suite at the end of the increment (slow tests included).
@@ -121,14 +121,24 @@ The same table is in `deck/increments.csv` (the deck reads it). The "Tests" colu
 - **Speed.** NOTEARS on the CPU is 3 to 6 times faster than causalnex with 10 variables. With 20 and 30 variables, it is 83 to 210 times faster. SAM on the GPU is 76 to 306 times faster than cdt on the GPU. With the defaults of ETIA, one SAM search takes 21 minutes in ETIA and 12 seconds in ETIA-JAX.
 - **Demo.** Plate `014ea6c8c2af`.
 
-## Increment 8: predictive models and AFS (planned)
+## Increment 8: predictive models and AFS
 
-- An MLP and a linear model in JAX replace the random forest of ETIA.
-- AFS (automated selection of the predictors) with FBED and SES.
+- **Modules.** `etia_jax/afs/fs.py` (FBED and SES of MXM 1.5.8, with the Fisher test), `etia_jax/afs/models.py` (linear regression, MLP) and `etia_jax/afs/afs.py` (the AFS pipeline). No R code.
+- **Agreement with ETIA.**
+  - **FBED and SES.** All 456 reference calls give the same result as MXM in ETIA. For FBED, the sequence of the columns is also the same. 58 calls are R errors of ETIA, and ETIA-JAX gives the same errors.
+  - **AFS.** All 8 complete runs (4 with the linear grid, 4 with the full grid) give the same winner and the same columns as ETIA.
+- **Oracle.** With exact-covariance data, FBED finds the Markov blanket and SES all the parents and children of the target.
+- **Findings.**
+  - Rfast `cor.fbed` stops with an error when its forward phase selects one column. ETIA's FBED script stops when FBED selects none. ETIA skips the fold in both cases.
+  - ETIA ignores `folds_to_run`, and its "bootstrap bias correction" corrects no bias. The default mode uses BBC-CV.
+  - MXM was archived on CRAN on 2026-11-03.
+- **Speed.** One FS call is about 1000 times faster, because ETIA starts R for each call. A complete AFS run is 9 to 190 times faster.
+- **Demo.** Plate `89493558771c`.
 
-## Increment 9: OCT and CausalLearner (planned)
+## Increment 9: OCT and CausalLearner (next)
 
 - OCT tuning of the causal configurations, the validation protocols, and the CausalLearner pipeline of ETIA.
+- The k-fold protocol of ETIA stops on NOTEARS and SAM (two return values, not three), and NOTEARS ignores the rows of the fold.
 
 ## Increment 10: CRV (planned)
 

@@ -1,0 +1,12 @@
+{
+ "fs_calls": 456,
+ "fs_same": 456,
+ "r_errors": 58,
+ "fs_median_speedup": 1051.7643502621281,
+ "afs_runs": 8,
+ "afs_same_best": 8,
+ "afs_same_selected": 8,
+ "afs_linear_runs": 4,
+ "afs_linear_same": 4,
+ "afs_median_speedup": 33.364472967397575
+}

@@ -1,0 +1,85 @@
+<title>ETIA-JAX increment 8</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 8 of 10 · feature selection</div>
+    <h1>FBED, SES and the AFS without R</h1>
+    <p class="lede">FBED and SES of MXM 1.5.8 ported step by step, the predictive models in JAX, and the AFS pipeline of ETIA: the agreement with ETIA, the default mode, and the run times.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>FBED and SES against MXM <span class="tag">fs_agreement.csv</span></h2>
+    <div id="fs_agree"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Whole AFS runs <span class="tag">afs_runs.csv</span></h2>
+    <div id="afs_runs"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">time_long.csv</span></h2>
+    <div id="time_chart"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the calls <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What ETIA, MXM and Rfast do</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What happens</th><th>ETIA-JAX</th></tr>
+      <tr><td>Rfast <code>cor.fbed</code></td><td>When the forward phase selects exactly one column, <code>z</code> stays a vector and the K phase stops with "'x' is not a matrix". ETIA uses K = 3 or 5, so FBED fails and ETIA skips the fold.</td><td><code>etia_compat</code>: the same error, the fold is skipped. Default: FBED continues.</td></tr>
+      <tr><td>FBED statistics</td><td><code>cor.fbed</code> compares a Fisher z statistic with a t quantile. The p-value of the first column uses n − 2 degrees of freedom. The backward phase uses <code>lm</code> on the raw data.</td><td>The same in both modes (these are the definitions of MXM).</td></tr>
+      <tr><td>SES</td><td>The univariate statistics keep their sign, and ties of p-values go to the larger statistic. SES conditions only on selected columns, so it can keep a descendant of the target.</td><td>The same in both modes.</td></tr>
+      <tr><td>Folds</td><td>The protocol has <code>folds_to_run: 2</code>, but all 5 folds run.</td><td>Default: only <code>folds_to_run</code> folds.</td></tr>
+      <tr><td>"Bootstrap bias correction"</td><td>A plain bootstrap of the pooled test predictions of the winner. It does not correct the bias of the choice of the winner. It runs in joblib workers without a seed.</td><td>Default: BBC-CV (each bootstrap sample selects the winner on the in-bag rows and scores it on the out-of-bag rows).</td></tr>
+      <tr><td>No selected column</td><td>For the main target, ETIA returns the selection of the last target of the list.</td><td>Default: the selection of the main target.</td></tr>
+      <tr><td>Random forest</td><td>sklearn random forests with <code>random_state=42</code>.</td><td>An MLP in JAX (32 or 64 hidden units); its scores are not those of ETIA.</td></tr>
+      <tr><td>R calls</td><td>Each FS call writes a CSV file and starts R (about 2 s). The same FS runs again for each model.</td><td>No R; one FS result per fold for all models.</td></tr>
+    </table>
+    <div id="findings_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment8/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, R 4.5.2, MXM 1.5.8, Rfast). Times on one workstation: Intel i9-14900K, RTX 4090.</footer>
+</div>
+<script>
+const HOWTO = @HOWTO@;
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('findings_howto').innerHTML = box('table', HOWTO.findings);
+pv.need(['summary.json', 'fs_agreement.csv', 'afs_runs.csv', 'time_long.csv', 'timing.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.fs_same} / ${s.fs_calls}`, 'FBED and SES: same as MXM', `${s.r_errors} of them: the same R error`) +
+    card(`${s.afs_linear_same} / ${s.afs_linear_runs}`, 'AFS, linear grid: same as ETIA', `full grid with the MLP: ${s.afs_same_selected} / ${s.afs_runs} same columns`) +
+    card(`${pv.fmt(s.fs_median_speedup, 0)}×`, 'FS median speed-up', 'one call, ETIA with R') +
+    card(`${pv.fmt(s.afs_median_speedup, 0)}×`, 'AFS median speed-up', 'whole runs');
+});
+
+pv.table('#fs_agree', 'fs_agreement.csv', {
+  labels: 'kind: FS | group: datasets | r_errors: R errors | etia_s: ETIA s | jax_s: ETIA-JAX s | speedup: speed-up',
+  dec: 'etia_s:2 jax_s:4 speedup:0', wide: true, howto: HOWTO.fs_agree});
+pv.table('#afs_runs', 'afs_runs.csv', {
+  labels: 'etia_best: ETIA winner | jax_best: ETIA-JAX winner | etia_selected: ETIA columns | jax_selected: ETIA-JAX columns | etia_bootstrap: ETIA bootstrap | jax_bootstrap: ETIA-JAX bootstrap | default_bbc_cv: default BBC-CV | default_selected: default columns',
+  dec: 'etia_bootstrap:4 jax_bootstrap:4 default_bbc_cv:4', wide: true, howto: HOWTO.afs_runs});
+pv.chart('#time_chart', 'time_long.csv', {type: 'bar', x: 'kind', y: 'seconds', color: 'who', 'log-y': true,
+  'x-label': 'call', 'y-label': 'median seconds (log scale)', height: 340, wide: true, howto: HOWTO.time_chart});
+pv.table('#timing', 'timing.csv', {
+  labels: 'etia_time: ETIA s | jax_time: ETIA-JAX s', dec: 'etia_time:2 jax_time:4 speedup:0',
+  sort: 'speedup:desc', height: 460, wide: true, howto: HOWTO.timing});
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

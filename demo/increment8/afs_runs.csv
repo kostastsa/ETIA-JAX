@@ -1,0 +1,9 @@
+case,target,grid,etia_best,jax_best,same_best,etia_selected,jax_selected,same_selected,etia_bootstrap,jax_bootstrap,default_bbc_cv,default_selected
+cont10_s0,X0,full,linear_regression fbed a=0.05 k=3,linear_regression fbed a=0.05 k=3,True,X2 X3 X4 X7 X9,X2 X3 X4 X7 X9,True,0.9455767999973478,0.9456779458580968,0.9437582589757262,X2 X3 X4 X5 X7 X9
+cont10_s0,X0,linear,linear_regression fbed a=0.05 k=3,linear_regression fbed a=0.05 k=3,True,X2 X3 X4 X7 X9,X2 X3 X4 X7 X9,True,0.9454235340097016,0.9456779458580968,0.9445406951567668,X2 X3 X4 X5 X7 X9
+cont10_s1,X4,full,linear_regression fbed a=0.05 k=3,linear_regression fbed a=0.05 k=3,True,X2 X6,X2 X6,True,0.44734102569048967,0.44598929005762916,0.4008711602665366,X2 X6
+cont10_s1,X4,linear,linear_regression fbed a=0.05 k=3,linear_regression fbed a=0.05 k=3,True,X2 X6,X2 X6,True,0.4468207608456602,0.44598929005762916,0.4058567378421946,X2 X6
+cont10_s2,X2,full,linear_regression ses a=0.05 k=3,linear_regression ses a=0.05 k=3,True,X3,X3,True,0.9432148895034819,0.9433136761293449,0.945061887342305,X3
+cont10_s2,X2,linear,linear_regression ses a=0.05 k=3,linear_regression ses a=0.05 k=3,True,X3,X3,True,0.9432581396878557,0.9433136761293449,0.9451620143204582,X3
+cont20_s0,X9,full,linear_regression ses a=0.01 k=3,linear_regression ses a=0.01 k=3,True,X12,X12,True,0.35846539914435416,0.35871356921757513,0.38687606541685904,X12
+cont20_s0,X9,linear,linear_regression ses a=0.01 k=3,linear_regression ses a=0.01 k=3,True,X12,X12,True,0.3572838142763211,0.35871356921757513,0.38673132104703495,X12

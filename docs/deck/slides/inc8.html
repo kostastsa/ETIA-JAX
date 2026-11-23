@@ -1,0 +1,22 @@
+<section id="inc8" data-transition="slide">
+<p class="eyebrow">INCREMENT 8 · FEATURE SELECTION</p>
+<h2>FBED, SES and the AFS without R</h2>
+<div class="stats" id="k8"></div>
+<ul class="rise" style="--i:4">
+  <li>FBED and SES copy MXM 1.5.8 and Rfast step by step, in NumPy. The predictive models are in JAX: linear regression, and an MLP in place of the random forest.</li>
+  <li>The AFS has ETIA's folds, its 24 configurations and its bootstrap. One FS result per fold serves all the models.</li>
+  <li>Found: Rfast <code>cor.fbed</code> stops when FBED finds one column, and ETIA's script stops when FBED finds none; ETIA ignores <code>folds_to_run</code>; its bootstrap corrects no bias.</li>
+</ul>
+<div class="foot"><span>demo/increment8/summary.json · plate 89493558771c</span><span>11 / 14</span></div>
+<aside>MXM was archived on CRAN on 2026-11-03; reference/install_mxm.R installs it for the fixtures.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment8/summary.json', s => {
+  document.getElementById('k8').innerHTML =
+    card(0, 'FBED and SES', `${s.fs_same} / ${s.fs_calls}`, `same as MXM (${s.r_errors} R errors)`) +
+    card(1, 'AFS runs', `${s.afs_same_best} / ${s.afs_runs}`, 'same winner and columns') +
+    card(2, 'FS speed-up', pv.fmt(s.fs_median_speedup, 0) + '×', 'median, one call') +
+    card(3, 'AFS speed-up', pv.fmt(s.afs_median_speedup, 0) + '×', 'median, complete runs');
+});
+}</script>
+</section>
