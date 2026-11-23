@@ -21,9 +21,9 @@ ETIA-JAX is a port of ETIA to Python and JAX, without Java and R. The work has 1
 | 3 | PC and CPC | done | 53 | `726d050` |
 | 4 | FCI, FCI-Max, RFCI and CFCI | done | 61 | `6d6264c` |
 | 5 | Five scores, FGES and GFCI | done | 130 | `e219726` |
-| 6 | Time series: tiers, SVAR-FCI, SVAR-GFCI, PCMCI family | done | 139 | this commit |
-| 7 | NOTEARS and SAM | next | | |
-| 8 | Predictive models and AFS | planned | | |
+| 6 | Time series: tiers, SVAR-FCI, SVAR-GFCI, PCMCI family | done | 139 | `f08958a` |
+| 7 | NOTEARS and SAM | done | 167 | this commit |
+| 8 | Predictive models and AFS | next | | |
 | 9 | OCT and CausalLearner | planned | | |
 | 10 | CRV | planned | | |
 
@@ -106,11 +106,20 @@ The same table is in `deck/increments.csv` (the deck reads it). The "Tests" colu
 - **Speed.** The PCMCI family of ETIA-JAX has a median speed-up of 10 times. With CMIsymb, one search takes 25 to 105 minutes in tigramite and seconds in ETIA-JAX. The Tetrad family has a median speed-up of 1.2 times.
 - **Demo.** Plate `603633780311`.
 
-## Increment 7: NOTEARS and SAM (next)
+## Increment 7: NOTEARS and SAM
 
-- NOTEARS: a continuous optimization with an acyclicity constraint, with optax.
-- SAM: a GAN-based search, with optax.
-- These algorithms are random. Thus the checks compare the accuracy and the speed with ETIA, not the exact output.
+- **Modules.** `etia_jax/search/notears.py` (NOTEARS, an L-BFGS solver of optax) and `etia_jax/search/sam.py` (SAM, optax, the 8 runs in one `vmap`).
+- **Agreement with ETIA.**
+  - **NOTEARS.** causalnex has no random step. On 16 of 17 datasets, the score of the two solutions agrees to 1e-3. At the thresholds of ETIA, 40 of 41 graphs are the same. On one dataset, ETIA-JAX ends in another local optimum.
+  - **SAM.** SAM is random, so the check compares the AUROC against the correct DAG. For 10 seeds of ETIA-JAX, the one ETIA run is in the range on 5 of 6 datasets. The mean AUROC is 0.877 for ETIA and 0.856 for ETIA-JAX.
+- **Findings.**
+  - ETIA gives only `threshold` to causalnex. Its values of `max_iter` and `h_tol` have no effect.
+  - At threshold 0, the NOTEARS graph of ETIA is the complete DAG j -> i (i < j). The SAM graph matrix of ETIA is this DAG for all data.
+  - cdt divides the SAM filters by the number of test epochs only, so the values go up to the number of batches.
+  - With mixed data, cdt gives some SAM generators the wrong inputs.
+  - The k-fold protocol of ETIA stops on NOTEARS and SAM, because they return two values, not three.
+- **Speed.** NOTEARS on the CPU is 3 to 6 times faster than causalnex with 10 variables. With 20 and 30 variables, it is 83 to 210 times faster. SAM on the GPU is 76 to 306 times faster than cdt on the GPU. With the defaults of ETIA, one SAM search takes 21 minutes in ETIA and 12 seconds in ETIA-JAX.
+- **Demo.** Plate `014ea6c8c2af`.
 
 ## Increment 8: predictive models and AFS (planned)
 

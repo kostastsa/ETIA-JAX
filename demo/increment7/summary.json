@@ -1,0 +1,13 @@
+{
+ "notears_cases": 17,
+ "notears_graph_same": 40,
+ "notears_graph_checked": 41,
+ "notears_median_speedup_cpu": 3.512984967913504,
+ "sam_median_speedup_gpu": 176.17384160823775,
+ "sam_auc_etia": 0.8767838157567781,
+ "sam_auc_jax": 0.8555924510415016,
+ "sam_etia_in_range": 5,
+ "sam_cases": 6,
+ "sam_full_etia_s": 1245.8648908470059,
+ "sam_full_jax_s": 11.621296214987524
+}

@@ -1,0 +1,22 @@
+<section id="inc7" data-transition="slide">
+<p class="eyebrow">INCREMENT 7 · CONTINUOUS OPTIMIZATION</p>
+<h2>NOTEARS and SAM with optax</h2>
+<div class="stats" id="k7"></div>
+<ul class="rise" style="--i:4">
+  <li>NOTEARS: the augmented Lagrangian loop of causalnex with an L-BFGS solver of optax, on the CPU. causalnex has no random step, so the tests compare the graphs.</li>
+  <li>SAM: <code>run_SAM</code> of cdt step by step. The 8 runs are one <code>vmap</code>. SAM is random, so the tests compare the AUROC.</li>
+  <li>Found: ETIA ignores <code>max_iter</code> and <code>h_tol</code>; its SAM matrix is always the complete DAG j → i (i &lt; j); the CausalLearner stops on both algorithms.</li>
+</ul>
+<div class="foot"><span>demo/increment7/summary.json · plate 014ea6c8c2af</span><span>10 / 13</span></div>
+<aside>On cont20_s3, NOTEARS of ETIA-JAX ends in another local optimum than causalnex.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment7/summary.json', s => {
+  document.getElementById('k7').innerHTML =
+    card(0, 'NOTEARS', `${s.notears_graph_same} / ${s.notears_graph_checked}`, 'same graph as ETIA') +
+    card(1, 'NOTEARS speed-up', pv.fmt(s.notears_median_speedup_cpu, 1) + '×', 'median, CPU') +
+    card(2, 'SAM AUROC', pv.fmt(s.sam_auc_jax, 3), `ETIA ${pv.fmt(s.sam_auc_etia, 3)}`) +
+    card(3, 'SAM speed-up', pv.fmt(s.sam_median_speedup_gpu, 0) + '×', 'median, GPU');
+});
+}</script>
+</section>

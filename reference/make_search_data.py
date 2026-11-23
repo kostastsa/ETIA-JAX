@@ -1,6 +1,6 @@
 """Datasets for the search fixtures (PC, CPC; later FCI, ...). ETIA-JAX venv:
 
-    .venv/bin/python reference/make_search_data.py
+    .venv/bin/python reference/make_search_data.py [fci|sam]
 
 Writes ``reference/fixtures/search_data.npz``: for each case, the data, the
 kinds, the true DAG, the CI test name and alpha. Then run, in the ETIA venv,
@@ -79,6 +79,38 @@ def main_fci():
     print("wrote", OUT / "search_fci_data.npz", len(names), "datasets")
 
 
+#          name     p   link      n     seeds
+SAM_CASES = [("lin5", 5, "linear", 500, range(1)),
+             ("sin5", 5, "sin", 500, range(1)),
+             ("lin10", 10, "linear", 500, range(1)),
+             ("sin10", 10, "sin", 500, range(1)),
+             ("lin20", 20, "linear", 500, range(1)),
+             ("sin20", 20, "sin", 500, range(1))]
+
+
+def main_sam():
+    """Continuous data for SAM (increment 7): linear and sine links."""
+    out, names = {}, []
+    for name, p, link, n, seeds in SAM_CASES:
+        for s in seeds:
+            seed = 9000 + 100 * len(names) + s
+            spec = random_scm(p, 2.0, kinds="continuous", link=link, rng=seed, max_parents=3)
+            X, _ = simulate(spec, n, jax.random.key(seed))
+            key = f"{name}_s{s}"
+            out[f"{key}|X"] = X.astype(np.float64)
+            out[f"{key}|A"] = spec.A
+            names.append(key)
+    out["cases"] = np.array(names)
+    np.savez_compressed(OUT / "sam_data.npz", **out)
+    print("wrote", OUT / "sam_data.npz", len(names), "datasets")
+
+
 if __name__ == "__main__":
     import sys
-    main_fci() if "fci" in sys.argv[1:] else main()
+    if "fci" in sys.argv[1:]:
+        main_fci()
+    elif "sam" in sys.argv[1:]:
+        main_sam()
+    else:
+        main()
+

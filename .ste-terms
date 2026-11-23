@@ -14,3 +14,8 @@ call           # a function call
 discriminating   # discriminating path
 list             # a Java List
 fixture        # a reference file of Tetrad outputs
+accuracy       # of a search: SHD or AUROC against the correct graph
+run            # one execution of an algorithm (noun)
+setting        # the values of the parameters of a run
+training       # training epochs of SAM
+Hamming        # structural Hamming distance

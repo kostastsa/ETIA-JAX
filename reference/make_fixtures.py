@@ -611,6 +611,94 @@ def make_ts_tigramite(out_file="ts_tigramite_ref.npz"):
     print("wrote", OUT / out_file)
 
 
+NOTEARS_THRESHOLDS = [0.0, 0.5, 0.8]
+
+
+def make_notears(out_file="notears_ref.npz"):
+    """NOTEARS as ETIA runs it (NoTearsAlgorithm -> causalnex from_pandas), on
+    the search datasets with 10 variables, cont20 and cont30_s0. For each case: the raw weights of
+    causalnex (w_threshold=0), and for each threshold of ETIA's grid ETIA's
+    mark matrix or its error, with the run time."""
+    import time, warnings
+    import pandas as pd
+    import networkx as nx
+    warnings.filterwarnings("ignore")
+    sys.path.insert(0, str(ETIA_ROOT))
+    from causalnex.structure.notears import from_numpy
+    from ETIA.CausalLearning.algorithms.causalnex_algorithm.NoTears import NoTearsAlgorithm
+    f = np.load(OUT / "search_data.npz")
+    out = dict(np.load(OUT / out_file)) if (OUT / out_file).exists() else {}
+    cases = [str(c) for c in f["cases"] if str(c).split("_")[0] in ("cont10", "disc10", "mixed10")]
+    cases += [str(c) for c in f["cases"] if str(c).startswith("cont20")] + ["cont30_s0"]
+    for case in cases:
+        if case + "|W" in out:
+            continue
+        X = f[f"{case}|X"]
+        p = X.shape[1]
+        t0 = time.perf_counter()
+        sm = from_numpy(X)
+        out[case + "|W"] = nx.to_numpy_array(sm, nodelist=range(p), weight="weight")
+        out[case + "|W_time"] = np.array(time.perf_counter() - t0)
+        df = pd.DataFrame(X, columns=[f"X{i}" for i in range(p)])
+
+        class _D:
+            def get_dataset(self):
+                return df.copy()
+        # causalnex takes minutes from 20 variables: there, only ETIA's default 0.8
+        for thr in (NOTEARS_THRESHOLDS if p <= 10 else [0.8]):
+            key = f"{case}|{thr}"
+            t0 = time.perf_counter()
+            try:
+                _, res = NoTearsAlgorithm().run(_D(), {"threshold": thr, "max_iter": 100, "h_tol": 1e-7})
+                out[key + "|etia_matrix"] = np.asarray(res["matrix_graph"], dtype=np.int8)
+            except Exception as exc:
+                out[key + "|error"] = np.array(f"{exc.__class__.__name__}: {exc}")
+            out[key + "|time"] = np.array(time.perf_counter() - t0)
+            print(f"{key:24s} {float(out[key + '|time']):8.3f}s", "error" if key + "|error" in out else "", flush=True)
+        np.savez_compressed(OUT / out_file, **out)
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
+SAM_FIXTURE_PARAMS = {"train_epochs": 1000, "test_epochs": 500}     # the smallest values of ETIA's grid
+
+
+def make_sam(out_file="sam_ref.npz", full_case="sin10_s0"):
+    """SAM as ETIA runs it (SAMAlgorithm -> cdt SAM, GPU), on sam_data.npz with
+    train 1000 / test 500 epochs, and once with ETIA's defaults (3000 / 1000)
+    on ``full_case``. Stores ETIA's W (the DiGraph weights), ETIA's mark
+    matrix and the run time. Run it in a new process (cdt forks workers)."""
+    import time, warnings
+    import pandas as pd
+    warnings.filterwarnings("ignore")
+    sys.path.insert(0, str(ETIA_ROOT))
+    from ETIA.CausalLearning.algorithms.cdt_algorithms.SAMAlgorithm import SAMAlgorithm
+    from ETIA.CausalLearning.CausalModel.utils import pywhy_graph_to_matrix
+    f = np.load(OUT / "sam_data.npz")
+    out = dict(np.load(OUT / out_file)) if (OUT / out_file).exists() else {}
+    jobs = [(str(c), "short", SAM_FIXTURE_PARAMS) for c in f["cases"]] + [(full_case, "full", {})]
+    for case, tag, params in jobs:
+        key = f"{case}|{tag}"
+        if key + "|W" in out:
+            continue
+        X = f[f"{case}|X"]
+        p = X.shape[1]
+        cols = [f"X{i}" for i in range(p)]
+        df = pd.DataFrame(X, columns=cols)
+        t0 = time.perf_counter()
+        g, _ = SAMAlgorithm().run(df, dict(params))
+        dt = time.perf_counter() - t0
+        W = np.zeros((p, p))
+        for u, v, w in g.dag.edges(data="weight"):
+            W[cols.index(u), cols.index(v)] = w
+        out[key + "|W"] = W
+        out[key + "|etia_matrix"] = np.asarray(pywhy_graph_to_matrix(g), dtype=np.int8)
+        out[key + "|time"] = np.array(dt)
+        print(f"{key:24s} {dt:8.1f}s", flush=True)
+        np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
 def make_search(jpype, algos=("pc", "cpc"), data_file="search_data.npz", out_file="search_ref.npz"):
     import time
     import pandas as pd
@@ -664,6 +752,12 @@ def make_search(jpype, algos=("pc", "cpc"), data_file="search_data.npz", out_fil
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     which = sys.argv[1:] or ["graphs"]
+    if "notears" in which:
+        make_notears()
+    if "sam" in which:
+        make_sam()
+    if not set(which) - {"notears", "sam"}:
+        sys.exit(0)
     jp = start_jvm(one_cpu="fci1" in which)
     if "fci1" in which:
         print("processors seen by the JVM:", jp.JClass("java.lang.Runtime").getRuntime().availableProcessors())

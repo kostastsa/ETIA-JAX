@@ -1,0 +1,121 @@
+<title>ETIA-JAX increment 7</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 7 of 10 · continuous optimization</div>
+    <h1>NOTEARS and SAM in JAX and optax</h1>
+    <p class="lede">NOTEARS (causalnex in ETIA) with an L-BFGS solver in JAX, and SAM (cdt and torch in ETIA) with optax: the agreement with ETIA, the accuracy against the true graphs, and the run times.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>NOTEARS against causalnex <span class="tag">notears_agreement.csv</span></h2>
+    <div id="nt_agree"></div>
+  </section>
+
+  <div class="row2">
+    <section class="panel">
+      <h2>NOTEARS weights <span class="tag">notears_weights.csv</span></h2>
+      <div id="nt_weights"></div>
+    </section>
+    <section class="panel">
+      <h2>NOTEARS accuracy at threshold 0.8 <span class="tag">notears_accuracy.csv</span></h2>
+      <div id="nt_acc"></div>
+    </section>
+  </div>
+
+  <div class="row2">
+    <section class="panel">
+      <h2>SAM: 10 seeds of ETIA-JAX <span class="tag">sam_seeds.csv</span></h2>
+      <div id="sam_seeds"></div>
+    </section>
+    <section class="panel">
+      <h2>SAM accuracy, one run each <span class="tag">sam_accuracy.csv</span></h2>
+      <div id="sam_acc"></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">time_long.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="alg"></div></div></div>
+    <div id="time_chart"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the runs <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What ETIA, causalnex and cdt do</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What happens</th><th>ETIA-JAX</th></tr>
+      <tr><td>NOTEARS parameters</td><td>ETIA gives only <code>threshold</code> to causalnex. The <code>max_iter</code> and <code>h_tol</code> of its grid have no effect: causalnex uses 100 and 1e-8. Thus the 27 grid points give 3 different results.</td><td><code>etia_compat</code>: the same. Default: the given values.</td></tr>
+      <tr><td>NOTEARS data</td><td>causalnex does not center the data, and its score has no intercept.</td><td>Default: centered data.</td></tr>
+      <tr><td>NOTEARS at threshold 0</td><td>All weights stay. ETIA writes each edge into one matrix, and in a 2-cycle the later edge wins. The result is the complete DAG with j → i for each i &lt; j.</td><td><code>etia_compat</code>: the same. Default: a DAG (the smallest weight on a cycle goes).</td></tr>
+      <tr><td>SAM output</td><td>ETIA keeps the averaged filters as a weighted DiGraph, with no threshold. cdt divides the sum of the test batches by the number of test epochs only, so the values go up to the number of batches.</td><td><code>etia_compat</code>: the same W. Default: W in [0, 1] and the DAG of W &gt; 0.5.</td></tr>
+      <tr><td>SAM graph matrix</td><td><code>pywhy_graph_to_matrix</code> writes all the edges of the DiGraph. The result is the complete DAG with j → i for each i &lt; j, for all data.</td><td><code>etia_compat</code>: the same.</td></tr>
+      <tr><td>SAM mixed data</td><td>cdt takes the skeleton column at the index of the variable. When a categorical variable comes first, a generator gets the wrong inputs.</td><td>Default: the correct inputs.</td></tr>
+      <tr><td>SAM processes</td><td>cdt starts its runs in forked processes. When the parent process already uses CUDA, the runs stop with an error, and cdt waits with no end.</td><td>One process: the 8 runs are one vmap.</td></tr>
+      <tr><td>CausalLearner</td><td>The k-fold protocol expects three return values. NOTEARS and SAM return two, so the protocol stops with a ValueError. NOTEARS also ignores the rows of the fold.</td><td>Increment 9.</td></tr>
+    </table>
+    <div id="findings_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment7/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, causalnex 0.12.2, cdt 0.6.0, torch with CUDA). Times on one workstation: Intel i9-14900K, RTX 4090. NOTEARS uses float64, SAM uses float32 (as torch).</footer>
+</div>
+<script>
+const HOWTO = @HOWTO@;
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('findings_howto').innerHTML = box('table', HOWTO.findings);
+pv.need(['summary.json', 'notears_agreement.csv', 'notears_weights.csv', 'notears_accuracy.csv', 'sam_accuracy.csv', 'sam_seeds.csv',
+         'time_long.csv', 'timing.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.notears_graph_same} / ${s.notears_graph_checked}`, 'NOTEARS: same graph as ETIA', `${s.notears_cases} datasets, ETIA thresholds`) +
+    card(`${pv.fmt(s.notears_median_speedup_cpu, 1)}×`, 'NOTEARS median speed-up', 'ETIA-JAX on the CPU') +
+    card(`${pv.fmt(s.sam_auc_jax, 3)}`, 'SAM mean AUROC, ETIA-JAX', `10 seeds; ETIA ${pv.fmt(s.sam_auc_etia, 3)}, in the range on ${s.sam_etia_in_range} / ${s.sam_cases}`) +
+    card(`${pv.fmt(s.sam_median_speedup_gpu, 0)}×`, 'SAM median speed-up', `ETIA defaults: ${pv.fmt(s.sam_full_etia_s / 60, 0)} min → ${pv.fmt(s.sam_full_jax_s, 0)} s`);
+});
+
+pv.table('#nt_agree', 'notears_agreement.csv', {
+  labels: 'max_abs_diff: max |w diff| | objective_rel_diff: score rel. diff | graph_0.0: threshold 0 | graph_0.5: threshold 0.5 | graph_0.8: threshold 0.8',
+  dec: 'max_abs_diff:4 objective_rel_diff:2e', wide: true, howto: HOWTO.nt_agree});
+pv.chart('#nt_weights', 'notears_weights.csv', {type: 'scatter', x: 'causalnex', y: 'etia_jax',
+  'x-label': 'weight in causalnex', 'y-label': 'weight in ETIA-JAX', height: 360, howto: HOWTO.nt_weights});
+pv.table('#nt_acc', 'notears_accuracy.csv', {
+  labels: 'shd_etia: SHD ETIA | shd_jax: SHD ETIA-JAX | same_graph: same as ETIA', height: 360, howto: HOWTO.nt_acc});
+pv.table('#sam_seeds', 'sam_seeds.csv', {
+  labels: 'auc_etia: AUROC ETIA | jax_mean: ETIA-JAX mean | jax_min: min | jax_max: max | etia_in_jax_range: ETIA in range',
+  dec: 'auc_etia:3 jax_mean:3 jax_min:3 jax_max:3', howto: HOWTO.sam_seeds});
+pv.table('#sam_acc', 'sam_accuracy.csv', {
+  labels: 'auc_etia: AUROC ETIA | auc_jax: AUROC ETIA-JAX | shd_etia: SHD ETIA | shd_jax: SHD ETIA-JAX',
+  dec: 'auc_etia:3 auc_jax:3', howto: HOWTO.sam_acc});
+
+const ALG = [['NOTEARS', 'NOTEARS'], ['SAM', 'SAM']];
+let alg = 'NOTEARS';
+const drawTime = () => pv.chart('#time_chart', 'time_long.csv', {type: 'bar', x: 'case', y: 'seconds', color: 'who',
+  'log-y': true, 'x-label': 'dataset', 'y-label': 'seconds per run (log scale)', height: 380, wide: true,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.algo === alg)), howto: HOWTO.time_chart});
+pv.seg('#alg', {options: ALG, value: alg, onChange: v => { alg = v; drawTime(); }});
+drawTime();
+
+pv.table('#timing', 'timing.csv', {
+  cols: 'algo,case,p,setting,device,mode,etia_time,jax_first,jax_time,speedup,shd_etia,shd_jax,auc_etia,auc_jax',
+  labels: 'etia_time: ETIA s | jax_first: first run s | jax_time: ETIA-JAX s | auc_etia: AUROC ETIA | auc_jax: AUROC ETIA-JAX',
+  dec: 'etia_time:2 jax_first:2 jax_time:3 speedup:1 auc_etia:3 auc_jax:3', sort: 'speedup:desc', height: 460, wide: true,
+  howto: HOWTO.timing});
+
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

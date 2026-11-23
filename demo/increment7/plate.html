@@ -1,0 +1,131 @@
+<title>ETIA-JAX increment 7</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 7 of 10 · continuous optimization</div>
+    <h1>NOTEARS and SAM in JAX and optax</h1>
+    <p class="lede">NOTEARS (causalnex in ETIA) with an L-BFGS solver in JAX, and SAM (cdt and torch in ETIA) with optax: the agreement with ETIA, the accuracy against the true graphs, and the run times.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>NOTEARS against causalnex <span class="tag">notears_agreement.csv</span></h2>
+    <div id="nt_agree"></div>
+  </section>
+
+  <div class="row2">
+    <section class="panel">
+      <h2>NOTEARS weights <span class="tag">notears_weights.csv</span></h2>
+      <div id="nt_weights"></div>
+    </section>
+    <section class="panel">
+      <h2>NOTEARS accuracy at threshold 0.8 <span class="tag">notears_accuracy.csv</span></h2>
+      <div id="nt_acc"></div>
+    </section>
+  </div>
+
+  <div class="row2">
+    <section class="panel">
+      <h2>SAM: 10 seeds of ETIA-JAX <span class="tag">sam_seeds.csv</span></h2>
+      <div id="sam_seeds"></div>
+    </section>
+    <section class="panel">
+      <h2>SAM accuracy, one run each <span class="tag">sam_accuracy.csv</span></h2>
+      <div id="sam_acc"></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">time_long.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Algorithm</span><div id="alg"></div></div></div>
+    <div id="time_chart"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the runs <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What ETIA, causalnex and cdt do</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What happens</th><th>ETIA-JAX</th></tr>
+      <tr><td>NOTEARS parameters</td><td>ETIA gives only <code>threshold</code> to causalnex. The <code>max_iter</code> and <code>h_tol</code> of its grid have no effect: causalnex uses 100 and 1e-8. Thus the 27 grid points give 3 different results.</td><td><code>etia_compat</code>: the same. Default: the given values.</td></tr>
+      <tr><td>NOTEARS data</td><td>causalnex does not center the data, and its score has no intercept.</td><td>Default: centered data.</td></tr>
+      <tr><td>NOTEARS at threshold 0</td><td>All weights stay. ETIA writes each edge into one matrix, and in a 2-cycle the later edge wins. The result is the complete DAG with j → i for each i &lt; j.</td><td><code>etia_compat</code>: the same. Default: a DAG (the smallest weight on a cycle goes).</td></tr>
+      <tr><td>SAM output</td><td>ETIA keeps the averaged filters as a weighted DiGraph, with no threshold. cdt divides the sum of the test batches by the number of test epochs only, so the values go up to the number of batches.</td><td><code>etia_compat</code>: the same W. Default: W in [0, 1] and the DAG of W &gt; 0.5.</td></tr>
+      <tr><td>SAM graph matrix</td><td><code>pywhy_graph_to_matrix</code> writes all the edges of the DiGraph. The result is the complete DAG with j → i for each i &lt; j, for all data.</td><td><code>etia_compat</code>: the same.</td></tr>
+      <tr><td>SAM mixed data</td><td>cdt takes the skeleton column at the index of the variable. When a categorical variable comes first, a generator gets the wrong inputs.</td><td>Default: the correct inputs.</td></tr>
+      <tr><td>SAM processes</td><td>cdt starts its runs in forked processes. When the parent process already uses CUDA, the runs stop with an error, and cdt waits with no end.</td><td>One process: the 8 runs are one vmap.</td></tr>
+      <tr><td>CausalLearner</td><td>The k-fold protocol expects three return values. NOTEARS and SAM return two, so the protocol stops with a ValueError. NOTEARS also ignores the rows of the fold.</td><td>Increment 9.</td></tr>
+    </table>
+    <div id="findings_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment7/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, causalnex 0.12.2, cdt 0.6.0, torch with CUDA). Times on one workstation: Intel i9-14900K, RTX 4090. NOTEARS uses float64, SAM uses float32 (as torch).</footer>
+</div>
+<script>
+const HOWTO = {
+ "nt_agree": "<p>This table compares NOTEARS of ETIA-JAX in the ETIA mode with NOTEARS of causalnex, which ETIA uses. Each row is one dataset of the search fixtures. causalnex has no random step. Thus the two programs find the solution of the same problem.</p><p>The column \"max |w diff|\" gives the largest difference between two weights. The column \"score rel. diff\" gives the relative difference of the squared-error score of the two weight matrices. A small value shows that the two solvers found equally good solutions.</p><p>The last three columns compare the graph of ETIA with the graph of ETIA-JAX. Each column is one threshold of the ETIA grid. The value \"same\" shows equal mark matrices. An empty cell shows that the fixture has no ETIA run at that threshold. From 20 variables, one causalnex run takes minutes.</p>",
+ "nt_weights": "<p>This chart compares each weight of causalnex with the same weight of ETIA-JAX. Each point is one entry W[i, j] of one dataset. The x axis gives the weight in causalnex, and the y axis gives the weight in ETIA-JAX.</p><p>When the two solvers agree, the points are on the diagonal line. A point far from the diagonal shows a weight that the two solvers find differently. Only a weight that crosses a threshold can change the graph.</p>",
+ "nt_acc": "<p>This table gives the accuracy of NOTEARS at the default threshold of ETIA (0.8). Each row is one dataset and one mode of ETIA-JAX. The SHD is the structural Hamming distance to the correct DAG: the number of node pairs with a different edge. A lower SHD shows a better graph.</p><p>The column \"same as ETIA\" gives 1 when the ETIA mode gives the same mark matrix as ETIA. The default mode centers the data. Thus its graph can be different.</p>",
+ "sam_acc": "<p>This table compares the accuracy of SAM in ETIA and in ETIA-JAX. Each row is one dataset, one setting and one mode of ETIA-JAX. SAM is random, and ETIA-JAX cannot make the random draws of torch. Thus the table compares the accuracy, not the output.</p><p>The AUROC uses the weights of all the node pairs as scores for the correct edges. The value 1 shows a perfect sequence, and the value 0.5 shows a random sequence. A higher AUROC shows a better result. The SHD uses the DAG of the weights above 0.5 (after the division by the number of batches). A lower SHD shows a better graph.</p>",
+ "sam_seeds": "<p>This table compares the range of SAM results in ETIA-JAX with the one ETIA run of each dataset. Each row is one dataset. ETIA-JAX ran SAM with 10 seeds, and ETIA ran SAM one time, because one ETIA run takes about 13 minutes.</p><p>The columns \"min\", \"ETIA-JAX mean\" and \"max\" give the AUROC of the 10 seeds. The column \"ETIA in range\" gives the value \"true\" when the AUROC of ETIA is between the minimum and the maximum. This value shows that the difference between ETIA and ETIA-JAX is not larger than the random changes of SAM.</p>",
+ "time_chart": "<p>This chart shows the time of one run for each dataset. Select the algorithm above the chart. Each bar is ETIA or ETIA-JAX on one device.</p><p>The y axis has a logarithmic scale. A lower bar shows a shorter time. All the times of ETIA-JAX are after the compilation. For SAM, one run has the 8 runs of cdt. The label \"(defaults)\" shows the run with the default settings of ETIA (3000 training epochs and 1000 test epochs).</p>",
+ "timing": "<p>This table gives the times and the accuracy of all the runs. Each row is one algorithm, one dataset, one setting, one device and one mode. All the times are in seconds. The column \"first run s\" includes the compilation. Type in the filter box to show only some rows.</p><p>The column \"speed-up\" divides the time of ETIA by the time of ETIA-JAX. A value above 1 shows that ETIA-JAX is faster.</p>",
+ "findings": "<p>This table shows what ETIA, causalnex and cdt do that the definitions of the algorithms do not tell. Each row is one behavior. The last column tells how ETIA-JAX does it.</p>",
+ "tests": "<p>This table shows the tests of the test suite after increment 7. Each row is one test function. The column result shows \"pass\" or \"fail\". The column time_s gives the time of each test in seconds. Start the slow tests with the command \"pytest -m slow\".</p>"
+};
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('findings_howto').innerHTML = box('table', HOWTO.findings);
+pv.need(['summary.json', 'notears_agreement.csv', 'notears_weights.csv', 'notears_accuracy.csv', 'sam_accuracy.csv', 'sam_seeds.csv',
+         'time_long.csv', 'timing.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.notears_graph_same} / ${s.notears_graph_checked}`, 'NOTEARS: same graph as ETIA', `${s.notears_cases} datasets, ETIA thresholds`) +
+    card(`${pv.fmt(s.notears_median_speedup_cpu, 1)}×`, 'NOTEARS median speed-up', 'ETIA-JAX on the CPU') +
+    card(`${pv.fmt(s.sam_auc_jax, 3)}`, 'SAM mean AUROC, ETIA-JAX', `10 seeds; ETIA ${pv.fmt(s.sam_auc_etia, 3)}, in the range on ${s.sam_etia_in_range} / ${s.sam_cases}`) +
+    card(`${pv.fmt(s.sam_median_speedup_gpu, 0)}×`, 'SAM median speed-up', `ETIA defaults: ${pv.fmt(s.sam_full_etia_s / 60, 0)} min → ${pv.fmt(s.sam_full_jax_s, 0)} s`);
+});
+
+pv.table('#nt_agree', 'notears_agreement.csv', {
+  labels: 'max_abs_diff: max |w diff| | objective_rel_diff: score rel. diff | graph_0.0: threshold 0 | graph_0.5: threshold 0.5 | graph_0.8: threshold 0.8',
+  dec: 'max_abs_diff:4 objective_rel_diff:2e', wide: true, howto: HOWTO.nt_agree});
+pv.chart('#nt_weights', 'notears_weights.csv', {type: 'scatter', x: 'causalnex', y: 'etia_jax',
+  'x-label': 'weight in causalnex', 'y-label': 'weight in ETIA-JAX', height: 360, howto: HOWTO.nt_weights});
+pv.table('#nt_acc', 'notears_accuracy.csv', {
+  labels: 'shd_etia: SHD ETIA | shd_jax: SHD ETIA-JAX | same_graph: same as ETIA', height: 360, howto: HOWTO.nt_acc});
+pv.table('#sam_seeds', 'sam_seeds.csv', {
+  labels: 'auc_etia: AUROC ETIA | jax_mean: ETIA-JAX mean | jax_min: min | jax_max: max | etia_in_jax_range: ETIA in range',
+  dec: 'auc_etia:3 jax_mean:3 jax_min:3 jax_max:3', howto: HOWTO.sam_seeds});
+pv.table('#sam_acc', 'sam_accuracy.csv', {
+  labels: 'auc_etia: AUROC ETIA | auc_jax: AUROC ETIA-JAX | shd_etia: SHD ETIA | shd_jax: SHD ETIA-JAX',
+  dec: 'auc_etia:3 auc_jax:3', howto: HOWTO.sam_acc});
+
+const ALG = [['NOTEARS', 'NOTEARS'], ['SAM', 'SAM']];
+let alg = 'NOTEARS';
+const drawTime = () => pv.chart('#time_chart', 'time_long.csv', {type: 'bar', x: 'case', y: 'seconds', color: 'who',
+  'log-y': true, 'x-label': 'dataset', 'y-label': 'seconds per run (log scale)', height: 380, wide: true,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.algo === alg)), howto: HOWTO.time_chart});
+pv.seg('#alg', {options: ALG, value: alg, onChange: v => { alg = v; drawTime(); }});
+drawTime();
+
+pv.table('#timing', 'timing.csv', {
+  cols: 'algo,case,p,setting,device,mode,etia_time,jax_first,jax_time,speedup,shd_etia,shd_jax,auc_etia,auc_jax',
+  labels: 'etia_time: ETIA s | jax_first: first run s | jax_time: ETIA-JAX s | auc_etia: AUROC ETIA | auc_jax: AUROC ETIA-JAX',
+  dec: 'etia_time:2 jax_first:2 jax_time:3 speedup:1 auc_etia:3 auc_jax:3', sort: 'speedup:desc', height: 460, wide: true,
+  howto: HOWTO.timing});
+
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

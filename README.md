@@ -163,6 +163,35 @@ ETIA has two kinds of time-series algorithms. ETIA-JAX has both.
 
 `etia_jax/search/lpcmci.py` is derived from tigramite 5.2 (GNU GPL v3.0). The [license](#license) of ETIA-JAX agrees with it.
 
+## NOTEARS and SAM (increment 7)
+
+ETIA has two algorithms that use continuous optimization. ETIA-JAX has both, with optax.
+
+- **NOTEARS** (`etia_jax.search.notears.notears`). ETIA calls `from_pandas` of causalnex 0.12.2. ETIA-JAX does the same augmented Lagrangian loop. The inner problem uses an L-BFGS solver of optax with the stop rules of scipy L-BFGS-B, and a closed-form gradient. NOTEARS runs on the CPU by default (`device="cpu"`), because its small sequential steps are slower on the GPU.
+- **SAM** (`etia_jax.search.sam.sam`). ETIA calls `SAM` of cdt 0.6.0 (torch). ETIA-JAX copies `run_SAM` step by step: the generators, the graph sampler, the discriminator, the losses, the sequence of the Adam steps and the DAG penalty. The 8 runs of cdt are one `vmap`, and the epochs are one `lax.scan`.
+- **Modes.** `etia_compat=True` copies ETIA, causalnex and cdt (the list below). The default mode is the correct algorithm.
+
+### Agreement with ETIA
+
+- **NOTEARS.** causalnex has no random step, so the tests compare the weights and the graphs (`reference/fixtures/notears_ref.npz`, 17 datasets). On 16 datasets, the score of the two solutions agrees to 1e-3, and ETIA's graph is the same at each threshold of ETIA's grid. A test skips a threshold when a causalnex weight is within 0.05 of it. On `cont20_s3`, ETIA-JAX ends in another local optimum: its score is 0.25 % higher, and 10 marks are different (the test is an expected failure).
+- **SAM.** SAM is random, and ETIA-JAX cannot make the random draws of torch. Thus the tests compare the accuracy (the AUROC of the weights against the correct DAG) on 6 datasets (`reference/fixtures/sam_ref.npz`). ETIA has one run per dataset (about 13 minutes each). For 10 seeds of ETIA-JAX, the ETIA value is in the range of ETIA-JAX on 5 datasets. The mean AUROC is 0.877 for ETIA and 0.856 for ETIA-JAX.
+
+### Speed
+
+- **NOTEARS (CPU).** With 10 variables, ETIA-JAX is 3 to 6 times faster than causalnex. With 20 and 30 variables, causalnex takes 2.5 to 9 minutes, and ETIA-JAX takes 1 to 6 seconds (83 to 210 times faster).
+- **SAM (GPU).** With 1000 training and 500 test epochs, ETIA-JAX is 76 to 306 times faster than cdt on the GPU. With the defaults of ETIA (3000 and 1000 epochs, 10 variables, 500 rows), cdt takes 21 minutes and ETIA-JAX takes 12 seconds.
+
+### What ETIA, causalnex and cdt do (kept only in `etia_compat` mode)
+
+- **NOTEARS parameters.** ETIA gives only `threshold` to causalnex. The `max_iter` and `h_tol` of its grid have no effect: causalnex uses 100 and 1e-8. Thus the 27 points of the grid give 3 different results.
+- **NOTEARS data.** causalnex does not center the data, and its score has no intercept. The default mode centers the data.
+- **NOTEARS at threshold 0.** All weights stay. ETIA writes each edge into one mark matrix, and in a 2-cycle the later edge wins. The result is the complete DAG with j -> i for each i < j. The default mode removes the smallest weight on a cycle until no cycle stays.
+- **SAM output.** ETIA keeps the averaged filters of cdt as a weighted DiGraph, with no threshold. cdt divides the sum over the test batches by the number of test epochs only. Thus the values go up to the number of batches per epoch. The default mode gives values in [0, 1] and the DAG of the values above 0.5.
+- **SAM graph matrix.** `pywhy_graph_to_matrix` of ETIA writes all the edges of the DiGraph. The result is the complete DAG with j -> i for each i < j, for all data.
+- **SAM with mixed data.** cdt reads the skeleton column at the index of the variable. It must read the first column of the variable. When a categorical variable comes first, a generator gets the wrong inputs. The default mode gives the correct inputs.
+- **SAM processes.** cdt starts its runs in forked processes. When the calling program uses CUDA before the call, the runs stop with an error, and cdt waits with no end.
+- **CausalLearner.** The k-fold protocol of ETIA expects three return values from an algorithm. NOTEARS and SAM return two, so the protocol stops with a ValueError. NOTEARS also uses all the rows, not the rows of the fold. Increment 9 handles the protocols.
+
 ## Plan of increments
 
 The details and the status of each increment are in [docs/increments.md](docs/increments.md).
