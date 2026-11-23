@@ -66,9 +66,9 @@ class _TetradGfci(_TetradFci):
         return None
 
     def fges_step(self, score):
-        fg = _Fges(score, self.p, compat=True, max_degree=-1)
+        fg = _Fges(score, self.p, compat=True, max_degree=-1, knowledge=self.kn)
         g = fg.search(faithfulness_assumed=True).g          # the FGES graph becomes the PAG
-        cpdag = TGraph(self.p)                             # new EdgeListGraph(graph)
+        cpdag = TGraph(self.p, self.names)                 # new EdgeListGraph(graph)
         for e in g.get_edges():
             cpdag.add_edge(e)
         self.cpdag_marks = cpdag.marks()
@@ -89,6 +89,7 @@ class _TetradGfci(_TetradFci):
     def r0_step(self, g, cpdag):
         """GraphUtils.gfciR0."""
         g.reorient_all_with(C)
+        self.fci_orient_bk(g, self.kn)
         for y in range(self.p):
             adj = g.get_adjacent_nodes(y)
             if len(adj) < 2:
@@ -122,8 +123,9 @@ class _TetradGfci(_TetradFci):
 
 
 # ---------------------------------------------------------------- textbook
-def _gfci_textbook(cache, score, p):
-    fg = _Fges(score, p, compat=False, max_degree=-1)
+def _gfci_textbook(cache, score, p, knowledge=None):
+    from .fci import _bk_marks
+    fg = _Fges(score, p, compat=False, max_degree=-1, knowledge=knowledge)
     cp = fg.search(faithfulness_assumed=True).marks()
     adj0 = cp != NONE
     G = np.where(adj0, CIRCLE, NONE).astype(np.int8)
@@ -157,11 +159,13 @@ def _gfci_textbook(cache, score, p):
                 if cpdag_collider(a, b, c) or (S is not None and b not in S):
                     G[a, b] = G[c, b] = ARROW
 
+    _bk_marks(G, knowledge)
     r0()
     for x, y, Z in _pds_step(cache, G):
         G[x, y] = G[y, x] = NONE
         sepset[(x, y)] = tuple(Z)
     G[G != NONE] = CIRCLE
+    _bk_marks(G, knowledge)
     r0()
 
     def find_sepset(d, c):
@@ -191,15 +195,15 @@ def _gfci_textbook(cache, score, p):
     return G, cp, sepset
 
 
-def gfci(ci, score, alpha=0.05, tetrad_compat=False):
+def gfci(ci, score, alpha=0.05, tetrad_compat=False, knowledge=None):
     """GFCI with a CI test ``ci`` and a score ``score`` (etia_jax.scores).
     Returns a GfciResult with the PAG (mark matrix) in ``graph`` and the
     FGES CPDAG in ``cpdag``."""
     p = ci.p if hasattr(ci, "p") else len(ci.observed)
     cache = CICache(ci, alpha)
     if tetrad_compat:
-        t = _TetradGfci(cache, p)
+        t = _TetradGfci(cache, p, knowledge=knowledge)
         g = t.search(score)
         return GfciResult(g.marks(), t.cpdag_marks, cache, score)
-    G, cp, sep = _gfci_textbook(cache, score, p)
+    G, cp, sep = _gfci_textbook(cache, score, p, knowledge)
     return GfciResult(G, cp, cache, score, sepset=sep)

@@ -264,7 +264,7 @@ class TGraph:
         """The ETIA mark matrix: M[i, j] = mark at j on the edge i - j."""
         import numpy as np
         M = np.zeros((self.p, self.p), dtype=np.int8)
-        for e in self.edges_set:
+        for e in self.get_edges():          # graph.getEdges() order (matters only with two edges on a pair)
             M[e.n1, e.n2] = _MARK[e.e2]
             M[e.n2, e.n1] = _MARK[e.e1]
         return M

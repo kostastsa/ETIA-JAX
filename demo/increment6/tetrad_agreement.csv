@@ -1,0 +1,11 @@
+algo,searches,agree,nondeterministic_in_tetrad,rounding_ties
+cfci,38,38,0,0
+cpc,38,38,0,0
+fci,38,38,0,0
+fcimax,38,38,3,0
+fges,30,30,0,0
+gfci,76,76,12,0
+pc,38,38,0,0
+rfci,38,38,1,0
+svarfci,38,38,0,0
+svargfci,76,76,4,8

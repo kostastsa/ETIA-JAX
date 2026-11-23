@@ -1,0 +1,704 @@
+gpu cont3_L1_s0|FisherZ|0.01|None|cfci                   etia 0.005  compat 0.024  default 0.023
+gpu cont3_L1_s0|FisherZ|0.01|None|cpc                    etia 0.003  compat 0.005  default 0.005
+gpu cont3_L1_s0|FisherZ|0.01|None|fcimax                 etia 0.005  compat 0.021  default 0.023
+gpu cont3_L1_s0|FisherZ|0.01|None|fci                    etia 0.003  compat 0.010  default 0.021
+gpu cont3_L1_s0|FisherZ|0.01|None|pc                     etia 0.001  compat 0.002  default 0.002
+gpu cont3_L1_s0|FisherZ|0.01|None|rfci                   etia 0.001  compat 0.006  default 0.005
+gpu cont3_L1_s0|FisherZ|0.01|None|svarfci                etia 0.004  compat 0.011  default 0.022
+gpu cont3_L1_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.018  compat 0.036  default 0.052
+gpu cont3_L1_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.011  compat 0.031  default 0.052
+gpu cont3_L1_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.017  compat 0.034  default 0.048
+gpu cont3_L1_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.010  compat 0.029  default 0.048
+gpu cont3_L1_s0|FisherZ|0.05|None|cfci                   etia 0.012  compat 0.025  default 0.023
+gpu cont3_L1_s0|FisherZ|0.05|None|cpc                    etia 0.012  compat 0.005  default 0.005
+gpu cont3_L1_s0|FisherZ|0.05|None|fcimax                 etia 0.009  compat 0.021  default 0.023
+gpu cont3_L1_s0|FisherZ|0.05|None|fci                    etia 0.007  compat 0.010  default 0.021
+gpu cont3_L1_s0|FisherZ|0.05|None|pc                     etia 0.007  compat 0.002  default 0.002
+gpu cont3_L1_s0|FisherZ|0.05|None|rfci                   etia 0.003  compat 0.005  default 0.004
+gpu cont3_L1_s0|FisherZ|0.05|None|svarfci                etia 0.011  compat 0.011  default 0.021
+gpu cont3_L1_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.023  compat 0.036  default 0.052
+gpu cont3_L1_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.013  compat 0.034  default 0.052
+gpu cont3_L1_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.042  compat 0.033  default 0.048
+gpu cont3_L1_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.014  compat 0.029  default 0.048
+gpu cont3_L1_s0|None|None|dg_bic|fges                    etia 0.003  compat 0.010  default 0.009
+gpu cont3_L1_s0|None|None|sem_bic_score|fges             etia 0.003  compat 0.010  default 0.008
+gpu cont3_L1_s1|FisherZ|0.01|None|cfci                   etia 0.003  compat 0.024  default 0.022
+gpu cont3_L1_s1|FisherZ|0.01|None|cpc                    etia 0.002  compat 0.005  default 0.005
+gpu cont3_L1_s1|FisherZ|0.01|None|fcimax                 etia 0.003  compat 0.023  default 0.024
+gpu cont3_L1_s1|FisherZ|0.01|None|fci                    etia 0.002  compat 0.016  default 0.022
+gpu cont3_L1_s1|FisherZ|0.01|None|pc                     etia 0.001  compat 0.003  default 0.003
+gpu cont3_L1_s1|FisherZ|0.01|None|rfci                   etia 0.001  compat 0.005  default 0.004
+gpu cont3_L1_s1|FisherZ|0.01|None|svarfci                etia 0.003  compat 0.009  default 0.020
+gpu cont3_L1_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.004  compat 0.015  default 0.034
+gpu cont3_L1_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.003  compat 0.015  default 0.034
+gpu cont3_L1_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.004  compat 0.015  default 0.034
+gpu cont3_L1_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.003  compat 0.014  default 0.033
+gpu cont3_L1_s1|FisherZ|0.05|None|cfci                   etia 0.004  compat 0.024  default 0.022
+gpu cont3_L1_s1|FisherZ|0.05|None|cpc                    etia 0.002  compat 0.006  default 0.005
+gpu cont3_L1_s1|FisherZ|0.05|None|fcimax                 etia 0.003  compat 0.023  default 0.022
+gpu cont3_L1_s1|FisherZ|0.05|None|fci                    etia 0.003  compat 0.015  default 0.020
+gpu cont3_L1_s1|FisherZ|0.05|None|pc                     etia 0.001  compat 0.003  default 0.003
+gpu cont3_L1_s1|FisherZ|0.05|None|rfci                   etia 0.002  compat 0.004  default 0.004
+gpu cont3_L1_s1|FisherZ|0.05|None|svarfci                etia 0.003  compat 0.009  default 0.020
+gpu cont3_L1_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.004  compat 0.015  default 0.042
+gpu cont3_L1_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.004  compat 0.015  default 0.033
+gpu cont3_L1_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.004  compat 0.015  default 0.033
+gpu cont3_L1_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.004  compat 0.015  default 0.034
+gpu cont3_L1_s1|None|None|dg_bic|fges                    etia 0.002  compat 0.007  default 0.006
+gpu cont3_L1_s1|None|None|sem_bic_score|fges             etia 0.002  compat 0.006  default 0.006
+gpu cont3_L1_s2|FisherZ|0.01|None|cfci                   etia 0.005  compat 0.027  default 0.027
+gpu cont3_L1_s2|FisherZ|0.01|None|cpc                    etia 0.003  compat 0.005  default 0.005
+gpu cont3_L1_s2|FisherZ|0.01|None|fcimax                 etia 0.005  compat 0.024  default 0.025
+gpu cont3_L1_s2|FisherZ|0.01|None|fci                    etia 0.004  compat 0.023  default 0.022
+gpu cont3_L1_s2|FisherZ|0.01|None|pc                     etia 0.001  compat 0.003  default 0.003
+gpu cont3_L1_s2|FisherZ|0.01|None|rfci                   etia 0.002  compat 0.006  default 0.004
+gpu cont3_L1_s2|FisherZ|0.01|None|svarfci                etia 0.004  compat 0.011  default 0.024
+gpu cont3_L1_s2|FisherZ|0.01|dg_bic|gfci                 etia 0.028  compat 0.040  default 0.057
+gpu cont3_L1_s2|FisherZ|0.01|dg_bic|svargfci             etia 0.017  compat 0.042  default 0.053
+gpu cont3_L1_s2|FisherZ|0.01|sem_bic_score|gfci          etia 0.028  compat 0.042  default 0.052
+gpu cont3_L1_s2|FisherZ|0.01|sem_bic_score|svargfci      etia 0.018  compat 0.043  default 0.058
+gpu cont3_L1_s2|FisherZ|0.05|None|cfci                   etia 0.006  compat 0.035  default 0.032
+gpu cont3_L1_s2|FisherZ|0.05|None|cpc                    etia 0.004  compat 0.006  default 0.006
+gpu cont3_L1_s2|FisherZ|0.05|None|fcimax                 etia 0.005  compat 0.026  default 0.028
+gpu cont3_L1_s2|FisherZ|0.05|None|fci                    etia 0.005  compat 0.030  default 0.027
+gpu cont3_L1_s2|FisherZ|0.05|None|pc                     etia 0.001  compat 0.003  default 0.003
+gpu cont3_L1_s2|FisherZ|0.05|None|rfci                   etia 0.002  compat 0.007  default 0.005
+gpu cont3_L1_s2|FisherZ|0.05|None|svarfci                etia 0.005  compat 0.017  default 0.028
+gpu cont3_L1_s2|FisherZ|0.05|dg_bic|gfci                 etia 0.028  compat 0.044  default 0.062
+gpu cont3_L1_s2|FisherZ|0.05|dg_bic|svargfci             etia 0.018  compat 0.043  default 0.062
+gpu cont3_L1_s2|FisherZ|0.05|sem_bic_score|gfci          etia 0.030  compat 0.042  default 0.061
+gpu cont3_L1_s2|FisherZ|0.05|sem_bic_score|svargfci      etia 0.018  compat 0.044  default 0.064
+gpu cont3_L1_s2|None|None|dg_bic|fges                    etia 0.002  compat 0.009  default 0.008
+gpu cont3_L1_s2|None|None|sem_bic_score|fges             etia 0.002  compat 0.009  default 0.008
+gpu cont3_L2_s0|FisherZ|0.01|None|cfci                   etia 0.036  compat 0.124  default 0.068
+gpu cont3_L2_s0|FisherZ|0.01|None|cpc                    etia 0.024  compat 0.010  default 0.010
+gpu cont3_L2_s0|FisherZ|0.01|None|fcimax                 etia 0.022  compat 0.104  default 0.063
+gpu cont3_L2_s0|FisherZ|0.01|None|fci                    etia 0.072  compat 0.303  default 0.058
+gpu cont3_L2_s0|FisherZ|0.01|None|pc                     etia 0.005  compat 0.005  default 0.005
+gpu cont3_L2_s0|FisherZ|0.01|None|rfci                   etia 0.006  compat 0.012  default 0.010
+gpu cont3_L2_s0|FisherZ|0.01|None|svarfci                etia 0.021  compat 0.047  default 0.057
+gpu cont3_L2_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.198  compat 0.094  default 0.112
+gpu cont3_L2_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.112  compat 0.103  default 0.112
+gpu cont3_L2_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.184  compat 0.092  default 0.113
+gpu cont3_L2_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.159  compat 0.100  default 0.115
+gpu cont3_L2_s0|FisherZ|0.05|None|cfci                   etia 0.036  compat 0.110  default 0.064
+gpu cont3_L2_s0|FisherZ|0.05|None|cpc                    etia 0.025  compat 0.009  default 0.009
+gpu cont3_L2_s0|FisherZ|0.05|None|fcimax                 etia 0.028  compat 0.102  default 0.063
+gpu cont3_L2_s0|FisherZ|0.05|None|fci                    etia 0.074  compat 0.308  default 0.063
+gpu cont3_L2_s0|FisherZ|0.05|None|pc                     etia 0.005  compat 0.005  default 0.005
+gpu cont3_L2_s0|FisherZ|0.05|None|rfci                   etia 0.006  compat 0.015  default 0.013
+gpu cont3_L2_s0|FisherZ|0.05|None|svarfci                etia 0.021  compat 0.050  default 0.062
+gpu cont3_L2_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.230  compat 0.096  default 0.114
+gpu cont3_L2_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.186  compat 0.104  default 0.112
+gpu cont3_L2_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.247  compat 0.099  default 0.121
+gpu cont3_L2_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.145  compat 0.106  default 0.113
+gpu cont3_L2_s0|None|None|dg_bic|fges                    etia 0.005  compat 0.023  default 0.020
+gpu cont3_L2_s0|None|None|sem_bic_score|fges             etia 0.004  compat 0.021  default 0.019
+gpu cont3_L2_s1|FisherZ|0.01|None|cfci                   etia 0.026  compat 0.110  default 0.057
+gpu cont3_L2_s1|FisherZ|0.01|None|cpc                    etia 0.017  compat 0.008  default 0.008
+gpu cont3_L2_s1|FisherZ|0.01|None|fcimax                 etia 0.016  compat 0.099  default 0.055
+gpu cont3_L2_s1|FisherZ|0.01|None|fci                    etia 0.013  compat 0.050  default 0.050
+gpu cont3_L2_s1|FisherZ|0.01|None|pc                     etia 0.003  compat 0.005  default 0.004
+gpu cont3_L2_s1|FisherZ|0.01|None|rfci                   etia 0.003  compat 0.009  default 0.008
+gpu cont3_L2_s1|FisherZ|0.01|None|svarfci                etia 0.008  compat 0.018  default 0.049
+gpu cont3_L2_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.161  compat 0.093  default 0.111
+gpu cont3_L2_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.200  compat 0.126  default 0.102
+gpu cont3_L2_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.157  compat 0.088  default 0.108
+gpu cont3_L2_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.181  compat 0.120  default 0.105
+gpu cont3_L2_s1|FisherZ|0.05|None|cfci                   etia 0.033  compat 0.127  default 0.054
+gpu cont3_L2_s1|FisherZ|0.05|None|cpc                    etia 0.022  compat 0.010  default 0.009
+gpu cont3_L2_s1|FisherZ|0.05|None|fcimax                 etia 0.024  compat 0.118  default 0.053
+gpu cont3_L2_s1|FisherZ|0.05|None|fci                    etia 0.018  compat 0.078  default 0.049
+gpu cont3_L2_s1|FisherZ|0.05|None|pc                     etia 0.004  compat 0.005  default 0.004
+gpu cont3_L2_s1|FisherZ|0.05|None|rfci                   etia 0.006  compat 0.015  default 0.008
+gpu cont3_L2_s1|FisherZ|0.05|None|svarfci                etia 0.014  compat 0.029  default 0.050
+gpu cont3_L2_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.160  compat 0.090  default 0.101
+gpu cont3_L2_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.194  compat 0.133  default 0.106
+gpu cont3_L2_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.140  compat 0.087  default 0.102
+gpu cont3_L2_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.176  compat 0.124  default 0.099
+gpu cont3_L2_s1|None|None|dg_bic|fges                    etia 0.004  compat 0.019  default 0.018
+gpu cont3_L2_s1|None|None|sem_bic_score|fges             etia 0.004  compat 0.017  default 0.016
+gpu cont5_L1_s0|FisherZ|0.01|None|cfci                   etia 0.055  compat 0.238  default 0.080
+gpu cont5_L1_s0|FisherZ|0.01|None|cpc                    etia 0.039  compat 0.013  default 0.011
+gpu cont5_L1_s0|FisherZ|0.01|None|fcimax                 etia 0.036  compat 0.180  default 0.069
+gpu cont5_L1_s0|FisherZ|0.01|None|fci                    etia 0.032  compat 0.136  default 0.072
+gpu cont5_L1_s0|FisherZ|0.01|None|pc                     etia 0.005  compat 0.005  default 0.005
+gpu cont5_L1_s0|FisherZ|0.01|None|rfci                   etia 0.005  compat 0.013  default 0.012
+gpu cont5_L1_s0|FisherZ|0.01|None|svarfci                etia 0.011  compat 0.025  default 0.067
+gpu cont5_L1_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.534  compat 0.397  default 0.198
+gpu cont5_L1_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.994  compat 0.252  default 0.196
+gpu cont5_L1_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.552  compat 0.389  default 0.201
+gpu cont5_L1_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.378  compat 0.241  default 0.193
+gpu cont5_L1_s0|FisherZ|0.05|None|cfci                   etia 0.063  compat 0.198  default 0.073
+gpu cont5_L1_s0|FisherZ|0.05|None|cpc                    etia 0.040  compat 0.012  default 0.012
+gpu cont5_L1_s0|FisherZ|0.05|None|fcimax                 etia 0.037  compat 0.191  default 0.072
+gpu cont5_L1_s0|FisherZ|0.05|None|fci                    etia 0.053  compat 0.254  default 0.068
+gpu cont5_L1_s0|FisherZ|0.05|None|pc                     etia 0.006  compat 0.005  default 0.005
+gpu cont5_L1_s0|FisherZ|0.05|None|rfci                   etia 0.006  compat 0.012  default 0.013
+gpu cont5_L1_s0|FisherZ|0.05|None|svarfci                etia 0.014  compat 0.030  default 0.073
+gpu cont5_L1_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.546  compat 0.515  default 0.204
+gpu cont5_L1_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.354  compat 0.277  default 0.207
+gpu cont5_L1_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.527  compat 0.509  default 0.201
+gpu cont5_L1_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.338  compat 0.273  default 0.197
+gpu cont5_L1_s0|None|None|dg_bic|fges                    etia 0.007  compat 0.034  default 0.033
+gpu cont5_L1_s0|None|None|sem_bic_score|fges             etia 0.007  compat 0.031  default 0.030
+gpu cont5_L1_s1|FisherZ|0.01|None|cfci                   etia 0.046  compat 0.144  default 0.045
+gpu cont5_L1_s1|FisherZ|0.01|None|cpc                    etia 0.030  compat 0.009  default 0.009
+gpu cont5_L1_s1|FisherZ|0.01|None|fcimax                 etia 0.033  compat 0.134  default 0.044
+gpu cont5_L1_s1|FisherZ|0.01|None|fci                    etia 0.024  compat 0.104  default 0.048
+gpu cont5_L1_s1|FisherZ|0.01|None|pc                     etia 0.003  compat 0.004  default 0.004
+gpu cont5_L1_s1|FisherZ|0.01|None|rfci                   etia 0.006  compat 0.010  default 0.006
+gpu cont5_L1_s1|FisherZ|0.01|None|svarfci                etia 0.011  compat 0.014  default 0.043
+gpu cont5_L1_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.049  compat 0.049  default 0.071
+gpu cont5_L1_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.012  compat 0.019  default 0.072
+gpu cont5_L1_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.046  compat 0.047  default 0.076
+gpu cont5_L1_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.004  compat 0.018  default 0.080
+gpu cont5_L1_s1|FisherZ|0.05|None|cfci                   etia 0.051  compat 0.146  default 0.048
+gpu cont5_L1_s1|FisherZ|0.05|None|cpc                    etia 0.033  compat 0.010  default 0.010
+gpu cont5_L1_s1|FisherZ|0.05|None|fcimax                 etia 0.036  compat 0.137  default 0.047
+gpu cont5_L1_s1|FisherZ|0.05|None|fci                    etia 0.028  compat 0.105  default 0.041
+gpu cont5_L1_s1|FisherZ|0.05|None|pc                     etia 0.005  compat 0.005  default 0.005
+gpu cont5_L1_s1|FisherZ|0.05|None|rfci                   etia 0.008  compat 0.012  default 0.008
+gpu cont5_L1_s1|FisherZ|0.05|None|svarfci                etia 0.007  compat 0.014  default 0.045
+gpu cont5_L1_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.039  compat 0.049  default 0.070
+gpu cont5_L1_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.007  compat 0.020  default 0.070
+gpu cont5_L1_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.053  compat 0.046  default 0.069
+gpu cont5_L1_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.004  compat 0.018  default 0.077
+gpu cont5_L1_s1|None|None|dg_bic|fges                    etia 0.003  compat 0.016  default 0.015
+gpu cont5_L1_s1|None|None|sem_bic_score|fges             etia 0.003  compat 0.014  default 0.013
+gpu cont5_L2_s0|FisherZ|0.01|None|cfci                   etia 0.057  compat 0.236  default 0.081
+gpu cont5_L2_s0|FisherZ|0.01|None|cpc                    etia 0.037  compat 0.014  default 0.013
+gpu cont5_L2_s0|FisherZ|0.01|None|fcimax                 etia 0.037  compat 0.218  default 0.084
+gpu cont5_L2_s0|FisherZ|0.01|None|fci                    etia 0.039  compat 0.135  default 0.072
+gpu cont5_L2_s0|FisherZ|0.01|None|pc                     etia 0.007  compat 0.006  default 0.006
+gpu cont5_L2_s0|FisherZ|0.01|None|rfci                   etia 0.005  compat 0.013  default 0.011
+gpu cont5_L2_s0|FisherZ|0.01|None|svarfci                etia 0.011  compat 0.024  default 0.072
+gpu cont5_L2_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.022  compat 0.053  default 0.100
+gpu cont5_L2_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.006  compat 0.030  default 0.100
+gpu cont5_L2_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.022  compat 0.051  default 0.097
+gpu cont5_L2_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.006  compat 0.027  default 0.103
+gpu cont5_L2_s0|FisherZ|0.05|None|cfci                   etia 0.110  compat 0.232  default 0.080
+gpu cont5_L2_s0|FisherZ|0.05|None|cpc                    etia 0.064  compat 0.013  default 0.012
+gpu cont5_L2_s0|FisherZ|0.05|None|fcimax                 etia 0.058  compat 0.221  default 0.084
+gpu cont5_L2_s0|FisherZ|0.05|None|fci                    etia 0.054  compat 0.139  default 0.078
+gpu cont5_L2_s0|FisherZ|0.05|None|pc                     etia 0.012  compat 0.007  default 0.007
+gpu cont5_L2_s0|FisherZ|0.05|None|rfci                   etia 0.010  compat 0.015  default 0.014
+gpu cont5_L2_s0|FisherZ|0.05|None|svarfci                etia 0.018  compat 0.025  default 0.078
+gpu cont5_L2_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.049  compat 0.055  default 0.099
+gpu cont5_L2_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.007  compat 0.030  default 0.103
+gpu cont5_L2_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.050  compat 0.051  default 0.104
+gpu cont5_L2_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.007  compat 0.027  default 0.099
+gpu cont5_L2_s0|None|None|dg_bic|fges                    etia 0.004  compat 0.027  default 0.026
+gpu cont5_L2_s0|None|None|sem_bic_score|fges             etia 0.005  compat 0.024  default 0.023
+gpu cont5_L2_s1|FisherZ|0.01|None|cfci                   etia 0.092  compat 0.389  default 0.330
+gpu cont5_L2_s1|FisherZ|0.01|None|cpc                    etia 0.062  compat 0.017  default 0.015
+gpu cont5_L2_s1|FisherZ|0.01|None|fcimax                 etia 0.060  compat 0.360  default 0.310
+gpu cont5_L2_s1|FisherZ|0.01|None|fci                    etia 0.086  compat 0.280  default 0.303
+gpu cont5_L2_s1|FisherZ|0.01|None|pc                     etia 0.011  compat 0.008  default 0.008
+gpu cont5_L2_s1|FisherZ|0.01|None|rfci                   etia 0.011  compat 0.020  default 0.018
+gpu cont5_L2_s1|FisherZ|0.01|None|svarfci                etia 0.063  compat 0.069  default 0.283
+gpu cont5_L2_s1|FisherZ|0.01|dg_bic|gfci                 etia 1.186  compat 0.303  default 0.319
+gpu cont5_L2_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.192  compat 0.274  default 0.295
+gpu cont5_L2_s1|FisherZ|0.01|sem_bic_score|gfci          etia 1.206  compat 0.294  default 0.301
+gpu cont5_L2_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.237  compat 0.174  default 0.300
+gpu cont5_L2_s1|FisherZ|0.05|None|cfci                   etia 0.130  compat 0.527  default 0.319
+gpu cont5_L2_s1|FisherZ|0.05|None|cpc                    etia 0.102  compat 0.018  default 0.018
+gpu cont5_L2_s1|FisherZ|0.05|None|fcimax                 etia 0.081  compat 0.430  default 0.313
+gpu cont5_L2_s1|FisherZ|0.05|None|fci                    etia 0.134  compat 0.311  default 0.318
+gpu cont5_L2_s1|FisherZ|0.05|None|pc                     etia 0.032  compat 0.010  default 0.009
+gpu cont5_L2_s1|FisherZ|0.05|None|rfci                   etia 0.019  compat 0.026  default 0.024
+gpu cont5_L2_s1|FisherZ|0.05|None|svarfci                etia 0.075  compat 0.076  default 0.323
+gpu cont5_L2_s1|FisherZ|0.05|dg_bic|gfci                 etia 1.221  compat 0.314  default 0.370
+gpu cont5_L2_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.190  compat 0.187  default 0.386
+gpu cont5_L2_s1|FisherZ|0.05|sem_bic_score|gfci          etia 1.220  compat 0.290  default 0.360
+gpu cont5_L2_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.202  compat 0.181  default 0.461
+gpu cont5_L2_s1|None|None|dg_bic|fges                    etia 0.009  compat 0.064  default 0.093
+gpu cont5_L2_s1|None|None|sem_bic_score|fges             etia 0.011  compat 0.060  default 0.087
+gpu cont8_L2_s0|FisherZ|0.01|None|cfci                   etia 0.453  compat 1.444  default 1.047
+gpu cont8_L2_s0|FisherZ|0.01|None|cpc                    etia 0.290  compat 0.037  default 0.031
+gpu cont8_L2_s0|FisherZ|0.01|None|fcimax                 etia 0.220  compat 1.318  default 1.035
+gpu cont8_L2_s0|FisherZ|0.01|None|fci                    etia 0.247  compat 0.669  default 1.021
+gpu cont8_L2_s0|FisherZ|0.01|None|pc                     etia 0.019  compat 0.015  default 0.014
+gpu cont8_L2_s0|FisherZ|0.01|None|rfci                   etia 0.021  compat 0.034  default 0.028
+gpu cont8_L2_s0|FisherZ|0.01|None|svarfci                etia 0.045  compat 0.077  default 1.020
+gpu cont8_L2_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.124  compat 0.155  default 0.274
+gpu cont8_L2_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.013  compat 0.104  default 0.270
+gpu cont8_L2_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.126  compat 0.150  default 0.264
+gpu cont8_L2_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.015  compat 0.093  default 0.250
+gpu cont8_L2_s0|FisherZ|0.05|None|cfci                   etia 0.822  compat 1.774  default 1.034
+gpu cont8_L2_s0|FisherZ|0.05|None|cpc                    etia 0.502  compat 0.041  default 0.040
+gpu cont8_L2_s0|FisherZ|0.05|None|fcimax                 etia 0.399  compat 1.732  default 1.018
+gpu cont8_L2_s0|FisherZ|0.05|None|fci                    etia 0.767  compat 1.249  default 1.008
+gpu cont8_L2_s0|FisherZ|0.05|None|pc                     etia 0.026  compat 0.017  default 0.017
+gpu cont8_L2_s0|FisherZ|0.05|None|rfci                   etia 0.028  compat 0.043  default 0.031
+gpu cont8_L2_s0|FisherZ|0.05|None|svarfci                etia 0.070  compat 0.086  default 1.023
+gpu cont8_L2_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.124  compat 0.163  default 0.273
+gpu cont8_L2_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.017  compat 0.101  default 0.265
+gpu cont8_L2_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.161  compat 0.159  default 0.264
+gpu cont8_L2_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.014  compat 0.095  default 0.264
+gpu cont8_L2_s0|None|None|dg_bic|fges                    etia 0.016  compat 0.074  default 0.073
+gpu cont8_L2_s0|None|None|sem_bic_score|fges             etia 0.010  compat 0.067  default 0.064
+gpu cont8_L2_s1|FisherZ|0.01|None|cfci                   etia 0.079  compat 0.394  default 0.354
+gpu cont8_L2_s1|FisherZ|0.01|None|cpc                    etia 0.055  compat 0.020  default 0.020
+gpu cont8_L2_s1|FisherZ|0.01|None|fcimax                 etia 0.046  compat 0.417  default 0.353
+gpu cont8_L2_s1|FisherZ|0.01|None|fci                    etia 0.037  compat 0.125  default 0.341
+gpu cont8_L2_s1|FisherZ|0.01|None|pc                     etia 0.010  compat 0.013  default 0.012
+gpu cont8_L2_s1|FisherZ|0.01|None|rfci                   etia 0.012  compat 0.024  default 0.022
+gpu cont8_L2_s1|FisherZ|0.01|None|svarfci                etia 0.018  compat 0.049  default 0.359
+gpu cont8_L2_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.124  compat 0.162  default 0.229
+gpu cont8_L2_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.012  compat 0.095  default 0.213
+gpu cont8_L2_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.120  compat 0.152  default 0.220
+gpu cont8_L2_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.012  compat 0.083  default 0.207
+gpu cont8_L2_s1|FisherZ|0.05|None|cfci                   etia 0.187  compat 0.703  default 4.021
+gpu cont8_L2_s1|FisherZ|0.05|None|cpc                    etia 0.125  compat 0.030  default 0.027
+gpu cont8_L2_s1|FisherZ|0.05|None|fcimax                 etia 0.101  compat 0.686  default 3.937
+gpu cont8_L2_s1|FisherZ|0.05|None|fci                    etia 0.149  compat 0.345  default 3.873
+gpu cont8_L2_s1|FisherZ|0.05|None|pc                     etia 0.018  compat 0.016  default 0.016
+gpu cont8_L2_s1|FisherZ|0.05|None|rfci                   etia 0.019  compat 0.030  default 0.026
+gpu cont8_L2_s1|FisherZ|0.05|None|svarfci                etia 0.022  compat 0.053  default 3.962
+gpu cont8_L2_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.144  compat 0.158  default 0.215
+gpu cont8_L2_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.012  compat 0.091  default 0.210
+gpu cont8_L2_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.123  compat 0.149  default 0.202
+gpu cont8_L2_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.013  compat 0.083  default 0.212
+gpu cont8_L2_s1|None|None|dg_bic|fges                    etia 0.013  compat 0.106  default 0.095
+gpu cont8_L2_s1|None|None|sem_bic_score|fges             etia 0.012  compat 0.097  default 0.086
+gpu disc4_L1_s0|None|None|bdeu|fges                      etia 0.005  compat 0.007  default 0.007
+gpu disc4_L1_s0|None|None|discrete_bic|fges              etia 0.004  compat 0.009  default 0.007
+gpu disc4_L1_s0|chisquare|0.01|None|cfci                 etia 0.064  compat 0.302  default 0.155
+gpu disc4_L1_s0|chisquare|0.01|None|cpc                  etia 0.130  compat 0.025  default 0.025
+gpu disc4_L1_s0|chisquare|0.01|None|fcimax               etia 0.064  compat 0.327  default 0.153
+gpu disc4_L1_s0|chisquare|0.01|None|fci                  etia 0.055  compat 0.075  default 0.154
+gpu disc4_L1_s0|chisquare|0.01|None|pc                   etia 0.021  compat 0.012  default 0.012
+gpu disc4_L1_s0|chisquare|0.01|None|rfci                 etia 0.027  compat 0.030  default 0.030
+gpu disc4_L1_s0|chisquare|0.01|None|svarfci              etia 0.057  compat 0.049  default 0.153
+gpu disc4_L1_s0|chisquare|0.01|bdeu|gfci                 etia 0.011  compat 0.007  default 0.071
+gpu disc4_L1_s0|chisquare|0.01|bdeu|svargfci             etia 0.008  compat 0.007  default 0.071
+gpu disc4_L1_s0|chisquare|0.01|discrete_bic|gfci         etia 0.006  compat 0.009  default 0.073
+gpu disc4_L1_s0|chisquare|0.01|discrete_bic|svargfci     etia 0.007  compat 0.010  default 0.073
+gpu disc4_L1_s0|chisquare|0.05|None|cfci                 etia 0.062  compat 0.382  default 0.199
+gpu disc4_L1_s0|chisquare|0.05|None|cpc                  etia 0.059  compat 0.027  default 0.026
+gpu disc4_L1_s0|chisquare|0.05|None|fcimax               etia 0.058  compat 0.377  default 0.213
+gpu disc4_L1_s0|chisquare|0.05|None|fci                  etia 0.078  compat 0.087  default 0.190
+gpu disc4_L1_s0|chisquare|0.05|None|pc                   etia 0.049  compat 0.013  default 0.012
+gpu disc4_L1_s0|chisquare|0.05|None|rfci                 etia 0.028  compat 0.033  default 0.031
+gpu disc4_L1_s0|chisquare|0.05|None|svarfci              etia 0.185  compat 0.065  default 0.198
+gpu disc4_L1_s0|chisquare|0.05|bdeu|gfci                 etia 0.008  compat 0.007  default 0.068
+gpu disc4_L1_s0|chisquare|0.05|bdeu|svargfci             etia 0.012  compat 0.007  default 0.067
+gpu disc4_L1_s0|chisquare|0.05|discrete_bic|gfci         etia 0.011  compat 0.009  default 0.071
+gpu disc4_L1_s0|chisquare|0.05|discrete_bic|svargfci     etia 0.012  compat 0.009  default 0.076
+gpu disc4_L1_s0|gsquare|0.01|None|cfci                   etia 0.046  compat 0.325  default 0.181
+gpu disc4_L1_s0|gsquare|0.01|None|cpc                    etia 0.042  compat 0.023  default 0.024
+gpu disc4_L1_s0|gsquare|0.01|None|fcimax                 etia 0.043  compat 0.296  default 0.180
+gpu disc4_L1_s0|gsquare|0.01|None|fci                    etia 0.050  compat 0.048  default 0.176
+gpu disc4_L1_s0|gsquare|0.01|None|pc                     etia 0.019  compat 0.010  default 0.010
+gpu disc4_L1_s0|gsquare|0.01|None|rfci                   etia 0.020  compat 0.030  default 0.030
+gpu disc4_L1_s0|gsquare|0.01|None|svarfci                etia 0.047  compat 0.047  default 0.182
+gpu disc4_L1_s0|gsquare|0.01|bdeu|gfci                   etia 0.004  compat 0.007  default 0.079
+gpu disc4_L1_s0|gsquare|0.01|bdeu|svargfci               etia 0.005  compat 0.007  default 0.081
+gpu disc4_L1_s0|gsquare|0.01|discrete_bic|gfci           etia 0.005  compat 0.009  default 0.068
+gpu disc4_L1_s0|gsquare|0.01|discrete_bic|svargfci       etia 0.004  compat 0.009  default 0.068
+gpu disc4_L1_s0|gsquare|0.05|None|cfci                   etia 0.062  compat 0.361  default 0.203
+gpu disc4_L1_s0|gsquare|0.05|None|cpc                    etia 0.058  compat 0.026  default 0.026
+gpu disc4_L1_s0|gsquare|0.05|None|fcimax                 etia 0.060  compat 0.374  default 0.224
+gpu disc4_L1_s0|gsquare|0.05|None|fci                    etia 0.074  compat 0.109  default 0.193
+gpu disc4_L1_s0|gsquare|0.05|None|pc                     etia 0.032  compat 0.012  default 0.012
+gpu disc4_L1_s0|gsquare|0.05|None|rfci                   etia 0.028  compat 0.032  default 0.031
+gpu disc4_L1_s0|gsquare|0.05|None|svarfci                etia 0.163  compat 0.074  default 0.211
+gpu disc4_L1_s0|gsquare|0.05|bdeu|gfci                   etia 0.004  compat 0.007  default 0.070
+gpu disc4_L1_s0|gsquare|0.05|bdeu|svargfci               etia 0.010  compat 0.007  default 0.070
+gpu disc4_L1_s0|gsquare|0.05|discrete_bic|gfci           etia 0.005  compat 0.009  default 0.070
+gpu disc4_L1_s0|gsquare|0.05|discrete_bic|svargfci       etia 0.005  compat 0.009  default 0.075
+gpu disc4_L1_s1|None|None|bdeu|fges                      etia 0.004  compat 0.006  default 0.005
+gpu disc4_L1_s1|None|None|discrete_bic|fges              etia 0.005  compat 0.007  default 0.006
+gpu disc4_L1_s1|chisquare|0.01|None|cfci                 etia 0.024  compat 0.181  default 0.126
+gpu disc4_L1_s1|chisquare|0.01|None|cpc                  etia 0.021  compat 0.019  default 0.019
+gpu disc4_L1_s1|chisquare|0.01|None|fcimax               etia 0.025  compat 0.190  default 0.125
+gpu disc4_L1_s1|chisquare|0.01|None|fci                  etia 0.022  compat 0.013  default 0.113
+gpu disc4_L1_s1|chisquare|0.01|None|pc                   etia 0.008  compat 0.009  default 0.009
+gpu disc4_L1_s1|chisquare|0.01|None|rfci                 etia 0.009  compat 0.013  default 0.012
+gpu disc4_L1_s1|chisquare|0.01|None|svarfci              etia 0.026  compat 0.029  default 0.116
+gpu disc4_L1_s1|chisquare|0.01|bdeu|gfci                 etia 0.003  compat 0.005  default 0.044
+gpu disc4_L1_s1|chisquare|0.01|bdeu|svargfci             etia 0.005  compat 0.006  default 0.044
+gpu disc4_L1_s1|chisquare|0.01|discrete_bic|gfci         etia 0.003  compat 0.007  default 0.062
+gpu disc4_L1_s1|chisquare|0.01|discrete_bic|svargfci     etia 0.005  compat 0.007  default 0.065
+gpu disc4_L1_s1|chisquare|0.05|None|cfci                 etia 0.025  compat 0.196  default 0.127
+gpu disc4_L1_s1|chisquare|0.05|None|cpc                  etia 0.022  compat 0.019  default 0.019
+gpu disc4_L1_s1|chisquare|0.05|None|fcimax               etia 0.026  compat 0.191  default 0.127
+gpu disc4_L1_s1|chisquare|0.05|None|fci                  etia 0.022  compat 0.013  default 0.117
+gpu disc4_L1_s1|chisquare|0.05|None|pc                   etia 0.008  compat 0.010  default 0.009
+gpu disc4_L1_s1|chisquare|0.05|None|rfci                 etia 0.009  compat 0.013  default 0.013
+gpu disc4_L1_s1|chisquare|0.05|None|svarfci              etia 0.029  compat 0.029  default 0.113
+gpu disc4_L1_s1|chisquare|0.05|bdeu|gfci                 etia 0.003  compat 0.005  default 0.045
+gpu disc4_L1_s1|chisquare|0.05|bdeu|svargfci             etia 0.005  compat 0.006  default 0.047
+gpu disc4_L1_s1|chisquare|0.05|discrete_bic|gfci         etia 0.003  compat 0.007  default 0.066
+gpu disc4_L1_s1|chisquare|0.05|discrete_bic|svargfci     etia 0.005  compat 0.007  default 0.066
+gpu disc4_L1_s1|gsquare|0.01|None|cfci                   etia 0.019  compat 0.163  default 0.110
+gpu disc4_L1_s1|gsquare|0.01|None|cpc                    etia 0.018  compat 0.019  default 0.018
+gpu disc4_L1_s1|gsquare|0.01|None|fcimax                 etia 0.020  compat 0.175  default 0.110
+gpu disc4_L1_s1|gsquare|0.01|None|fci                    etia 0.014  compat 0.012  default 0.105
+gpu disc4_L1_s1|gsquare|0.01|None|pc                     etia 0.008  compat 0.009  default 0.009
+gpu disc4_L1_s1|gsquare|0.01|None|rfci                   etia 0.008  compat 0.010  default 0.010
+gpu disc4_L1_s1|gsquare|0.01|None|svarfci                etia 0.019  compat 0.029  default 0.104
+gpu disc4_L1_s1|gsquare|0.01|bdeu|gfci                   etia 0.003  compat 0.005  default 0.046
+gpu disc4_L1_s1|gsquare|0.01|bdeu|svargfci               etia 0.004  compat 0.006  default 0.047
+gpu disc4_L1_s1|gsquare|0.01|discrete_bic|gfci           etia 0.003  compat 0.007  default 0.065
+gpu disc4_L1_s1|gsquare|0.01|discrete_bic|svargfci       etia 0.004  compat 0.008  default 0.065
+gpu disc4_L1_s1|gsquare|0.05|None|cfci                   etia 0.024  compat 0.191  default 0.123
+gpu disc4_L1_s1|gsquare|0.05|None|cpc                    etia 0.022  compat 0.019  default 0.019
+gpu disc4_L1_s1|gsquare|0.05|None|fcimax                 etia 0.025  compat 0.191  default 0.125
+gpu disc4_L1_s1|gsquare|0.05|None|fci                    etia 0.019  compat 0.013  default 0.118
+gpu disc4_L1_s1|gsquare|0.05|None|pc                     etia 0.008  compat 0.009  default 0.010
+gpu disc4_L1_s1|gsquare|0.05|None|rfci                   etia 0.009  compat 0.014  default 0.013
+gpu disc4_L1_s1|gsquare|0.05|None|svarfci                etia 0.026  compat 0.030  default 0.118
+gpu disc4_L1_s1|gsquare|0.05|bdeu|gfci                   etia 0.003  compat 0.005  default 0.046
+gpu disc4_L1_s1|gsquare|0.05|bdeu|svargfci               etia 0.004  compat 0.006  default 0.045
+gpu disc4_L1_s1|gsquare|0.05|discrete_bic|gfci           etia 0.003  compat 0.007  default 0.068
+gpu disc4_L1_s1|gsquare|0.05|discrete_bic|svargfci       etia 0.004  compat 0.008  default 0.066
+gpu mixed4_L1_s0|None|None|cg_bic|fges                   etia 0.098  compat 0.062  default 0.061
+gpu mixed4_L1_s0|None|None|dg_bic|fges                   etia 0.002  compat 0.008  default 0.008
+gpu mixed4_L1_s0|cg_lrt|0.01|None|cfci                   etia 0.177  compat 0.345  default 1.056
+gpu mixed4_L1_s0|cg_lrt|0.01|None|cpc                    etia 0.157  compat 0.166  default 0.164
+gpu mixed4_L1_s0|cg_lrt|0.01|None|fcimax                 etia 0.167  compat 0.345  default 1.049
+gpu mixed4_L1_s0|cg_lrt|0.01|None|fci                    etia 0.122  compat 0.129  default 1.026
+gpu mixed4_L1_s0|cg_lrt|0.01|None|pc                     etia 0.044  compat 0.070  default 0.069
+gpu mixed4_L1_s0|cg_lrt|0.01|None|rfci                   etia 0.044  compat 0.073  default 0.073
+gpu mixed4_L1_s0|cg_lrt|0.01|None|svarfci                etia 0.063  compat 0.092  default 1.032
+gpu mixed4_L1_s0|cg_lrt|0.01|cg_bic|gfci                 etia 0.103  compat 0.103  default 0.329
+gpu mixed4_L1_s0|cg_lrt|0.01|cg_bic|svargfci             etia 0.058  compat 0.034  default 0.327
+gpu mixed4_L1_s0|cg_lrt|0.01|dg_bic|gfci                 etia 0.048  compat 0.074  default 0.230
+gpu mixed4_L1_s0|cg_lrt|0.01|dg_bic|svargfci             etia 0.004  compat 0.009  default 0.220
+gpu mixed4_L1_s0|cg_lrt|0.05|None|cfci                   etia 0.184  compat 0.340  default 1.128
+gpu mixed4_L1_s0|cg_lrt|0.05|None|cpc                    etia 0.163  compat 0.174  default 0.176
+gpu mixed4_L1_s0|cg_lrt|0.05|None|fcimax                 etia 0.171  compat 0.365  default 1.126
+gpu mixed4_L1_s0|cg_lrt|0.05|None|fci                    etia 0.145  compat 0.126  default 1.132
+gpu mixed4_L1_s0|cg_lrt|0.05|None|pc                     etia 0.072  compat 0.080  default 0.078
+gpu mixed4_L1_s0|cg_lrt|0.05|None|rfci                   etia 0.052  compat 0.084  default 0.089
+gpu mixed4_L1_s0|cg_lrt|0.05|None|svarfci                etia 0.080  compat 0.104  default 1.128
+gpu mixed4_L1_s0|cg_lrt|0.05|cg_bic|gfci                 etia 0.115  compat 0.112  default 0.308
+gpu mixed4_L1_s0|cg_lrt|0.05|cg_bic|svargfci             etia 0.059  compat 0.036  default 0.308
+gpu mixed4_L1_s0|cg_lrt|0.05|dg_bic|gfci                 etia 0.046  compat 0.072  default 0.221
+gpu mixed4_L1_s0|cg_lrt|0.05|dg_bic|svargfci             etia 0.005  compat 0.009  default 0.219
+gpu mixed4_L1_s0|dg_lrt|0.01|None|cfci                   etia 0.131  compat 0.194  default 0.102
+gpu mixed4_L1_s0|dg_lrt|0.01|None|cpc                    etia 0.103  compat 0.018  default 0.013
+gpu mixed4_L1_s0|dg_lrt|0.01|None|fcimax                 etia 0.113  compat 0.185  default 0.107
+gpu mixed4_L1_s0|dg_lrt|0.01|None|fci                    etia 0.099  compat 0.044  default 0.095
+gpu mixed4_L1_s0|dg_lrt|0.01|None|pc                     etia 0.030  compat 0.008  default 0.007
+gpu mixed4_L1_s0|dg_lrt|0.01|None|rfci                   etia 0.030  compat 0.009  default 0.008
+gpu mixed4_L1_s0|dg_lrt|0.01|None|svarfci                etia 0.114  compat 0.043  default 0.092
+gpu mixed4_L1_s0|dg_lrt|0.01|cg_bic|gfci                 etia 0.085  compat 0.060  default 0.135
+gpu mixed4_L1_s0|dg_lrt|0.01|cg_bic|svargfci             etia 0.063  compat 0.040  default 0.124
+gpu mixed4_L1_s0|dg_lrt|0.01|dg_bic|gfci                 etia 0.030  compat 0.033  default 0.103
+gpu mixed4_L1_s0|dg_lrt|0.01|dg_bic|svargfci             etia 0.004  compat 0.010  default 0.101
+gpu mixed4_L1_s0|dg_lrt|0.05|None|cfci                   etia 0.187  compat 0.254  default 0.117
+gpu mixed4_L1_s0|dg_lrt|0.05|None|cpc                    etia 0.160  compat 0.016  default 0.015
+gpu mixed4_L1_s0|dg_lrt|0.05|None|fcimax                 etia 0.171  compat 0.225  default 0.111
+gpu mixed4_L1_s0|dg_lrt|0.05|None|fci                    etia 0.120  compat 0.058  default 0.101
+gpu mixed4_L1_s0|dg_lrt|0.05|None|pc                     etia 0.046  compat 0.008  default 0.007
+gpu mixed4_L1_s0|dg_lrt|0.05|None|rfci                   etia 0.046  compat 0.011  default 0.012
+gpu mixed4_L1_s0|dg_lrt|0.05|None|svarfci                etia 0.153  compat 0.059  default 0.101
+gpu mixed4_L1_s0|dg_lrt|0.05|cg_bic|gfci                 etia 0.101  compat 0.061  default 0.123
+gpu mixed4_L1_s0|dg_lrt|0.05|cg_bic|svargfci             etia 0.062  compat 0.038  default 0.122
+gpu mixed4_L1_s0|dg_lrt|0.05|dg_bic|gfci                 etia 0.031  compat 0.032  default 0.105
+gpu mixed4_L1_s0|dg_lrt|0.05|dg_bic|svargfci             etia 0.004  compat 0.010  default 0.103
+gpu mixed4_L1_s1|None|None|cg_bic|fges                   etia 0.116  compat 0.078  default 0.076
+gpu mixed4_L1_s1|None|None|dg_bic|fges                   etia 0.003  compat 0.015  default 0.013
+gpu mixed4_L1_s1|cg_lrt|0.01|None|cfci                   etia 0.709  compat 0.700  default 0.720
+gpu mixed4_L1_s1|cg_lrt|0.01|None|cpc                    etia 0.482  compat 0.413  default 0.361
+gpu mixed4_L1_s1|cg_lrt|0.01|None|fcimax                 etia 0.768  compat 0.645  default 0.763
+gpu mixed4_L1_s1|cg_lrt|0.01|None|fci                    etia 0.774  compat 0.479  default 0.723
+gpu mixed4_L1_s1|cg_lrt|0.01|None|pc                     etia 0.140  compat 0.248  default 0.240
+gpu mixed4_L1_s1|cg_lrt|0.01|None|rfci                   etia 0.257  compat 0.259  default 0.260
+gpu mixed4_L1_s1|cg_lrt|0.01|None|svarfci                etia 0.249  compat 0.379  default 0.706
+gpu mixed4_L1_s1|cg_lrt|0.01|cg_bic|gfci                 etia 0.210  compat 0.176  default 0.459
+gpu mixed4_L1_s1|cg_lrt|0.01|cg_bic|svargfci             etia 0.188  compat 0.213  default 0.450
+gpu mixed4_L1_s1|cg_lrt|0.01|dg_bic|gfci                 etia 0.203  compat 0.194  default 0.708
+gpu mixed4_L1_s1|cg_lrt|0.01|dg_bic|svargfci             etia 0.067  compat 0.130  default 0.689
+gpu mixed4_L1_s1|cg_lrt|0.05|None|cfci                   etia 0.570  compat 0.758  default 0.783
+gpu mixed4_L1_s1|cg_lrt|0.05|None|cpc                    etia 0.565  compat 0.507  default 0.452
+gpu mixed4_L1_s1|cg_lrt|0.05|None|fcimax                 etia 0.572  compat 0.713  default 0.768
+gpu mixed4_L1_s1|cg_lrt|0.05|None|fci                    etia 0.616  compat 0.531  default 0.798
+gpu mixed4_L1_s1|cg_lrt|0.05|None|pc                     etia 0.349  compat 0.351  default 0.349
+gpu mixed4_L1_s1|cg_lrt|0.05|None|rfci                   etia 0.251  compat 0.380  default 0.359
+gpu mixed4_L1_s1|cg_lrt|0.05|None|svarfci                etia 0.347  compat 0.495  default 0.779
+gpu mixed4_L1_s1|cg_lrt|0.05|cg_bic|gfci                 etia 0.151  compat 0.168  default 0.451
+gpu mixed4_L1_s1|cg_lrt|0.05|cg_bic|svargfci             etia 0.193  compat 0.200  default 0.443
+gpu mixed4_L1_s1|cg_lrt|0.05|dg_bic|gfci                 etia 0.162  compat 0.215  default 0.604
+gpu mixed4_L1_s1|cg_lrt|0.05|dg_bic|svargfci             etia 0.075  compat 0.141  default 0.570
+gpu mixed4_L1_s1|dg_lrt|0.01|None|cfci                   etia 0.202  compat 0.209  default 0.115
+gpu mixed4_L1_s1|dg_lrt|0.01|None|cpc                    etia 0.183  compat 0.023  default 0.021
+gpu mixed4_L1_s1|dg_lrt|0.01|None|fcimax                 etia 0.191  compat 0.205  default 0.109
+gpu mixed4_L1_s1|dg_lrt|0.01|None|fci                    etia 0.288  compat 0.143  default 0.101
+gpu mixed4_L1_s1|dg_lrt|0.01|None|pc                     etia 0.068  compat 0.010  default 0.009
+gpu mixed4_L1_s1|dg_lrt|0.01|None|rfci                   etia 0.072  compat 0.020  default 0.022
+gpu mixed4_L1_s1|dg_lrt|0.01|None|svarfci                etia 0.200  compat 0.064  default 0.099
+gpu mixed4_L1_s1|dg_lrt|0.01|cg_bic|gfci                 etia 0.139  compat 0.109  default 0.161
+gpu mixed4_L1_s1|dg_lrt|0.01|cg_bic|svargfci             etia 0.176  compat 0.138  default 0.156
+gpu mixed4_L1_s1|dg_lrt|0.01|dg_bic|gfci                 etia 0.103  compat 0.081  default 0.125
+gpu mixed4_L1_s1|dg_lrt|0.01|dg_bic|svargfci             etia 0.049  compat 0.060  default 0.120
+gpu mixed4_L1_s1|dg_lrt|0.05|None|cfci                   etia 0.249  compat 0.263  default 0.113
+gpu mixed4_L1_s1|dg_lrt|0.05|None|cpc                    etia 0.223  compat 0.038  default 0.022
+gpu mixed4_L1_s1|dg_lrt|0.05|None|fcimax                 etia 0.222  compat 0.236  default 0.116
+gpu mixed4_L1_s1|dg_lrt|0.05|None|fci                    etia 0.440  compat 0.282  default 0.110
+gpu mixed4_L1_s1|dg_lrt|0.05|None|pc                     etia 0.075  compat 0.010  default 0.011
+gpu mixed4_L1_s1|dg_lrt|0.05|None|rfci                   etia 0.078  compat 0.025  default 0.026
+gpu mixed4_L1_s1|dg_lrt|0.05|None|svarfci                etia 0.183  compat 0.059  default 0.105
+gpu mixed4_L1_s1|dg_lrt|0.05|cg_bic|gfci                 etia 0.141  compat 0.110  default 0.166
+gpu mixed4_L1_s1|dg_lrt|0.05|cg_bic|svargfci             etia 0.181  compat 0.142  default 0.159
+gpu mixed4_L1_s1|dg_lrt|0.05|dg_bic|gfci                 etia 0.097  compat 0.078  default 0.120
+gpu mixed4_L1_s1|dg_lrt|0.05|dg_bic|svargfci             etia 0.054  compat 0.060  default 0.120
+gpu cont3_L1_s0|CMIknn|0.05|LPCMCI                       etia 0.423  jax 0.034
+gpu cont3_L1_s0|CMIknn|0.05|PCMCI+                       etia 0.237  jax 0.013
+gpu cont3_L1_s0|CMIknn|0.05|PCMCI                        etia 1.263  jax 0.012
+gpu cont3_L1_s0|GPDC|0.05|LPCMCI                         etia 139.413  jax 163.933
+gpu cont3_L1_s0|GPDC|0.05|PCMCI+                         etia 70.681  jax 91.065
+gpu cont3_L1_s0|GPDC|0.05|PCMCI                          etia 45.215  jax 54.186
+gpu cont3_L1_s0|ParCorrWLS|0.01|LPCMCI                   etia 0.638  jax 0.954
+gpu cont3_L1_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.147  jax 0.264
+gpu cont3_L1_s0|ParCorrWLS|0.01|PCMCI                    etia 0.087  jax 0.097
+gpu cont3_L1_s0|ParCorrWLS|0.05|LPCMCI                   etia 0.736  jax 0.949
+gpu cont3_L1_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.210  jax 0.365
+gpu cont3_L1_s0|ParCorrWLS|0.05|PCMCI                    etia 0.104  jax 0.097
+gpu cont3_L1_s0|ParCor|0.01|LPCMCI                       etia 0.160  jax 0.087
+gpu cont3_L1_s0|ParCor|0.01|PCMCI+                       etia 0.040  jax 0.016
+gpu cont3_L1_s0|ParCor|0.01|PCMCI                        etia 0.025  jax 0.007
+gpu cont3_L1_s0|ParCor|0.05|LPCMCI                       etia 0.191  jax 0.083
+gpu cont3_L1_s0|ParCor|0.05|PCMCI+                       etia 0.057  jax 0.020
+gpu cont3_L1_s0|ParCor|0.05|PCMCI                        etia 0.029  jax 0.006
+gpu cont3_L1_s0|RobustParCor|0.01|LPCMCI                 etia 0.229  jax 0.086
+gpu cont3_L1_s0|RobustParCor|0.01|PCMCI+                 etia 0.095  jax 0.016
+gpu cont3_L1_s0|RobustParCor|0.01|PCMCI                  etia 0.056  jax 0.010
+gpu cont3_L1_s0|RobustParCor|0.05|LPCMCI                 etia 0.262  jax 0.086
+gpu cont3_L1_s0|RobustParCor|0.05|PCMCI+                 etia 0.140  jax 0.017
+gpu cont3_L1_s0|RobustParCor|0.05|PCMCI                  etia 0.056  jax 0.010
+gpu cont3_L1_s1|CMIknn|0.05|LPCMCI                       etia 0.282  jax 0.024
+gpu cont3_L1_s1|CMIknn|0.05|PCMCI+                       etia 0.265  jax 0.011
+gpu cont3_L1_s1|CMIknn|0.05|PCMCI                        etia 0.333  jax 0.013
+gpu cont3_L1_s1|GPDC|0.05|LPCMCI                         etia 129.380  jax 134.625
+gpu cont3_L1_s1|GPDC|0.05|PCMCI+                         etia 57.138  jax 60.813
+gpu cont3_L1_s1|GPDC|0.05|PCMCI                          etia 48.000  jax 54.508
+gpu cont3_L1_s1|ParCorrWLS|0.01|LPCMCI                   etia 0.451  jax 0.421
+gpu cont3_L1_s1|ParCorrWLS|0.01|PCMCI+                   etia 0.095  jax 0.221
+gpu cont3_L1_s1|ParCorrWLS|0.01|PCMCI                    etia 0.080  jax 0.096
+gpu cont3_L1_s1|ParCorrWLS|0.05|LPCMCI                   etia 0.422  jax 0.429
+gpu cont3_L1_s1|ParCorrWLS|0.05|PCMCI+                   etia 0.129  jax 0.222
+gpu cont3_L1_s1|ParCorrWLS|0.05|PCMCI                    etia 0.158  jax 0.097
+gpu cont3_L1_s1|ParCor|0.01|LPCMCI                       etia 0.202  jax 0.085
+gpu cont3_L1_s1|ParCor|0.01|PCMCI+                       etia 0.030  jax 0.012
+gpu cont3_L1_s1|ParCor|0.01|PCMCI                        etia 0.025  jax 0.006
+gpu cont3_L1_s1|ParCor|0.05|LPCMCI                       etia 0.202  jax 0.086
+gpu cont3_L1_s1|ParCor|0.05|PCMCI+                       etia 0.030  jax 0.012
+gpu cont3_L1_s1|ParCor|0.05|PCMCI                        etia 0.034  jax 0.006
+gpu cont3_L1_s1|RobustParCor|0.01|LPCMCI                 etia 0.270  jax 0.089
+gpu cont3_L1_s1|RobustParCor|0.01|PCMCI+                 etia 0.070  jax 0.015
+gpu cont3_L1_s1|RobustParCor|0.01|PCMCI                  etia 0.057  jax 0.010
+gpu cont3_L1_s1|RobustParCor|0.05|LPCMCI                 etia 0.265  jax 0.090
+gpu cont3_L1_s1|RobustParCor|0.05|PCMCI+                 etia 0.070  jax 0.015
+gpu cont3_L1_s1|RobustParCor|0.05|PCMCI                  etia 0.057  jax 0.010
+gpu cont3_L1_s2|CMIknn|0.05|LPCMCI                       etia 0.185  jax 0.018
+gpu cont3_L1_s2|CMIknn|0.05|PCMCI+                       etia 0.209  jax 0.010
+gpu cont3_L1_s2|CMIknn|0.05|PCMCI                        etia 0.294  jax 0.012
+gpu cont3_L1_s2|GPDC|0.05|LPCMCI                         etia 221.720  jax 225.139
+gpu cont3_L1_s2|GPDC|0.05|PCMCI+                         etia 90.204  jax 105.736
+gpu cont3_L1_s2|GPDC|0.05|PCMCI                          etia 38.093  jax 46.689
+gpu cont3_L1_s2|ParCorrWLS|0.01|LPCMCI                   etia 0.496  jax 0.657
+gpu cont3_L1_s2|ParCorrWLS|0.01|PCMCI+                   etia 0.199  jax 0.207
+gpu cont3_L1_s2|ParCorrWLS|0.01|PCMCI                    etia 0.071  jax 0.036
+gpu cont3_L1_s2|ParCorrWLS|0.05|LPCMCI                   etia 0.419  jax 0.604
+gpu cont3_L1_s2|ParCorrWLS|0.05|PCMCI+                   etia 0.337  jax 0.195
+gpu cont3_L1_s2|ParCorrWLS|0.05|PCMCI                    etia 0.084  jax 0.066
+gpu cont3_L1_s2|ParCor|0.01|LPCMCI                       etia 0.195  jax 0.123
+gpu cont3_L1_s2|ParCor|0.01|PCMCI+                       etia 0.050  jax 0.018
+gpu cont3_L1_s2|ParCor|0.01|PCMCI                        etia 0.021  jax 0.008
+gpu cont3_L1_s2|ParCor|0.05|LPCMCI                       etia 0.163  jax 0.104
+gpu cont3_L1_s2|ParCor|0.05|PCMCI+                       etia 0.054  jax 0.017
+gpu cont3_L1_s2|ParCor|0.05|PCMCI                        etia 0.022  jax 0.008
+gpu cont3_L1_s2|RobustParCor|0.01|LPCMCI                 etia 0.342  jax 0.142
+gpu cont3_L1_s2|RobustParCor|0.01|PCMCI+                 etia 0.124  jax 0.022
+gpu cont3_L1_s2|RobustParCor|0.01|PCMCI                  etia 0.046  jax 0.011
+gpu cont3_L1_s2|RobustParCor|0.05|LPCMCI                 etia 0.242  jax 0.113
+gpu cont3_L1_s2|RobustParCor|0.05|PCMCI+                 etia 0.124  jax 0.020
+gpu cont3_L1_s2|RobustParCor|0.05|PCMCI                  etia 0.046  jax 0.011
+gpu cont3_L2_s0|CMIknn|0.05|LPCMCI                       etia 1.038  jax 0.055
+gpu cont3_L2_s0|CMIknn|0.05|PCMCI+                       etia 0.568  jax 0.019
+gpu cont3_L2_s0|CMIknn|0.05|PCMCI                        etia 0.845  jax 0.024
+gpu cont3_L2_s0|GPDC|0.05|LPCMCI                         etia 387.972  jax 479.232
+gpu cont3_L2_s0|GPDC|0.05|PCMCI+                         etia 150.353  jax 179.488
+gpu cont3_L2_s0|GPDC|0.05|PCMCI                          etia 130.907  jax 137.531
+gpu cont3_L2_s0|ParCorrWLS|0.01|LPCMCI                   etia 1.230  jax 1.826
+gpu cont3_L2_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.590  jax 0.432
+gpu cont3_L2_s0|ParCorrWLS|0.01|PCMCI                    etia 0.407  jax 0.224
+gpu cont3_L2_s0|ParCorrWLS|0.05|LPCMCI                   etia 2.196  jax 2.416
+gpu cont3_L2_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.493  jax 0.403
+gpu cont3_L2_s0|ParCorrWLS|0.05|PCMCI                    etia 0.629  jax 0.211
+gpu cont3_L2_s0|ParCor|0.01|LPCMCI                       etia 0.377  jax 0.252
+gpu cont3_L2_s0|ParCor|0.01|PCMCI+                       etia 0.108  jax 0.036
+gpu cont3_L2_s0|ParCor|0.01|PCMCI                        etia 0.069  jax 0.025
+gpu cont3_L2_s0|ParCor|0.05|LPCMCI                       etia 0.539  jax 0.272
+gpu cont3_L2_s0|ParCor|0.05|PCMCI+                       etia 0.136  jax 0.031
+gpu cont3_L2_s0|ParCor|0.05|PCMCI                        etia 0.075  jax 0.024
+gpu cont3_L2_s0|RobustParCor|0.01|LPCMCI                 etia 0.724  jax 0.250
+gpu cont3_L2_s0|RobustParCor|0.01|PCMCI+                 etia 0.242  jax 0.036
+gpu cont3_L2_s0|RobustParCor|0.01|PCMCI                  etia 0.176  jax 0.029
+gpu cont3_L2_s0|RobustParCor|0.05|LPCMCI                 etia 0.787  jax 0.278
+gpu cont3_L2_s0|RobustParCor|0.05|PCMCI+                 etia 0.277  jax 0.040
+gpu cont3_L2_s0|RobustParCor|0.05|PCMCI                  etia 0.196  jax 0.031
+gpu cont3_L2_s1|CMIknn|0.05|LPCMCI                       etia 0.678  jax 0.043
+gpu cont3_L2_s1|CMIknn|0.05|PCMCI+                       etia 0.348  jax 0.016
+gpu cont3_L2_s1|CMIknn|0.05|PCMCI                        etia 0.587  jax 0.020
+gpu cont3_L2_s1|GPDC|0.05|LPCMCI                         etia 427.207  jax 508.670
+gpu cont3_L2_s1|GPDC|0.05|PCMCI+                         etia 167.132  jax 181.880
+gpu cont3_L2_s1|GPDC|0.05|PCMCI                          etia 113.007  jax 101.351
+gpu cont3_L2_s1|ParCorrWLS|0.01|LPCMCI                   etia 0.954  jax 1.453
+gpu cont3_L2_s1|ParCorrWLS|0.01|PCMCI+                   etia 0.480  jax 0.400
+gpu cont3_L2_s1|ParCorrWLS|0.01|PCMCI                    etia 0.348  jax 0.194
+gpu cont3_L2_s1|ParCorrWLS|0.05|LPCMCI                   etia 1.035  jax 2.484
+gpu cont3_L2_s1|ParCorrWLS|0.05|PCMCI+                   etia 0.326  jax 0.529
+gpu cont3_L2_s1|ParCorrWLS|0.05|PCMCI                    etia 0.310  jax 0.213
+gpu cont3_L2_s1|ParCor|0.01|LPCMCI                       etia 0.296  jax 0.213
+gpu cont3_L2_s1|ParCor|0.01|PCMCI+                       etia 0.090  jax 0.035
+gpu cont3_L2_s1|ParCor|0.01|PCMCI                        etia 0.055  jax 0.025
+gpu cont3_L2_s1|ParCor|0.05|LPCMCI                       etia 0.432  jax 0.297
+gpu cont3_L2_s1|ParCor|0.05|PCMCI+                       etia 0.096  jax 0.038
+gpu cont3_L2_s1|ParCor|0.05|PCMCI                        etia 0.062  jax 0.027
+gpu cont3_L2_s1|RobustParCor|0.01|LPCMCI                 etia 0.523  jax 0.217
+gpu cont3_L2_s1|RobustParCor|0.01|PCMCI+                 etia 0.237  jax 0.034
+gpu cont3_L2_s1|RobustParCor|0.01|PCMCI                  etia 0.135  jax 0.024
+gpu cont3_L2_s1|RobustParCor|0.05|LPCMCI                 etia 0.706  jax 0.294
+gpu cont3_L2_s1|RobustParCor|0.05|PCMCI+                 etia 0.253  jax 0.034
+gpu cont3_L2_s1|RobustParCor|0.05|PCMCI                  etia 0.148  jax 0.024
+gpu cont5_L1_s0|ParCorrWLS|0.01|LPCMCI                   etia 2.446  jax 7.346
+gpu cont5_L1_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.527  jax 0.839
+gpu cont5_L1_s0|ParCorrWLS|0.01|PCMCI                    etia 0.257  jax 0.229
+gpu cont5_L1_s0|ParCorrWLS|0.05|LPCMCI                   etia 2.667  jax 8.598
+gpu cont5_L1_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.677  jax 1.114
+gpu cont5_L1_s0|ParCorrWLS|0.05|PCMCI                    etia 0.405  jax 0.380
+gpu cont5_L1_s0|ParCor|0.01|LPCMCI                       etia 0.967  jax 0.553
+gpu cont5_L1_s0|ParCor|0.01|PCMCI+                       etia 0.176  jax 0.065
+gpu cont5_L1_s0|ParCor|0.01|PCMCI                        etia 0.089  jax 0.036
+gpu cont5_L1_s0|ParCor|0.05|LPCMCI                       etia 0.848  jax 0.497
+gpu cont5_L1_s0|ParCor|0.05|PCMCI+                       etia 0.254  jax 0.069
+gpu cont5_L1_s0|ParCor|0.05|PCMCI                        etia 0.100  jax 0.042
+gpu cont5_L1_s0|RobustParCor|0.01|LPCMCI                 etia 1.772  jax 0.566
+gpu cont5_L1_s0|RobustParCor|0.01|PCMCI+                 etia 0.467  jax 0.059
+gpu cont5_L1_s0|RobustParCor|0.01|PCMCI                  etia 0.217  jax 0.036
+gpu cont5_L1_s0|RobustParCor|0.05|LPCMCI                 etia 1.438  jax 0.503
+gpu cont5_L1_s0|RobustParCor|0.05|PCMCI+                 etia 0.631  jax 0.076
+gpu cont5_L1_s0|RobustParCor|0.05|PCMCI                  etia 0.259  jax 0.048
+gpu cont5_L1_s1|ParCorrWLS|0.01|LPCMCI                   etia 1.067  jax 0.852
+gpu cont5_L1_s1|ParCorrWLS|0.01|PCMCI+                   etia 0.203  jax 0.291
+gpu cont5_L1_s1|ParCorrWLS|0.01|PCMCI                    etia 0.236  jax 0.217
+gpu cont5_L1_s1|ParCorrWLS|0.05|LPCMCI                   etia 0.775  jax 0.992
+gpu cont5_L1_s1|ParCorrWLS|0.05|PCMCI+                   etia 0.217  jax 0.289
+gpu cont5_L1_s1|ParCorrWLS|0.05|PCMCI                    etia 0.233  jax 0.219
+gpu cont5_L1_s1|ParCor|0.01|LPCMCI                       etia 0.282  jax 0.179
+gpu cont5_L1_s1|ParCor|0.01|PCMCI+                       etia 0.065  jax 0.025
+gpu cont5_L1_s1|ParCor|0.01|PCMCI                        etia 0.072  jax 0.020
+gpu cont5_L1_s1|ParCor|0.05|LPCMCI                       etia 0.313  jax 0.200
+gpu cont5_L1_s1|ParCor|0.05|PCMCI+                       etia 0.066  jax 0.025
+gpu cont5_L1_s1|ParCor|0.05|PCMCI                        etia 0.073  jax 0.019
+gpu cont5_L1_s1|RobustParCor|0.01|LPCMCI                 etia 0.440  jax 0.181
+gpu cont5_L1_s1|RobustParCor|0.01|PCMCI+                 etia 0.150  jax 0.028
+gpu cont5_L1_s1|RobustParCor|0.01|PCMCI                  etia 0.167  jax 0.023
+gpu cont5_L1_s1|RobustParCor|0.05|LPCMCI                 etia 0.506  jax 0.216
+gpu cont5_L1_s1|RobustParCor|0.05|PCMCI+                 etia 0.185  jax 0.030
+gpu cont5_L1_s1|RobustParCor|0.05|PCMCI                  etia 0.171  jax 0.022
+gpu cont5_L2_s0|ParCorrWLS|0.01|LPCMCI                   etia 0.810  jax 1.551
+gpu cont5_L2_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.329  jax 0.303
+gpu cont5_L2_s0|ParCorrWLS|0.01|PCMCI                    etia 0.398  jax 0.299
+gpu cont5_L2_s0|ParCorrWLS|0.05|LPCMCI                   etia 1.061  jax 2.180
+gpu cont5_L2_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.320  jax 0.373
+gpu cont5_L2_s0|ParCorrWLS|0.05|PCMCI                    etia 0.481  jax 0.354
+gpu cont5_L2_s0|ParCor|0.01|LPCMCI                       etia 0.343  jax 0.275
+gpu cont5_L2_s0|ParCor|0.01|PCMCI+                       etia 0.093  jax 0.035
+gpu cont5_L2_s0|ParCor|0.01|PCMCI                        etia 0.121  jax 0.036
+gpu cont5_L2_s0|ParCor|0.05|LPCMCI                       etia 0.390  jax 0.323
+gpu cont5_L2_s0|ParCor|0.05|PCMCI+                       etia 0.103  jax 0.041
+gpu cont5_L2_s0|ParCor|0.05|PCMCI                        etia 0.129  jax 0.042
+gpu cont5_L2_s0|RobustParCor|0.01|LPCMCI                 etia 0.608  jax 0.268
+gpu cont5_L2_s0|RobustParCor|0.01|PCMCI+                 etia 0.213  jax 0.033
+gpu cont5_L2_s0|RobustParCor|0.01|PCMCI                  etia 0.289  jax 0.031
+gpu cont5_L2_s0|RobustParCor|0.05|LPCMCI                 etia 0.685  jax 0.328
+gpu cont5_L2_s0|RobustParCor|0.05|PCMCI+                 etia 0.235  jax 0.035
+gpu cont5_L2_s0|RobustParCor|0.05|PCMCI                  etia 0.311  jax 0.032
+gpu cont5_L2_s1|ParCorrWLS|0.01|LPCMCI                   etia 32.937  jax 198.853
+gpu cont5_L2_s1|ParCorrWLS|0.01|PCMCI+                   etia 1.329  jax 1.623
+gpu cont5_L2_s1|ParCorrWLS|0.01|PCMCI                    etia 0.424  jax 0.430
+gpu cont5_L2_s1|ParCorrWLS|0.05|LPCMCI                   etia 3.047  jax 10.388
+gpu cont5_L2_s1|ParCorrWLS|0.05|PCMCI+                   etia 1.395  jax 2.063
+gpu cont5_L2_s1|ParCorrWLS|0.05|PCMCI                    etia 0.501  jax 0.546
+gpu cont5_L2_s1|ParCor|0.01|LPCMCI                       etia 4.532  jax 3.567
+gpu cont5_L2_s1|ParCor|0.01|PCMCI+                       etia 0.384  jax 0.104
+gpu cont5_L2_s1|ParCor|0.01|PCMCI                        etia 0.133  jax 0.040
+gpu cont5_L2_s1|ParCor|0.05|LPCMCI                       etia 1.075  jax 0.841
+gpu cont5_L2_s1|ParCor|0.05|PCMCI+                       etia 0.416  jax 0.104
+gpu cont5_L2_s1|ParCor|0.05|PCMCI                        etia 0.145  jax 0.039
+gpu cont5_L2_s1|RobustParCor|0.01|LPCMCI                 etia 22.687  jax 6.562
+gpu cont5_L2_s1|RobustParCor|0.01|PCMCI+                 etia 1.065  jax 0.101
+gpu cont5_L2_s1|RobustParCor|0.01|PCMCI                  etia 0.335  jax 0.035
+gpu cont5_L2_s1|RobustParCor|0.05|LPCMCI                 etia 2.098  jax 0.848
+gpu cont5_L2_s1|RobustParCor|0.05|PCMCI+                 etia 1.122  jax 0.107
+gpu cont5_L2_s1|RobustParCor|0.05|PCMCI                  etia 0.363  jax 0.043
+gpu cont8_L2_s0|ParCorrWLS|0.01|LPCMCI                   etia 5.217  jax 5.034
+gpu cont8_L2_s0|ParCorrWLS|0.01|PCMCI+                   etia 1.347  jax 0.574
+gpu cont8_L2_s0|ParCorrWLS|0.01|PCMCI                    etia 1.961  jax 0.579
+gpu cont8_L2_s0|ParCorrWLS|0.05|LPCMCI                   etia 4.366  jax 5.565
+gpu cont8_L2_s0|ParCorrWLS|0.05|PCMCI+                   etia 1.337  jax 0.636
+gpu cont8_L2_s0|ParCorrWLS|0.05|PCMCI                    etia 1.908  jax 0.767
+gpu cont8_L2_s0|ParCor|0.01|LPCMCI                       etia 1.083  jax 0.754
+gpu cont8_L2_s0|ParCor|0.01|PCMCI+                       etia 0.266  jax 0.056
+gpu cont8_L2_s0|ParCor|0.01|PCMCI                        etia 0.388  jax 0.057
+gpu cont8_L2_s0|ParCor|0.05|LPCMCI                       etia 1.109  jax 0.821
+gpu cont8_L2_s0|ParCor|0.05|PCMCI+                       etia 0.303  jax 0.068
+gpu cont8_L2_s0|ParCor|0.05|PCMCI                        etia 0.409  jax 0.058
+gpu cont8_L2_s0|RobustParCor|0.01|LPCMCI                 etia 1.948  jax 0.699
+gpu cont8_L2_s0|RobustParCor|0.01|PCMCI+                 etia 0.688  jax 0.067
+gpu cont8_L2_s0|RobustParCor|0.01|PCMCI                  etia 1.048  jax 0.062
+gpu cont8_L2_s0|RobustParCor|0.05|LPCMCI                 etia 2.320  jax 0.844
+gpu cont8_L2_s0|RobustParCor|0.05|PCMCI+                 etia 0.894  jax 0.075
+gpu cont8_L2_s0|RobustParCor|0.05|PCMCI                  etia 1.139  jax 0.061
+gpu cont8_L2_s1|ParCorrWLS|0.01|LPCMCI                   etia 3.303  jax 4.105
+gpu cont8_L2_s1|ParCorrWLS|0.01|PCMCI+                   etia 1.417  jax 0.585
+gpu cont8_L2_s1|ParCorrWLS|0.01|PCMCI                    etia 1.891  jax 0.648
+gpu cont8_L2_s1|ParCorrWLS|0.05|LPCMCI                   etia 4.803  jax 5.904
+gpu cont8_L2_s1|ParCorrWLS|0.05|PCMCI+                   etia 1.985  jax 0.709
+gpu cont8_L2_s1|ParCorrWLS|0.05|PCMCI                    etia 2.212  jax 0.737
+gpu cont8_L2_s1|ParCor|0.01|LPCMCI                       etia 0.971  jax 0.706
+gpu cont8_L2_s1|ParCor|0.01|PCMCI+                       etia 0.289  jax 0.062
+gpu cont8_L2_s1|ParCor|0.01|PCMCI                        etia 0.357  jax 0.056
+gpu cont8_L2_s1|ParCor|0.05|LPCMCI                       etia 1.478  jax 0.989
+gpu cont8_L2_s1|ParCor|0.05|PCMCI+                       etia 0.423  jax 0.080
+gpu cont8_L2_s1|ParCor|0.05|PCMCI                        etia 0.402  jax 0.064
+gpu cont8_L2_s1|RobustParCor|0.01|LPCMCI                 etia 1.790  jax 0.708
+gpu cont8_L2_s1|RobustParCor|0.01|PCMCI+                 etia 0.725  jax 0.069
+gpu cont8_L2_s1|RobustParCor|0.01|PCMCI                  etia 0.925  jax 0.067
+gpu cont8_L2_s1|RobustParCor|0.05|LPCMCI                 etia 2.430  jax 0.926
+gpu cont8_L2_s1|RobustParCor|0.05|PCMCI+                 etia 1.098  jax 0.086
+gpu cont8_L2_s1|RobustParCor|0.05|PCMCI                  etia 1.055  jax 0.072
+gpu disc4_L1_s0|CMIsymb|0.05|LPCMCI                      etia 6320.409  jax 0.448
+gpu disc4_L1_s0|CMIsymb|0.05|PCMCI+                      etia 2099.290  jax 0.219
+gpu disc4_L1_s0|CMIsymb|0.05|PCMCI                       etia 1521.255  jax 0.117
+gpu disc4_L1_s0|Gsquared|0.01|LPCMCI                     etia 0.589  jax 0.256
+gpu disc4_L1_s0|Gsquared|0.01|PCMCI+                     etia 0.433  jax 0.028
+gpu disc4_L1_s0|Gsquared|0.01|PCMCI                      etia 0.116  jax 0.012
+gpu disc4_L1_s0|Gsquared|0.05|LPCMCI                     etia 0.806  jax 0.360
+gpu disc4_L1_s0|Gsquared|0.05|PCMCI+                     etia 1.618  jax 0.037
+gpu disc4_L1_s0|Gsquared|0.05|PCMCI                      etia 0.151  jax 0.012
+gpu disc4_L1_s1|Gsquared|0.01|LPCMCI                     etia 0.368  jax 0.154
+gpu disc4_L1_s1|Gsquared|0.01|PCMCI+                     etia 0.101  jax 0.015
+gpu disc4_L1_s1|Gsquared|0.01|PCMCI                      etia 0.061  jax 0.010
+gpu disc4_L1_s1|Gsquared|0.05|LPCMCI                     etia 0.294  jax 0.157
+gpu disc4_L1_s1|Gsquared|0.05|PCMCI+                     etia 0.903  jax 0.026
+gpu disc4_L1_s1|Gsquared|0.05|PCMCI                      etia 0.070  jax 0.010
+gpu mixed4_L1_s0|RegressionCI|0.01|LPCMCI                etia 2.397  jax 2.117
+gpu mixed4_L1_s0|RegressionCI|0.01|PCMCI+                etia 0.421  jax 0.332
+gpu mixed4_L1_s0|RegressionCI|0.01|PCMCI                 etia 0.364  jax 0.301
+gpu mixed4_L1_s0|RegressionCI|0.05|LPCMCI                etia 2.490  jax 2.180
+gpu mixed4_L1_s0|RegressionCI|0.05|PCMCI+                etia 0.401  jax 0.333
+gpu mixed4_L1_s0|RegressionCI|0.05|PCMCI                 etia 0.230  jax 0.296
+gpu mixed4_L1_s1|RegressionCI|0.01|LPCMCI                etia 0.807  jax 0.996
+gpu mixed4_L1_s1|RegressionCI|0.01|PCMCI+                etia 0.714  jax 0.631
+gpu mixed4_L1_s1|RegressionCI|0.01|PCMCI                 etia 0.383  jax 0.370
+gpu mixed4_L1_s1|RegressionCI|0.05|LPCMCI                etia 1.192  jax 1.406
+gpu mixed4_L1_s1|RegressionCI|0.05|PCMCI+                etia 1.539  jax 0.919
+gpu mixed4_L1_s1|RegressionCI|0.05|PCMCI                 etia 0.367  jax 0.363
+wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/ts_jax_gpu.csv

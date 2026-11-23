@@ -19,6 +19,7 @@ parallel over a hash set without hash codes, so with two or more
 discriminating paths in one round its order is not deterministic; ETIA-JAX
 uses the order in which the paths are found.
 """
+import re
 from collections import deque
 from itertools import combinations
 
@@ -30,6 +31,7 @@ from ..graphs.orientation import fci_orient, unshielded_triples
 from .cache import CICache
 from .pcalg import fas, SearchResult
 from .tetrad_graph import TGraph, JHashSet, JNode, ARROW as A, TAIL as T, CIRCLE as C
+from .knowledge import NO_KNOWLEDGE
 
 
 def _sublists(n, depth=-1):
@@ -38,6 +40,25 @@ def _sublists(n, depth=-1):
     top = n if depth < 0 or depth > n else depth
     for k in range(top + 1):
         yield from combinations(range(n), k)
+
+
+_ALNUM = re.compile(r"^([a-zA-Z]+)([0-9]+)$")
+_LAG = re.compile(r"^(.+):([0-9]+)$")
+
+
+def node_compare_key(name):
+    """A sort key that gives the order of Tetrad's Node.compareTo: names
+    like X3 by number, then lagged names like X3:1 by the number of the name
+    without the colon (X1:1 = 11, X1:2 = 12, X2:1 = 21)."""
+    m = _ALNUM.match(name)
+    if m:
+        return (0, m.group(1), int(m.group(2)), "")
+    if _LAG.match(name):
+        l = name.replace(":", "")
+        letters = re.sub(r"\d+", "", l)
+        digits = re.sub(r"\D+", "", l)
+        return (1, letters, int(digits) if digits else 0, "")
+    return (2, "", 0, name)
 
 
 # =========================================================== textbook FCI
@@ -129,19 +150,32 @@ def _r0(G, sepset):
             G[a, b] = G[c, b] = ARROW
 
 
-def _textbook_fci(cache, p, depth, complete=True):
-    sk = fas(cache, p, depth, "stable")
+def _bk_marks(G, kn):
+    """Tier knowledge in the default mode: a node of a later tier cannot be an
+    ancestor of a node of an earlier tier, so the edge has an arrowhead at
+    the later node (the mark at the earlier node stays as it is)."""
+    if not kn:
+        return
+    for a, b in kn.forbidden_edges():
+        if G[a, b] != NONE:
+            G[b, a] = ARROW
+
+
+def _textbook_fci(cache, p, depth, complete=True, knowledge=None):
+    sk = fas(cache, p, depth, "stable", knowledge)
     G = np.zeros((p, p), dtype=np.int8)
     for a in range(p):
         for b in sk.adj[a]:
             G[a, b] = CIRCLE
     sepset = dict(sk.sepset)
+    _bk_marks(G, knowledge)
     _r0(G, sepset)
     removed = _pds_step(cache, G)
     for x, y, Z in removed:
         G[x, y] = G[y, x] = NONE
         sepset[(x, y)] = tuple(Z)
     G[G != NONE] = CIRCLE
+    _bk_marks(G, knowledge)
     _r0(G, sepset)
 
     def is_noncollider(d, a, b, c):
@@ -200,17 +234,34 @@ class _TetradFci:
     """A port of Tetrad 7.6.5 Fci + FciOrient + R0R4StrategyTestBased +
     SepsetFinder + Paths (the parts that Fci uses) on a TGraph."""
 
-    def __init__(self, cache, p, depth=-1):
+    def __init__(self, cache, p, depth=-1, knowledge=None, orient_knowledge=True):
+        """``knowledge``: the knowledge of the algorithm (Fas, fciOrientbk, its
+        own R0 checks). ``orient_knowledge``: FciOrient gets the same
+        knowledge (Fci, GFci); FciMax, Rfci and Cfci give it an empty one."""
         self.cache, self.p, self.depth = cache, p, depth
+        self.kn = knowledge or NO_KNOWLEDGE
+        self.kn_orient = self.kn if orient_knowledge else NO_KNOWLEDGE
+        self.names = self.kn.names if self.kn.names else [f"X{i + 1}" for i in range(p)]
+        self.complete = True               # FciOrient.completeRuleSetUsed (SvarFci: false)
         self.change = False
+
+    def set_ep(self, g, a, b, ep):
+        """FciOrient.setEndpoint: through the endpoint strategy (the default
+        strategy sets the mark; SvarFci's also orients the similar pairs)."""
+        g.set_endpoint(a, b, ep)
+
+    def node_key(self, v):
+        return node_compare_key(self.names[v])
 
     # ------------------------------------------------------------- tests
     def indep(self, x, y, Z):
         return self.cache.independent(x, y, tuple(Z))
 
     # ------------------------------------------------ helpers of Tetrad
-    def arrowhead_allowed(self, g, x, y):
-        """FciOrient.isArrowheadAllowed without knowledge."""
+    def arrowhead_allowed(self, g, x, y, kn=None):
+        """FciOrient.isArrowheadAllowed(x, y, graph, knowledge); ``kn``: the
+        knowledge (default: the knowledge of FciOrient)."""
+        kn = self.kn_orient if kn is None else kn
         if not g.is_adjacent(x, y):
             return False
         ep = g.get_endpoint(x, y)
@@ -218,7 +269,30 @@ class _TetradFci:
             return True
         if ep == T:
             return False
+        back = g.get_endpoint(y, x)
+        if back == A and ep == C and kn.is_forbidden(x, y):
+            return True
+        if back == T and ep == C and kn.is_forbidden(x, y):
+            return False
         return ep == C
+
+    def fci_orient_bk(self, g, kn, instance=False):
+        """fciOrientbk: an arrowhead at the later node of each forbidden edge
+        in the graph (in Tetrad's order of the forbidden edges). GraphUtils'
+        static version sets the mark; FciOrient's instance version
+        (``instance=True``) first checks isArrowheadAllowed (and stops at the
+        first refusal) and sets the mark through the endpoint strategy."""
+        if not kn:
+            return
+        for a, b in kn.forbidden_edges(self.names):
+            if g.get_edge(a, b) is None:
+                continue
+            if instance:
+                if not self.arrowhead_allowed(g, b, a):
+                    return
+                self.set_ep(g, b, a, A)
+            else:
+                g.set_endpoint(b, a, A)
 
     def traverse_semi_directed(self, node, e):
         if node == e.n1:
@@ -299,7 +373,7 @@ class _TetradFci:
                     Q.append(u)
         msep.discard(x)
         msep.discard(y)
-        return sorted(msep, reverse=True)        # Collections.sort, then reverse
+        return sorted(msep, key=self.node_key, reverse=True)    # Collections.sort (Node.compareTo), then reverse
 
     def _exist_one_path_with_possible_parents(self, g, previous, w, x, b):
         if w == x:
@@ -350,6 +424,7 @@ class _TetradFci:
 
     def rule_r0(self, g):
         g.reorient_all_with(C)
+        self.fci_orient_bk(g, self.kn_orient, instance=True)
         for b in g.nodes:
             adj = g.get_adjacent_nodes(b)
             if len(adj) < 2:
@@ -362,8 +437,8 @@ class _TetradFci:
                 if S is not None and b not in S:
                     if not self.arrowhead_allowed(g, a, b) or not self.arrowhead_allowed(g, c, b):
                         continue
-                    g.set_endpoint(a, b, A)
-                    g.set_endpoint(c, b, A)
+                    self.set_ep(g, a, b, A)
+                    self.set_ep(g, c, b, A)
                     self.change = True
 
     # ---------------------------------------------------------- R1-R3
@@ -373,8 +448,8 @@ class _TetradFci:
         if g.get_endpoint(a, b) == A and g.get_endpoint(c, b) == C:
             if not self.arrowhead_allowed(g, b, c):
                 return
-            g.set_endpoint(c, b, T)
-            g.set_endpoint(b, c, A)
+            self.set_ep(g, c, b, T)
+            self.set_ep(g, b, c, A)
             self.change = True
 
     def r2(self, g, a, b, c):
@@ -384,7 +459,7 @@ class _TetradFci:
                     or (e(a, b) == A and e(b, c) == A and e(c, b) == T)):
                 if not self.arrowhead_allowed(g, a, c):
                     return
-                g.set_endpoint(a, c, A)
+                self.set_ep(g, a, c, A)
                 self.change = True
 
     def r1r2_cycle(self, g):
@@ -409,7 +484,7 @@ class _TetradFci:
                         and g.get_endpoint(c, d) == C and g.get_endpoint(d, b) == C):
                     if not self.arrowhead_allowed(g, d, b):
                         continue
-                    g.set_endpoint(d, b, A)
+                    self.set_ep(g, d, b, A)
                     self.change = True
 
     # -------------------------------------------------------------- R4
@@ -653,12 +728,12 @@ class _TetradFci:
                 path = self._dijkstra_path(g, x, y)
                 if path is None:
                     continue
-                g.set_endpoint(x, y, T)
-                g.set_endpoint(y, x, T)
+                self.set_ep(g, x, y, T)
+                self.set_ep(g, y, x, T)
                 for i in range(len(path) - 1):
                     w, z = path[i], path[i + 1]
-                    g.set_endpoint(w, z, T)
-                    g.set_endpoint(z, w, T)
+                    self.set_ep(g, w, z, T)
+                    self.set_ep(g, z, w, T)
                 self.change = True
 
     def r6(self, g):
@@ -668,7 +743,7 @@ class _TetradFci:
             for a, b in ((e.n1, e.n2), (e.n2, e.n1)):
                 for c in g.get_adjacent_nodes(b):
                     if c != a and g.get_endpoint(c, b) == C:
-                        g.set_endpoint(c, b, T)
+                        self.set_ep(g, c, b, T)
                         self.change = True
 
     def r7(self, g):
@@ -677,7 +752,7 @@ class _TetradFci:
                 if g.get_endpoint(a, b) == C and g.get_endpoint(b, a) == T:
                     for c in g.get_adjacent_nodes(b):
                         if c != a and not g.is_adjacent(a, c) and g.get_endpoint(c, b) == C:
-                            g.set_endpoint(c, b, T)
+                            self.set_ep(g, c, b, T)
                             self.change = True
 
     def _is_po(self, g, a, c):
@@ -692,7 +767,7 @@ class _TetradFci:
             ep = g.get_endpoint
             if ((ep(b, a) == T and ep(a, b) == A and ep(c, b) == T and ep(b, c) == A)
                     or (ep(b, a) == T and ep(a, b) == C and ep(c, b) == T and ep(b, c) == A)):
-                g.set_endpoint(c, a, T)
+                self.set_ep(g, c, a, T)
                 self.change = True
                 return True
         return False
@@ -704,7 +779,7 @@ class _TetradFci:
         path = self._dijkstra_path(g, e.n1, e.n2)
         if path is None:
             return False
-        g.set_endpoint(c, a, T)
+        self.set_ep(g, c, a, T)
         self.change = True
         return True
 
@@ -718,12 +793,16 @@ class _TetradFci:
 
     def final_orientation(self, g):
         self.change = True
+        first_time = True
         while self.change:
             self.change = False
             self.r1r2_cycle(g)
             self.r3(g)
-            if self.change:
+            if self.change or (first_time and self.kn_orient):
                 self.r4(g)
+                first_time = False
+        if not self.complete:                # spirtesFinalOrientation: R1-R4 only
+            return
         self.r5(g)
         self.change = True
         while self.change:
@@ -737,7 +816,7 @@ class _TetradFci:
 
     # ------------------------------------------------------------ search
     def search(self, skeleton):
-        g = TGraph(self.p)
+        g = TGraph(self.p, self.names)
         for i in range(self.p):
             for j in range(i + 1, self.p):
                 if skeleton.adjacent(i, j):
@@ -783,16 +862,16 @@ class _NodeSet:
         return len(self.s)
 
 
-def fci(ci, alpha=0.05, depth=-1, tetrad_compat=False, complete=True):
+def fci(ci, alpha=0.05, depth=-1, tetrad_compat=False, complete=True, knowledge=None):
     """FCI. Returns a SearchResult with the PAG (mark matrix) in ``graph``."""
     p = ci.p if hasattr(ci, "p") else len(ci.observed)
     cache = CICache(ci, alpha)
     d = 1000 if depth < 0 else depth
     if tetrad_compat:
-        sk = fas(cache, p, d, "sequential")
-        g = _TetradFci(cache, p, depth).search(sk)
+        sk = fas(cache, p, d, "sequential", knowledge)
+        g = _TetradFci(cache, p, depth, knowledge).search(sk)
         return SearchResult(g.marks(), sk, cache)
-    G, sk, sepset = _textbook_fci(cache, p, d, complete)
+    G, sk, sepset = _textbook_fci(cache, p, d, complete, knowledge)
     return SearchResult(G, sk, cache, sepset=sepset)
 
 
@@ -834,6 +913,7 @@ class _TetradFciFamily(_TetradFci):
         g.reorient_all_with(C)
         self.remove_by_possible_msep(g)
         g.reorient_all_with(C)
+        self.fci_orient_bk(g, self.kn, instance=True)
         self.add_colliders_maxp(g, alpha)
         self.final_orientation(g)
         return g
@@ -903,7 +983,7 @@ class _TetradFciFamily(_TetradFci):
             if sep is None:
                 continue
             if j not in sep and g.is_adjacent(i, j) and g.is_adjacent(j, k):
-                if not self.arrowhead_allowed(g, i, j) or not self.arrowhead_allowed(g, k, j):
+                if not self.arrowhead_allowed(g, i, j, self.kn) or not self.arrowhead_allowed(g, k, j, self.kn):
                     continue
                 g.set_endpoint(i, j, A)
                 g.set_endpoint(k, j, A)
@@ -912,6 +992,7 @@ class _TetradFciFamily(_TetradFci):
         g = self._graph_of(skeleton)
         g.reorient_all_with(C)
         sepsets = {frozenset(k): set(v) for k, v in skeleton.sepset.items()}
+        self.fci_orient_bk(g, self.kn, instance=True)
         self.r0_rfci(g, sepsets)
         self.final_orientation(g)
         return g
@@ -955,7 +1036,7 @@ class _TetradFciFamily(_TetradFci):
                 t = self._triple_type(g, x, y, z, sepsets)
                 S = sepsets.get(frozenset((x, z)))
                 if t == "collider" or (S is not None and y not in S):
-                    if self.arrowhead_allowed(g, x, y) and self.arrowhead_allowed(g, z, y):
+                    if self.arrowhead_allowed(g, x, y, self.kn) and self.arrowhead_allowed(g, z, y, self.kn):
                         g.set_endpoint(x, y, A)
                         g.set_endpoint(z, y, A)
 
@@ -964,7 +1045,7 @@ class _TetradFciFamily(_TetradFci):
         found = {}
         for e in list(g.get_edges()):
             x, y = e.n1, e.n2
-            pm = self.possible_msep(g, x, y)
+            pm = [z for z in self.possible_msep(g, x, y) if self.kn.possible_parent(z, x)]
             cond = None
             for d in range(len(pm) + 1):
                 for ch in combinations(range(len(pm)), d):
@@ -988,12 +1069,13 @@ class _TetradFciFamily(_TetradFci):
         self.r0_cfci(g, sepsets)
         sepsets.update(self.possible_msep_fci(g))
         g.reorient_all_with(C)
+        self.fci_orient_bk(g, self.kn)
         self.r0_cfci(g, sepsets)
         self.final_orientation(g)
         return g
 
     def _graph_of(self, skeleton):
-        g = TGraph(self.p)
+        g = TGraph(self.p, self.names)
         for i in range(self.p):
             for j in range(i + 1, self.p):
                 if skeleton.adjacent(i, j):
@@ -1030,20 +1112,22 @@ def _maxp_sepsets(cache, G, alpha):
     return out
 
 
-def _textbook_variant(cache, p, depth, alpha, variant):
+def _textbook_variant(cache, p, depth, alpha, variant, knowledge=None):
     """FCI-Max or CFCI: textbook FCI with the Max-P or the conservative R0."""
-    sk = fas(cache, p, depth, "stable")
+    sk = fas(cache, p, depth, "stable", knowledge)
     G = np.zeros((p, p), dtype=np.int8)
     for a in range(p):
         for b in sk.adj[a]:
             G[a, b] = CIRCLE
     sepset = dict(sk.sepset)
+    _bk_marks(G, knowledge)
     _r0(G, sepset)
     removed = _pds_step(cache, G)
     for x, y, Z in removed:
         G[x, y] = G[y, x] = NONE
         sepset[(x, y)] = tuple(Z)
     G[G != NONE] = CIRCLE
+    _bk_marks(G, knowledge)
     if variant == "fcimax":
         mp = _maxp_sepsets(cache, G, alpha)
         for (a, c), (pv, S) in sorted(mp.items(), key=lambda kv: kv[1][0]):   # lowest p first
@@ -1080,16 +1164,17 @@ def _textbook_variant(cache, p, depth, alpha, variant):
     return G, sk, sepset
 
 
-def _rfci_textbook(cache, p, depth):
+def _rfci_textbook(cache, p, depth, knowledge=None):
     """RFCI (Colombo et al. 2012): FAS, the R0 of their Algorithm 4.4, then
     Zhang's rules with the separating sets. Sound, not complete."""
-    sk = fas(cache, p, depth, "stable")
+    sk = fas(cache, p, depth, "stable", knowledge)
     fam = _TetradFciFamily(cache, p)
     g = fam._graph_of(sk)
     g.reorient_all_with(C)
     sepsets = {frozenset(k): set(v) for k, v in sk.sepset.items()}
     fam.r0_rfci(g, sepsets)
     G = g.marks()
+    _bk_marks(G, knowledge)
     sep = {tuple(sorted(k)): tuple(sorted(v)) for k, v in sepsets.items()}
 
     def is_noncollider(d, a, b, c):
@@ -1100,37 +1185,37 @@ def _rfci_textbook(cache, p, depth):
     return G, sk, sep
 
 
-def fcimax(ci, alpha=0.05, depth=-1, tetrad_compat=False):
+def fcimax(ci, alpha=0.05, depth=-1, tetrad_compat=False, knowledge=None):
     p = ci.p if hasattr(ci, "p") else len(ci.observed)
     cache = CICache(ci, alpha)
     d = 1000 if depth < 0 else depth
     if tetrad_compat:
-        sk = fas(cache, p, d, "sequential")
-        g = _TetradFciFamily(cache, p, depth).search_fcimax(sk, alpha)
+        sk = fas(cache, p, d, "sequential", knowledge)
+        g = _TetradFciFamily(cache, p, depth, knowledge, orient_knowledge=False).search_fcimax(sk, alpha)
         return SearchResult(g.marks(), sk, cache)
-    G, sk, sep = _textbook_variant(cache, p, d, alpha, "fcimax")
+    G, sk, sep = _textbook_variant(cache, p, d, alpha, "fcimax", knowledge)
     return SearchResult(G, sk, cache, sepset=sep)
 
 
-def rfci(ci, alpha=0.05, depth=-1, tetrad_compat=False):
+def rfci(ci, alpha=0.05, depth=-1, tetrad_compat=False, knowledge=None):
     p = ci.p if hasattr(ci, "p") else len(ci.observed)
     cache = CICache(ci, alpha)
     d = 1000 if depth < 0 else depth
     if tetrad_compat:
-        sk = fas(cache, p, d, "sequential")
-        g = _TetradFciFamily(cache, p, depth).search_rfci(sk)
+        sk = fas(cache, p, d, "sequential", knowledge)
+        g = _TetradFciFamily(cache, p, depth, knowledge, orient_knowledge=False).search_rfci(sk)
         return SearchResult(g.marks(), sk, cache)
-    G, sk, sep = _rfci_textbook(cache, p, d)
+    G, sk, sep = _rfci_textbook(cache, p, d, knowledge)
     return SearchResult(G, sk, cache, sepset=sep)
 
 
-def cfci(ci, alpha=0.05, depth=-1, tetrad_compat=False):
+def cfci(ci, alpha=0.05, depth=-1, tetrad_compat=False, knowledge=None):
     p = ci.p if hasattr(ci, "p") else len(ci.observed)
     cache = CICache(ci, alpha)
     d = 1000 if depth < 0 else depth
     if tetrad_compat:
-        sk = fas(cache, p, d, "sequential")
-        g = _TetradFciFamily(cache, p, depth).search_cfci(sk)
+        sk = fas(cache, p, d, "sequential", knowledge)
+        g = _TetradFciFamily(cache, p, depth, knowledge, orient_knowledge=False).search_cfci(sk)
         return SearchResult(g.marks(), sk, cache)
-    G, sk, sep = _textbook_variant(cache, p, d, alpha, "cfci")
+    G, sk, sep = _textbook_variant(cache, p, d, alpha, "cfci", knowledge)
     return SearchResult(G, sk, cache, sepset=sep)

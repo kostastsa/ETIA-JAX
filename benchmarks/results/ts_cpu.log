@@ -1,0 +1,704 @@
+cpu cont3_L1_s0|FisherZ|0.01|None|cfci                   etia 0.005  compat 0.007  default 0.006
+cpu cont3_L1_s0|FisherZ|0.01|None|cpc                    etia 0.003  compat 0.003  default 0.002
+cpu cont3_L1_s0|FisherZ|0.01|None|fcimax                 etia 0.005  compat 0.007  default 0.006
+cpu cont3_L1_s0|FisherZ|0.01|None|fci                    etia 0.003  compat 0.006  default 0.005
+cpu cont3_L1_s0|FisherZ|0.01|None|pc                     etia 0.001  compat 0.001  default 0.001
+cpu cont3_L1_s0|FisherZ|0.01|None|rfci                   etia 0.001  compat 0.003  default 0.002
+cpu cont3_L1_s0|FisherZ|0.01|None|svarfci                etia 0.004  compat 0.006  default 0.005
+cpu cont3_L1_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.018  compat 0.018  default 0.017
+cpu cont3_L1_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.011  compat 0.016  default 0.017
+cpu cont3_L1_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.017  compat 0.017  default 0.016
+cpu cont3_L1_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.010  compat 0.015  default 0.016
+cpu cont3_L1_s0|FisherZ|0.05|None|cfci                   etia 0.012  compat 0.008  default 0.006
+cpu cont3_L1_s0|FisherZ|0.05|None|cpc                    etia 0.012  compat 0.002  default 0.002
+cpu cont3_L1_s0|FisherZ|0.05|None|fcimax                 etia 0.009  compat 0.006  default 0.006
+cpu cont3_L1_s0|FisherZ|0.05|None|fci                    etia 0.007  compat 0.005  default 0.005
+cpu cont3_L1_s0|FisherZ|0.05|None|pc                     etia 0.007  compat 0.001  default 0.001
+cpu cont3_L1_s0|FisherZ|0.05|None|rfci                   etia 0.003  compat 0.003  default 0.002
+cpu cont3_L1_s0|FisherZ|0.05|None|svarfci                etia 0.011  compat 0.006  default 0.005
+cpu cont3_L1_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.023  compat 0.018  default 0.017
+cpu cont3_L1_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.013  compat 0.015  default 0.017
+cpu cont3_L1_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.042  compat 0.017  default 0.016
+cpu cont3_L1_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.014  compat 0.015  default 0.026
+cpu cont3_L1_s0|None|None|dg_bic|fges                    etia 0.003  compat 0.014  default 0.009
+cpu cont3_L1_s0|None|None|sem_bic_score|fges             etia 0.003  compat 0.009  default 0.008
+cpu cont3_L1_s1|FisherZ|0.01|None|cfci                   etia 0.003  compat 0.007  default 0.005
+cpu cont3_L1_s1|FisherZ|0.01|None|cpc                    etia 0.002  compat 0.002  default 0.002
+cpu cont3_L1_s1|FisherZ|0.01|None|fcimax                 etia 0.003  compat 0.006  default 0.005
+cpu cont3_L1_s1|FisherZ|0.01|None|fci                    etia 0.002  compat 0.006  default 0.005
+cpu cont3_L1_s1|FisherZ|0.01|None|pc                     etia 0.001  compat 0.001  default 0.001
+cpu cont3_L1_s1|FisherZ|0.01|None|rfci                   etia 0.001  compat 0.002  default 0.002
+cpu cont3_L1_s1|FisherZ|0.01|None|svarfci                etia 0.003  compat 0.005  default 0.005
+cpu cont3_L1_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.004  compat 0.009  default 0.011
+cpu cont3_L1_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.003  compat 0.009  default 0.011
+cpu cont3_L1_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.004  compat 0.009  default 0.011
+cpu cont3_L1_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.003  compat 0.009  default 0.011
+cpu cont3_L1_s1|FisherZ|0.05|None|cfci                   etia 0.004  compat 0.006  default 0.005
+cpu cont3_L1_s1|FisherZ|0.05|None|cpc                    etia 0.002  compat 0.002  default 0.002
+cpu cont3_L1_s1|FisherZ|0.05|None|fcimax                 etia 0.003  compat 0.006  default 0.005
+cpu cont3_L1_s1|FisherZ|0.05|None|fci                    etia 0.003  compat 0.006  default 0.005
+cpu cont3_L1_s1|FisherZ|0.05|None|pc                     etia 0.001  compat 0.001  default 0.001
+cpu cont3_L1_s1|FisherZ|0.05|None|rfci                   etia 0.002  compat 0.002  default 0.002
+cpu cont3_L1_s1|FisherZ|0.05|None|svarfci                etia 0.003  compat 0.005  default 0.005
+cpu cont3_L1_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.004  compat 0.009  default 0.011
+cpu cont3_L1_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.004  compat 0.009  default 0.011
+cpu cont3_L1_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.004  compat 0.009  default 0.011
+cpu cont3_L1_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.004  compat 0.009  default 0.011
+cpu cont3_L1_s1|None|None|dg_bic|fges                    etia 0.002  compat 0.007  default 0.006
+cpu cont3_L1_s1|None|None|sem_bic_score|fges             etia 0.002  compat 0.006  default 0.006
+cpu cont3_L1_s2|FisherZ|0.01|None|cfci                   etia 0.005  compat 0.008  default 0.007
+cpu cont3_L1_s2|FisherZ|0.01|None|cpc                    etia 0.003  compat 0.002  default 0.002
+cpu cont3_L1_s2|FisherZ|0.01|None|fcimax                 etia 0.005  compat 0.007  default 0.006
+cpu cont3_L1_s2|FisherZ|0.01|None|fci                    etia 0.004  compat 0.008  default 0.005
+cpu cont3_L1_s2|FisherZ|0.01|None|pc                     etia 0.001  compat 0.001  default 0.001
+cpu cont3_L1_s2|FisherZ|0.01|None|rfci                   etia 0.002  compat 0.003  default 0.002
+cpu cont3_L1_s2|FisherZ|0.01|None|svarfci                etia 0.004  compat 0.007  default 0.005
+cpu cont3_L1_s2|FisherZ|0.01|dg_bic|gfci                 etia 0.028  compat 0.020  default 0.017
+cpu cont3_L1_s2|FisherZ|0.01|dg_bic|svargfci             etia 0.017  compat 0.021  default 0.017
+cpu cont3_L1_s2|FisherZ|0.01|sem_bic_score|gfci          etia 0.028  compat 0.019  default 0.017
+cpu cont3_L1_s2|FisherZ|0.01|sem_bic_score|svargfci      etia 0.018  compat 0.020  default 0.017
+cpu cont3_L1_s2|FisherZ|0.05|None|cfci                   etia 0.006  compat 0.009  default 0.007
+cpu cont3_L1_s2|FisherZ|0.05|None|cpc                    etia 0.004  compat 0.003  default 0.002
+cpu cont3_L1_s2|FisherZ|0.05|None|fcimax                 etia 0.005  compat 0.008  default 0.009
+cpu cont3_L1_s2|FisherZ|0.05|None|fci                    etia 0.005  compat 0.010  default 0.007
+cpu cont3_L1_s2|FisherZ|0.05|None|pc                     etia 0.001  compat 0.002  default 0.002
+cpu cont3_L1_s2|FisherZ|0.05|None|rfci                   etia 0.002  compat 0.004  default 0.002
+cpu cont3_L1_s2|FisherZ|0.05|None|svarfci                etia 0.005  compat 0.009  default 0.007
+cpu cont3_L1_s2|FisherZ|0.05|dg_bic|gfci                 etia 0.028  compat 0.021  default 0.018
+cpu cont3_L1_s2|FisherZ|0.05|dg_bic|svargfci             etia 0.018  compat 0.022  default 0.018
+cpu cont3_L1_s2|FisherZ|0.05|sem_bic_score|gfci          etia 0.030  compat 0.019  default 0.020
+cpu cont3_L1_s2|FisherZ|0.05|sem_bic_score|svargfci      etia 0.018  compat 0.022  default 0.021
+cpu cont3_L1_s2|None|None|dg_bic|fges                    etia 0.002  compat 0.009  default 0.008
+cpu cont3_L1_s2|None|None|sem_bic_score|fges             etia 0.002  compat 0.008  default 0.007
+cpu cont3_L2_s0|FisherZ|0.01|None|cfci                   etia 0.036  compat 0.027  default 0.022
+cpu cont3_L2_s0|FisherZ|0.01|None|cpc                    etia 0.024  compat 0.008  default 0.007
+cpu cont3_L2_s0|FisherZ|0.01|None|fcimax                 etia 0.022  compat 0.026  default 0.021
+cpu cont3_L2_s0|FisherZ|0.01|None|fci                    etia 0.072  compat 0.061  default 0.019
+cpu cont3_L2_s0|FisherZ|0.01|None|pc                     etia 0.005  compat 0.004  default 0.004
+cpu cont3_L2_s0|FisherZ|0.01|None|rfci                   etia 0.006  compat 0.007  default 0.006
+cpu cont3_L2_s0|FisherZ|0.01|None|svarfci                etia 0.021  compat 0.020  default 0.019
+cpu cont3_L2_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.198  compat 0.049  default 0.057
+cpu cont3_L2_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.112  compat 0.059  default 0.041
+cpu cont3_L2_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.184  compat 0.046  default 0.039
+cpu cont3_L2_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.159  compat 0.057  default 0.039
+cpu cont3_L2_s0|FisherZ|0.05|None|cfci                   etia 0.036  compat 0.026  default 0.022
+cpu cont3_L2_s0|FisherZ|0.05|None|cpc                    etia 0.025  compat 0.007  default 0.007
+cpu cont3_L2_s0|FisherZ|0.05|None|fcimax                 etia 0.028  compat 0.025  default 0.022
+cpu cont3_L2_s0|FisherZ|0.05|None|fci                    etia 0.074  compat 0.061  default 0.020
+cpu cont3_L2_s0|FisherZ|0.05|None|pc                     etia 0.005  compat 0.004  default 0.004
+cpu cont3_L2_s0|FisherZ|0.05|None|rfci                   etia 0.006  compat 0.007  default 0.006
+cpu cont3_L2_s0|FisherZ|0.05|None|svarfci                etia 0.021  compat 0.020  default 0.020
+cpu cont3_L2_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.230  compat 0.050  default 0.041
+cpu cont3_L2_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.186  compat 0.061  default 0.041
+cpu cont3_L2_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.247  compat 0.047  default 0.038
+cpu cont3_L2_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.145  compat 0.056  default 0.038
+cpu cont3_L2_s0|None|None|dg_bic|fges                    etia 0.005  compat 0.022  default 0.020
+cpu cont3_L2_s0|None|None|sem_bic_score|fges             etia 0.004  compat 0.021  default 0.018
+cpu cont3_L2_s1|FisherZ|0.01|None|cfci                   etia 0.026  compat 0.024  default 0.019
+cpu cont3_L2_s1|FisherZ|0.01|None|cpc                    etia 0.017  compat 0.005  default 0.005
+cpu cont3_L2_s1|FisherZ|0.01|None|fcimax                 etia 0.016  compat 0.022  default 0.019
+cpu cont3_L2_s1|FisherZ|0.01|None|fci                    etia 0.013  compat 0.017  default 0.016
+cpu cont3_L2_s1|FisherZ|0.01|None|pc                     etia 0.003  compat 0.003  default 0.003
+cpu cont3_L2_s1|FisherZ|0.01|None|rfci                   etia 0.003  compat 0.006  default 0.004
+cpu cont3_L2_s1|FisherZ|0.01|None|svarfci                etia 0.008  compat 0.012  default 0.016
+cpu cont3_L2_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.161  compat 0.044  default 0.036
+cpu cont3_L2_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.200  compat 0.067  default 0.036
+cpu cont3_L2_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.157  compat 0.043  default 0.035
+cpu cont3_L2_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.181  compat 0.064  default 0.034
+cpu cont3_L2_s1|FisherZ|0.05|None|cfci                   etia 0.033  compat 0.032  default 0.018
+cpu cont3_L2_s1|FisherZ|0.05|None|cpc                    etia 0.022  compat 0.006  default 0.006
+cpu cont3_L2_s1|FisherZ|0.05|None|fcimax                 etia 0.024  compat 0.032  default 0.020
+cpu cont3_L2_s1|FisherZ|0.05|None|fci                    etia 0.018  compat 0.022  default 0.016
+cpu cont3_L2_s1|FisherZ|0.05|None|pc                     etia 0.004  compat 0.003  default 0.003
+cpu cont3_L2_s1|FisherZ|0.05|None|rfci                   etia 0.006  compat 0.009  default 0.005
+cpu cont3_L2_s1|FisherZ|0.05|None|svarfci                etia 0.014  compat 0.016  default 0.016
+cpu cont3_L2_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.160  compat 0.044  default 0.035
+cpu cont3_L2_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.194  compat 0.067  default 0.035
+cpu cont3_L2_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.140  compat 0.043  default 0.034
+cpu cont3_L2_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.176  compat 0.064  default 0.034
+cpu cont3_L2_s1|None|None|dg_bic|fges                    etia 0.004  compat 0.019  default 0.018
+cpu cont3_L2_s1|None|None|sem_bic_score|fges             etia 0.004  compat 0.017  default 0.016
+cpu cont5_L1_s0|FisherZ|0.01|None|cfci                   etia 0.055  compat 0.045  default 0.030
+cpu cont5_L1_s0|FisherZ|0.01|None|cpc                    etia 0.039  compat 0.011  default 0.008
+cpu cont5_L1_s0|FisherZ|0.01|None|fcimax                 etia 0.036  compat 0.037  default 0.026
+cpu cont5_L1_s0|FisherZ|0.01|None|fci                    etia 0.032  compat 0.033  default 0.024
+cpu cont5_L1_s0|FisherZ|0.01|None|pc                     etia 0.005  compat 0.004  default 0.003
+cpu cont5_L1_s0|FisherZ|0.01|None|rfci                   etia 0.005  compat 0.008  default 0.006
+cpu cont5_L1_s0|FisherZ|0.01|None|svarfci                etia 0.011  compat 0.015  default 0.024
+cpu cont5_L1_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.534  compat 0.294  default 0.078
+cpu cont5_L1_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.994  compat 0.156  default 0.078
+cpu cont5_L1_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.552  compat 0.291  default 0.075
+cpu cont5_L1_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.378  compat 0.152  default 0.077
+cpu cont5_L1_s0|FisherZ|0.05|None|cfci                   etia 0.063  compat 0.043  default 0.028
+cpu cont5_L1_s0|FisherZ|0.05|None|cpc                    etia 0.040  compat 0.009  default 0.009
+cpu cont5_L1_s0|FisherZ|0.05|None|fcimax                 etia 0.037  compat 0.037  default 0.027
+cpu cont5_L1_s0|FisherZ|0.05|None|fci                    etia 0.053  compat 0.049  default 0.025
+cpu cont5_L1_s0|FisherZ|0.05|None|pc                     etia 0.006  compat 0.004  default 0.004
+cpu cont5_L1_s0|FisherZ|0.05|None|rfci                   etia 0.006  compat 0.008  default 0.006
+cpu cont5_L1_s0|FisherZ|0.05|None|svarfci                etia 0.014  compat 0.015  default 0.025
+cpu cont5_L1_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.546  compat 0.398  default 0.078
+cpu cont5_L1_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.354  compat 0.174  default 0.079
+cpu cont5_L1_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.527  compat 0.394  default 0.076
+cpu cont5_L1_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.338  compat 0.171  default 0.076
+cpu cont5_L1_s0|None|None|dg_bic|fges                    etia 0.007  compat 0.034  default 0.033
+cpu cont5_L1_s0|None|None|sem_bic_score|fges             etia 0.007  compat 0.031  default 0.030
+cpu cont5_L1_s1|FisherZ|0.01|None|cfci                   etia 0.046  compat 0.030  default 0.013
+cpu cont5_L1_s1|FisherZ|0.01|None|cpc                    etia 0.030  compat 0.005  default 0.005
+cpu cont5_L1_s1|FisherZ|0.01|None|fcimax                 etia 0.033  compat 0.028  default 0.013
+cpu cont5_L1_s1|FisherZ|0.01|None|fci                    etia 0.024  compat 0.022  default 0.012
+cpu cont5_L1_s1|FisherZ|0.01|None|pc                     etia 0.003  compat 0.003  default 0.003
+cpu cont5_L1_s1|FisherZ|0.01|None|rfci                   etia 0.006  compat 0.006  default 0.004
+cpu cont5_L1_s1|FisherZ|0.01|None|svarfci                etia 0.011  compat 0.008  default 0.012
+cpu cont5_L1_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.049  compat 0.027  default 0.026
+cpu cont5_L1_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.012  compat 0.019  default 0.026
+cpu cont5_L1_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.046  compat 0.025  default 0.032
+cpu cont5_L1_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.004  compat 0.018  default 0.025
+cpu cont5_L1_s1|FisherZ|0.05|None|cfci                   etia 0.051  compat 0.029  default 0.014
+cpu cont5_L1_s1|FisherZ|0.05|None|cpc                    etia 0.033  compat 0.006  default 0.006
+cpu cont5_L1_s1|FisherZ|0.05|None|fcimax                 etia 0.036  compat 0.030  default 0.014
+cpu cont5_L1_s1|FisherZ|0.05|None|fci                    etia 0.028  compat 0.024  default 0.012
+cpu cont5_L1_s1|FisherZ|0.05|None|pc                     etia 0.005  compat 0.003  default 0.003
+cpu cont5_L1_s1|FisherZ|0.05|None|rfci                   etia 0.008  compat 0.008  default 0.005
+cpu cont5_L1_s1|FisherZ|0.05|None|svarfci                etia 0.007  compat 0.008  default 0.012
+cpu cont5_L1_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.039  compat 0.027  default 0.026
+cpu cont5_L1_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.007  compat 0.019  default 0.026
+cpu cont5_L1_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.053  compat 0.025  default 0.025
+cpu cont5_L1_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.004  compat 0.018  default 0.025
+cpu cont5_L1_s1|None|None|dg_bic|fges                    etia 0.003  compat 0.016  default 0.015
+cpu cont5_L1_s1|None|None|sem_bic_score|fges             etia 0.003  compat 0.014  default 0.013
+cpu cont5_L2_s0|FisherZ|0.01|None|cfci                   etia 0.057  compat 0.124  default 0.033
+cpu cont5_L2_s0|FisherZ|0.01|None|cpc                    etia 0.037  compat 0.011  default 0.010
+cpu cont5_L2_s0|FisherZ|0.01|None|fcimax                 etia 0.037  compat 0.047  default 0.031
+cpu cont5_L2_s0|FisherZ|0.01|None|fci                    etia 0.039  compat 0.035  default 0.033
+cpu cont5_L2_s0|FisherZ|0.01|None|pc                     etia 0.007  compat 0.005  default 0.005
+cpu cont5_L2_s0|FisherZ|0.01|None|rfci                   etia 0.005  compat 0.009  default 0.007
+cpu cont5_L2_s0|FisherZ|0.01|None|svarfci                etia 0.011  compat 0.018  default 0.029
+cpu cont5_L2_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.022  compat 0.034  default 0.039
+cpu cont5_L2_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.006  compat 0.030  default 0.040
+cpu cont5_L2_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.022  compat 0.033  default 0.038
+cpu cont5_L2_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.006  compat 0.027  default 0.035
+cpu cont5_L2_s0|FisherZ|0.05|None|cfci                   etia 0.110  compat 0.050  default 0.033
+cpu cont5_L2_s0|FisherZ|0.05|None|cpc                    etia 0.064  compat 0.010  default 0.010
+cpu cont5_L2_s0|FisherZ|0.05|None|fcimax                 etia 0.058  compat 0.047  default 0.034
+cpu cont5_L2_s0|FisherZ|0.05|None|fci                    etia 0.054  compat 0.036  default 0.031
+cpu cont5_L2_s0|FisherZ|0.05|None|pc                     etia 0.012  compat 0.006  default 0.006
+cpu cont5_L2_s0|FisherZ|0.05|None|rfci                   etia 0.010  compat 0.010  default 0.008
+cpu cont5_L2_s0|FisherZ|0.05|None|svarfci                etia 0.018  compat 0.016  default 0.031
+cpu cont5_L2_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.049  compat 0.035  default 0.040
+cpu cont5_L2_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.007  compat 0.030  default 0.041
+cpu cont5_L2_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.050  compat 0.032  default 0.035
+cpu cont5_L2_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.007  compat 0.027  default 0.035
+cpu cont5_L2_s0|None|None|dg_bic|fges                    etia 0.004  compat 0.027  default 0.026
+cpu cont5_L2_s0|None|None|sem_bic_score|fges             etia 0.005  compat 0.023  default 0.023
+cpu cont5_L2_s1|FisherZ|0.01|None|cfci                   etia 0.092  compat 0.078  default 1.776
+cpu cont5_L2_s1|FisherZ|0.01|None|cpc                    etia 0.062  compat 0.015  default 0.013
+cpu cont5_L2_s1|FisherZ|0.01|None|fcimax                 etia 0.060  compat 0.069  default 1.642
+cpu cont5_L2_s1|FisherZ|0.01|None|fci                    etia 0.086  compat 0.069  default 1.535
+cpu cont5_L2_s1|FisherZ|0.01|None|pc                     etia 0.011  compat 0.008  default 0.007
+cpu cont5_L2_s1|FisherZ|0.01|None|rfci                   etia 0.011  compat 0.013  default 0.010
+cpu cont5_L2_s1|FisherZ|0.01|None|svarfci                etia 0.063  compat 0.037  default 1.602
+cpu cont5_L2_s1|FisherZ|0.01|dg_bic|gfci                 etia 1.186  compat 0.180  default 0.145
+cpu cont5_L2_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.192  compat 0.104  default 0.144
+cpu cont5_L2_s1|FisherZ|0.01|sem_bic_score|gfci          etia 1.206  compat 0.174  default 0.156
+cpu cont5_L2_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.237  compat 0.099  default 0.140
+cpu cont5_L2_s1|FisherZ|0.05|None|cfci                   etia 0.130  compat 0.095  default 1.794
+cpu cont5_L2_s1|FisherZ|0.05|None|cpc                    etia 0.102  compat 0.017  default 0.016
+cpu cont5_L2_s1|FisherZ|0.05|None|fcimax                 etia 0.081  compat 0.091  default 1.608
+cpu cont5_L2_s1|FisherZ|0.05|None|fci                    etia 0.134  compat 0.072  default 1.954
+cpu cont5_L2_s1|FisherZ|0.05|None|pc                     etia 0.032  compat 0.014  default 0.009
+cpu cont5_L2_s1|FisherZ|0.05|None|rfci                   etia 0.019  compat 0.016  default 0.013
+cpu cont5_L2_s1|FisherZ|0.05|None|svarfci                etia 0.075  compat 0.041  default 1.918
+cpu cont5_L2_s1|FisherZ|0.05|dg_bic|gfci                 etia 1.221  compat 0.182  default 0.202
+cpu cont5_L2_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.190  compat 0.105  default 0.196
+cpu cont5_L2_s1|FisherZ|0.05|sem_bic_score|gfci          etia 1.220  compat 0.174  default 0.191
+cpu cont5_L2_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.202  compat 0.099  default 0.191
+cpu cont5_L2_s1|None|None|dg_bic|fges                    etia 0.009  compat 0.064  default 0.094
+cpu cont5_L2_s1|None|None|sem_bic_score|fges             etia 0.011  compat 0.060  default 0.088
+cpu cont8_L2_s0|FisherZ|0.01|None|cfci                   etia 0.453  compat 0.256  default 20.285
+cpu cont8_L2_s0|FisherZ|0.01|None|cpc                    etia 0.290  compat 0.038  default 0.033
+cpu cont8_L2_s0|FisherZ|0.01|None|fcimax                 etia 0.220  compat 0.240  default 19.485
+cpu cont8_L2_s0|FisherZ|0.01|None|fci                    etia 0.247  compat 0.144  default 20.141
+cpu cont8_L2_s0|FisherZ|0.01|None|pc                     etia 0.019  compat 0.016  default 0.015
+cpu cont8_L2_s0|FisherZ|0.01|None|rfci                   etia 0.021  compat 0.028  default 0.019
+cpu cont8_L2_s0|FisherZ|0.01|None|svarfci                etia 0.045  compat 0.047  default 19.580
+cpu cont8_L2_s0|FisherZ|0.01|dg_bic|gfci                 etia 0.124  compat 0.102  default 0.114
+cpu cont8_L2_s0|FisherZ|0.01|dg_bic|svargfci             etia 0.013  compat 0.209  default 0.115
+cpu cont8_L2_s0|FisherZ|0.01|sem_bic_score|gfci          etia 0.126  compat 0.095  default 0.106
+cpu cont8_L2_s0|FisherZ|0.01|sem_bic_score|svargfci      etia 0.015  compat 0.082  default 0.107
+cpu cont8_L2_s0|FisherZ|0.05|None|cfci                   etia 0.822  compat 0.309  default 19.195
+cpu cont8_L2_s0|FisherZ|0.05|None|cpc                    etia 0.502  compat 0.046  default 0.044
+cpu cont8_L2_s0|FisherZ|0.05|None|fcimax                 etia 0.399  compat 0.296  default 19.839
+cpu cont8_L2_s0|FisherZ|0.05|None|fci                    etia 0.767  compat 0.252  default 20.303
+cpu cont8_L2_s0|FisherZ|0.05|None|pc                     etia 0.026  compat 0.022  default 0.018
+cpu cont8_L2_s0|FisherZ|0.05|None|rfci                   etia 0.028  compat 0.036  default 0.023
+cpu cont8_L2_s0|FisherZ|0.05|None|svarfci                etia 0.070  compat 0.052  default 20.215
+cpu cont8_L2_s0|FisherZ|0.05|dg_bic|gfci                 etia 0.124  compat 0.100  default 0.112
+cpu cont8_L2_s0|FisherZ|0.05|dg_bic|svargfci             etia 0.017  compat 0.087  default 0.113
+cpu cont8_L2_s0|FisherZ|0.05|sem_bic_score|gfci          etia 0.161  compat 0.094  default 0.106
+cpu cont8_L2_s0|FisherZ|0.05|sem_bic_score|svargfci      etia 0.014  compat 0.080  default 0.106
+cpu cont8_L2_s0|None|None|dg_bic|fges                    etia 0.016  compat 0.089  default 0.074
+cpu cont8_L2_s0|None|None|sem_bic_score|fges             etia 0.010  compat 0.067  default 0.065
+cpu cont8_L2_s1|FisherZ|0.01|None|cfci                   etia 0.079  compat 0.088  default 1.778
+cpu cont8_L2_s1|FisherZ|0.01|None|cpc                    etia 0.055  compat 0.020  default 0.019
+cpu cont8_L2_s1|FisherZ|0.01|None|fcimax                 etia 0.046  compat 0.079  default 1.870
+cpu cont8_L2_s1|FisherZ|0.01|None|fci                    etia 0.037  compat 0.044  default 1.884
+cpu cont8_L2_s1|FisherZ|0.01|None|pc                     etia 0.010  compat 0.013  default 0.013
+cpu cont8_L2_s1|FisherZ|0.01|None|rfci                   etia 0.012  compat 0.021  default 0.017
+cpu cont8_L2_s1|FisherZ|0.01|None|svarfci                etia 0.018  compat 0.032  default 1.787
+cpu cont8_L2_s1|FisherZ|0.01|dg_bic|gfci                 etia 0.124  compat 0.116  default 0.110
+cpu cont8_L2_s1|FisherZ|0.01|dg_bic|svargfci             etia 0.012  compat 0.091  default 0.108
+cpu cont8_L2_s1|FisherZ|0.01|sem_bic_score|gfci          etia 0.120  compat 0.107  default 0.102
+cpu cont8_L2_s1|FisherZ|0.01|sem_bic_score|svargfci      etia 0.012  compat 0.084  default 0.102
+cpu cont8_L2_s1|FisherZ|0.05|None|cfci                   etia 0.187  compat 0.143  default 104.492
+cpu cont8_L2_s1|FisherZ|0.05|None|cpc                    etia 0.125  compat 0.030  default 0.028
+cpu cont8_L2_s1|FisherZ|0.05|None|fcimax                 etia 0.101  compat 0.132  default 105.791
+cpu cont8_L2_s1|FisherZ|0.05|None|fci                    etia 0.149  compat 0.091  default 104.872
+cpu cont8_L2_s1|FisherZ|0.05|None|pc                     etia 0.018  compat 0.019  default 0.019
+cpu cont8_L2_s1|FisherZ|0.05|None|rfci                   etia 0.019  compat 0.027  default 0.021
+cpu cont8_L2_s1|FisherZ|0.05|None|svarfci                etia 0.022  compat 0.035  default 101.776
+cpu cont8_L2_s1|FisherZ|0.05|dg_bic|gfci                 etia 0.144  compat 0.117  default 0.109
+cpu cont8_L2_s1|FisherZ|0.05|dg_bic|svargfci             etia 0.012  compat 0.091  default 0.109
+cpu cont8_L2_s1|FisherZ|0.05|sem_bic_score|gfci          etia 0.123  compat 0.109  default 0.103
+cpu cont8_L2_s1|FisherZ|0.05|sem_bic_score|svargfci      etia 0.013  compat 0.084  default 0.102
+cpu cont8_L2_s1|None|None|dg_bic|fges                    etia 0.013  compat 0.109  default 0.099
+cpu cont8_L2_s1|None|None|sem_bic_score|fges             etia 0.012  compat 0.099  default 0.088
+cpu disc4_L1_s0|None|None|bdeu|fges                      etia 0.005  compat 0.007  default 0.007
+cpu disc4_L1_s0|None|None|discrete_bic|fges              etia 0.004  compat 0.009  default 0.008
+cpu disc4_L1_s0|chisquare|0.01|None|cfci                 etia 0.064  compat 0.222  default 0.095
+cpu disc4_L1_s0|chisquare|0.01|None|cpc                  etia 0.130  compat 0.015  default 0.015
+cpu disc4_L1_s0|chisquare|0.01|None|fcimax               etia 0.064  compat 0.205  default 0.097
+cpu disc4_L1_s0|chisquare|0.01|None|fci                  etia 0.055  compat 0.045  default 0.103
+cpu disc4_L1_s0|chisquare|0.01|None|pc                   etia 0.021  compat 0.009  default 0.010
+cpu disc4_L1_s0|chisquare|0.01|None|rfci                 etia 0.027  compat 0.032  default 0.039
+cpu disc4_L1_s0|chisquare|0.01|None|svarfci              etia 0.057  compat 0.034  default 0.133
+cpu disc4_L1_s0|chisquare|0.01|bdeu|gfci                 etia 0.011  compat 0.007  default 0.047
+cpu disc4_L1_s0|chisquare|0.01|bdeu|svargfci             etia 0.008  compat 0.007  default 0.042
+cpu disc4_L1_s0|chisquare|0.01|discrete_bic|gfci         etia 0.006  compat 0.009  default 0.039
+cpu disc4_L1_s0|chisquare|0.01|discrete_bic|svargfci     etia 0.007  compat 0.010  default 0.041
+cpu disc4_L1_s0|chisquare|0.05|None|cfci                 etia 0.062  compat 0.285  default 0.178
+cpu disc4_L1_s0|chisquare|0.05|None|cpc                  etia 0.059  compat 0.020  default 0.023
+cpu disc4_L1_s0|chisquare|0.05|None|fcimax               etia 0.058  compat 0.297  default 0.132
+cpu disc4_L1_s0|chisquare|0.05|None|fci                  etia 0.078  compat 0.053  default 0.128
+cpu disc4_L1_s0|chisquare|0.05|None|pc                   etia 0.049  compat 0.009  default 0.009
+cpu disc4_L1_s0|chisquare|0.05|None|rfci                 etia 0.028  compat 0.022  default 0.020
+cpu disc4_L1_s0|chisquare|0.05|None|svarfci              etia 0.185  compat 0.046  default 0.128
+cpu disc4_L1_s0|chisquare|0.05|bdeu|gfci                 etia 0.008  compat 0.007  default 0.040
+cpu disc4_L1_s0|chisquare|0.05|bdeu|svargfci             etia 0.012  compat 0.007  default 0.038
+cpu disc4_L1_s0|chisquare|0.05|discrete_bic|gfci         etia 0.011  compat 0.009  default 0.038
+cpu disc4_L1_s0|chisquare|0.05|discrete_bic|svargfci     etia 0.012  compat 0.010  default 0.040
+cpu disc4_L1_s0|gsquare|0.01|None|cfci                   etia 0.046  compat 0.244  default 0.129
+cpu disc4_L1_s0|gsquare|0.01|None|cpc                    etia 0.042  compat 0.018  default 0.018
+cpu disc4_L1_s0|gsquare|0.01|None|fcimax                 etia 0.043  compat 0.192  default 0.116
+cpu disc4_L1_s0|gsquare|0.01|None|fci                    etia 0.050  compat 0.029  default 0.109
+cpu disc4_L1_s0|gsquare|0.01|None|pc                     etia 0.019  compat 0.007  default 0.013
+cpu disc4_L1_s0|gsquare|0.01|None|rfci                   etia 0.020  compat 0.020  default 0.021
+cpu disc4_L1_s0|gsquare|0.01|None|svarfci                etia 0.047  compat 0.050  default 0.109
+cpu disc4_L1_s0|gsquare|0.01|bdeu|gfci                   etia 0.004  compat 0.007  default 0.036
+cpu disc4_L1_s0|gsquare|0.01|bdeu|svargfci               etia 0.005  compat 0.007  default 0.037
+cpu disc4_L1_s0|gsquare|0.01|discrete_bic|gfci           etia 0.005  compat 0.009  default 0.036
+cpu disc4_L1_s0|gsquare|0.01|discrete_bic|svargfci       etia 0.004  compat 0.009  default 0.043
+cpu disc4_L1_s0|gsquare|0.05|None|cfci                   etia 0.062  compat 0.282  default 0.134
+cpu disc4_L1_s0|gsquare|0.05|None|cpc                    etia 0.058  compat 0.016  default 0.017
+cpu disc4_L1_s0|gsquare|0.05|None|fcimax                 etia 0.060  compat 0.293  default 0.202
+cpu disc4_L1_s0|gsquare|0.05|None|fci                    etia 0.074  compat 0.064  default 0.148
+cpu disc4_L1_s0|gsquare|0.05|None|pc                     etia 0.032  compat 0.009  default 0.010
+cpu disc4_L1_s0|gsquare|0.05|None|rfci                   etia 0.028  compat 0.021  default 0.023
+cpu disc4_L1_s0|gsquare|0.05|None|svarfci                etia 0.163  compat 0.045  default 0.129
+cpu disc4_L1_s0|gsquare|0.05|bdeu|gfci                   etia 0.004  compat 0.007  default 0.045
+cpu disc4_L1_s0|gsquare|0.05|bdeu|svargfci               etia 0.010  compat 0.008  default 0.045
+cpu disc4_L1_s0|gsquare|0.05|discrete_bic|gfci           etia 0.005  compat 0.015  default 0.043
+cpu disc4_L1_s0|gsquare|0.05|discrete_bic|svargfci       etia 0.005  compat 0.010  default 0.050
+cpu disc4_L1_s1|None|None|bdeu|fges                      etia 0.004  compat 0.006  default 0.005
+cpu disc4_L1_s1|None|None|discrete_bic|fges              etia 0.005  compat 0.007  default 0.006
+cpu disc4_L1_s1|chisquare|0.01|None|cfci                 etia 0.024  compat 0.119  default 0.084
+cpu disc4_L1_s1|chisquare|0.01|None|cpc                  etia 0.021  compat 0.026  default 0.022
+cpu disc4_L1_s1|chisquare|0.01|None|fcimax               etia 0.025  compat 0.117  default 0.086
+cpu disc4_L1_s1|chisquare|0.01|None|fci                  etia 0.022  compat 0.009  default 0.064
+cpu disc4_L1_s1|chisquare|0.01|None|pc                   etia 0.008  compat 0.005  default 0.004
+cpu disc4_L1_s1|chisquare|0.01|None|rfci                 etia 0.009  compat 0.007  default 0.008
+cpu disc4_L1_s1|chisquare|0.01|None|svarfci              etia 0.026  compat 0.018  default 0.083
+cpu disc4_L1_s1|chisquare|0.01|bdeu|gfci                 etia 0.003  compat 0.006  default 0.024
+cpu disc4_L1_s1|chisquare|0.01|bdeu|svargfci             etia 0.005  compat 0.006  default 0.023
+cpu disc4_L1_s1|chisquare|0.01|discrete_bic|gfci         etia 0.003  compat 0.007  default 0.034
+cpu disc4_L1_s1|chisquare|0.01|discrete_bic|svargfci     etia 0.005  compat 0.007  default 0.033
+cpu disc4_L1_s1|chisquare|0.05|None|cfci                 etia 0.025  compat 0.196  default 0.071
+cpu disc4_L1_s1|chisquare|0.05|None|cpc                  etia 0.022  compat 0.011  default 0.011
+cpu disc4_L1_s1|chisquare|0.05|None|fcimax               etia 0.026  compat 0.186  default 0.132
+cpu disc4_L1_s1|chisquare|0.05|None|fci                  etia 0.022  compat 0.010  default 0.065
+cpu disc4_L1_s1|chisquare|0.05|None|pc                   etia 0.008  compat 0.006  default 0.005
+cpu disc4_L1_s1|chisquare|0.05|None|rfci                 etia 0.009  compat 0.007  default 0.007
+cpu disc4_L1_s1|chisquare|0.05|None|svarfci              etia 0.029  compat 0.017  default 0.077
+cpu disc4_L1_s1|chisquare|0.05|bdeu|gfci                 etia 0.003  compat 0.005  default 0.023
+cpu disc4_L1_s1|chisquare|0.05|bdeu|svargfci             etia 0.005  compat 0.006  default 0.024
+cpu disc4_L1_s1|chisquare|0.05|discrete_bic|gfci         etia 0.003  compat 0.007  default 0.034
+cpu disc4_L1_s1|chisquare|0.05|discrete_bic|svargfci     etia 0.005  compat 0.008  default 0.032
+cpu disc4_L1_s1|gsquare|0.01|None|cfci                   etia 0.019  compat 0.098  default 0.062
+cpu disc4_L1_s1|gsquare|0.01|None|cpc                    etia 0.018  compat 0.011  default 0.011
+cpu disc4_L1_s1|gsquare|0.01|None|fcimax                 etia 0.020  compat 0.097  default 0.061
+cpu disc4_L1_s1|gsquare|0.01|None|fci                    etia 0.014  compat 0.008  default 0.062
+cpu disc4_L1_s1|gsquare|0.01|None|pc                     etia 0.008  compat 0.005  default 0.005
+cpu disc4_L1_s1|gsquare|0.01|None|rfci                   etia 0.008  compat 0.006  default 0.006
+cpu disc4_L1_s1|gsquare|0.01|None|svarfci                etia 0.019  compat 0.017  default 0.088
+cpu disc4_L1_s1|gsquare|0.01|bdeu|gfci                   etia 0.003  compat 0.005  default 0.043
+cpu disc4_L1_s1|gsquare|0.01|bdeu|svargfci               etia 0.004  compat 0.006  default 0.024
+cpu disc4_L1_s1|gsquare|0.01|discrete_bic|gfci           etia 0.003  compat 0.007  default 0.034
+cpu disc4_L1_s1|gsquare|0.01|discrete_bic|svargfci       etia 0.004  compat 0.007  default 0.043
+cpu disc4_L1_s1|gsquare|0.05|None|cfci                   etia 0.024  compat 0.239  default 0.069
+cpu disc4_L1_s1|gsquare|0.05|None|cpc                    etia 0.022  compat 0.012  default 0.025
+cpu disc4_L1_s1|gsquare|0.05|None|fcimax                 etia 0.025  compat 0.271  default 0.073
+cpu disc4_L1_s1|gsquare|0.05|None|fci                    etia 0.019  compat 0.009  default 0.135
+cpu disc4_L1_s1|gsquare|0.05|None|pc                     etia 0.008  compat 0.010  default 0.008
+cpu disc4_L1_s1|gsquare|0.05|None|rfci                   etia 0.009  compat 0.008  default 0.007
+cpu disc4_L1_s1|gsquare|0.05|None|svarfci                etia 0.026  compat 0.015  default 0.065
+cpu disc4_L1_s1|gsquare|0.05|bdeu|gfci                   etia 0.003  compat 0.005  default 0.025
+cpu disc4_L1_s1|gsquare|0.05|bdeu|svargfci               etia 0.004  compat 0.006  default 0.025
+cpu disc4_L1_s1|gsquare|0.05|discrete_bic|gfci           etia 0.003  compat 0.007  default 0.035
+cpu disc4_L1_s1|gsquare|0.05|discrete_bic|svargfci       etia 0.004  compat 0.007  default 0.034
+cpu mixed4_L1_s0|None|None|cg_bic|fges                   etia 0.098  compat 0.024  default 0.024
+cpu mixed4_L1_s0|None|None|dg_bic|fges                   etia 0.002  compat 0.008  default 0.008
+cpu mixed4_L1_s0|cg_lrt|0.01|None|cfci                   etia 0.177  compat 0.084  default 0.284
+cpu mixed4_L1_s0|cg_lrt|0.01|None|cpc                    etia 0.157  compat 0.040  default 0.041
+cpu mixed4_L1_s0|cg_lrt|0.01|None|fcimax                 etia 0.167  compat 0.089  default 0.297
+cpu mixed4_L1_s0|cg_lrt|0.01|None|fci                    etia 0.122  compat 0.035  default 0.279
+cpu mixed4_L1_s0|cg_lrt|0.01|None|pc                     etia 0.044  compat 0.018  default 0.018
+cpu mixed4_L1_s0|cg_lrt|0.01|None|rfci                   etia 0.044  compat 0.019  default 0.019
+cpu mixed4_L1_s0|cg_lrt|0.01|None|svarfci                etia 0.063  compat 0.028  default 0.281
+cpu mixed4_L1_s0|cg_lrt|0.01|cg_bic|gfci                 etia 0.103  compat 0.032  default 0.087
+cpu mixed4_L1_s0|cg_lrt|0.01|cg_bic|svargfci             etia 0.058  compat 0.015  default 0.087
+cpu mixed4_L1_s0|cg_lrt|0.01|dg_bic|gfci                 etia 0.048  compat 0.025  default 0.063
+cpu mixed4_L1_s0|cg_lrt|0.01|dg_bic|svargfci             etia 0.004  compat 0.009  default 0.063
+cpu mixed4_L1_s0|cg_lrt|0.05|None|cfci                   etia 0.184  compat 0.091  default 0.306
+cpu mixed4_L1_s0|cg_lrt|0.05|None|cpc                    etia 0.163  compat 0.040  default 0.039
+cpu mixed4_L1_s0|cg_lrt|0.05|None|fcimax                 etia 0.171  compat 0.088  default 0.301
+cpu mixed4_L1_s0|cg_lrt|0.05|None|fci                    etia 0.145  compat 0.036  default 0.302
+cpu mixed4_L1_s0|cg_lrt|0.05|None|pc                     etia 0.072  compat 0.020  default 0.020
+cpu mixed4_L1_s0|cg_lrt|0.05|None|rfci                   etia 0.052  compat 0.023  default 0.022
+cpu mixed4_L1_s0|cg_lrt|0.05|None|svarfci                etia 0.080  compat 0.030  default 0.312
+cpu mixed4_L1_s0|cg_lrt|0.05|cg_bic|gfci                 etia 0.115  compat 0.032  default 0.082
+cpu mixed4_L1_s0|cg_lrt|0.05|cg_bic|svargfci             etia 0.059  compat 0.013  default 0.083
+cpu mixed4_L1_s0|cg_lrt|0.05|dg_bic|gfci                 etia 0.046  compat 0.026  default 0.063
+cpu mixed4_L1_s0|cg_lrt|0.05|dg_bic|svargfci             etia 0.005  compat 0.009  default 0.062
+cpu mixed4_L1_s0|dg_lrt|0.01|None|cfci                   etia 0.131  compat 0.054  default 0.039
+cpu mixed4_L1_s0|dg_lrt|0.01|None|cpc                    etia 0.103  compat 0.008  default 0.005
+cpu mixed4_L1_s0|dg_lrt|0.01|None|fcimax                 etia 0.113  compat 0.046  default 0.035
+cpu mixed4_L1_s0|dg_lrt|0.01|None|fci                    etia 0.099  compat 0.016  default 0.034
+cpu mixed4_L1_s0|dg_lrt|0.01|None|pc                     etia 0.030  compat 0.003  default 0.003
+cpu mixed4_L1_s0|dg_lrt|0.01|None|rfci                   etia 0.030  compat 0.005  default 0.004
+cpu mixed4_L1_s0|dg_lrt|0.01|None|svarfci                etia 0.114  compat 0.018  default 0.030
+cpu mixed4_L1_s0|dg_lrt|0.01|cg_bic|gfci                 etia 0.085  compat 0.022  default 0.039
+cpu mixed4_L1_s0|dg_lrt|0.01|cg_bic|svargfci             etia 0.063  compat 0.014  default 0.038
+cpu mixed4_L1_s0|dg_lrt|0.01|dg_bic|gfci                 etia 0.030  compat 0.017  default 0.038
+cpu mixed4_L1_s0|dg_lrt|0.01|dg_bic|svargfci             etia 0.004  compat 0.009  default 0.036
+cpu mixed4_L1_s0|dg_lrt|0.05|None|cfci                   etia 0.187  compat 0.064  default 0.039
+cpu mixed4_L1_s0|dg_lrt|0.05|None|cpc                    etia 0.160  compat 0.007  default 0.006
+cpu mixed4_L1_s0|dg_lrt|0.05|None|fcimax                 etia 0.171  compat 0.061  default 0.038
+cpu mixed4_L1_s0|dg_lrt|0.05|None|fci                    etia 0.120  compat 0.022  default 0.034
+cpu mixed4_L1_s0|dg_lrt|0.05|None|pc                     etia 0.046  compat 0.003  default 0.003
+cpu mixed4_L1_s0|dg_lrt|0.05|None|rfci                   etia 0.046  compat 0.006  default 0.005
+cpu mixed4_L1_s0|dg_lrt|0.05|None|svarfci                etia 0.153  compat 0.024  default 0.033
+cpu mixed4_L1_s0|dg_lrt|0.05|cg_bic|gfci                 etia 0.101  compat 0.023  default 0.041
+cpu mixed4_L1_s0|dg_lrt|0.05|cg_bic|svargfci             etia 0.062  compat 0.013  default 0.038
+cpu mixed4_L1_s0|dg_lrt|0.05|dg_bic|gfci                 etia 0.031  compat 0.016  default 0.034
+cpu mixed4_L1_s0|dg_lrt|0.05|dg_bic|svargfci             etia 0.004  compat 0.009  default 0.035
+cpu mixed4_L1_s1|None|None|cg_bic|fges                   etia 0.116  compat 0.031  default 0.029
+cpu mixed4_L1_s1|None|None|dg_bic|fges                   etia 0.003  compat 0.015  default 0.013
+cpu mixed4_L1_s1|cg_lrt|0.01|None|cfci                   etia 0.709  compat 0.173  default 0.196
+cpu mixed4_L1_s1|cg_lrt|0.01|None|cpc                    etia 0.482  compat 0.105  default 0.088
+cpu mixed4_L1_s1|cg_lrt|0.01|None|fcimax                 etia 0.768  compat 0.155  default 0.197
+cpu mixed4_L1_s1|cg_lrt|0.01|None|fci                    etia 0.774  compat 0.126  default 0.194
+cpu mixed4_L1_s1|cg_lrt|0.01|None|pc                     etia 0.140  compat 0.065  default 0.065
+cpu mixed4_L1_s1|cg_lrt|0.01|None|rfci                   etia 0.257  compat 0.069  default 0.066
+cpu mixed4_L1_s1|cg_lrt|0.01|None|svarfci                etia 0.249  compat 0.109  default 0.187
+cpu mixed4_L1_s1|cg_lrt|0.01|cg_bic|gfci                 etia 0.210  compat 0.056  default 0.123
+cpu mixed4_L1_s1|cg_lrt|0.01|cg_bic|svargfci             etia 0.188  compat 0.067  default 0.124
+cpu mixed4_L1_s1|cg_lrt|0.01|dg_bic|gfci                 etia 0.203  compat 0.065  default 0.187
+cpu mixed4_L1_s1|cg_lrt|0.01|dg_bic|svargfci             etia 0.067  compat 0.048  default 0.196
+cpu mixed4_L1_s1|cg_lrt|0.05|None|cfci                   etia 0.570  compat 0.210  default 0.204
+cpu mixed4_L1_s1|cg_lrt|0.05|None|cpc                    etia 0.565  compat 0.123  default 0.111
+cpu mixed4_L1_s1|cg_lrt|0.05|None|fcimax                 etia 0.572  compat 0.182  default 0.207
+cpu mixed4_L1_s1|cg_lrt|0.05|None|fci                    etia 0.616  compat 0.130  default 0.208
+cpu mixed4_L1_s1|cg_lrt|0.05|None|pc                     etia 0.349  compat 0.086  default 0.079
+cpu mixed4_L1_s1|cg_lrt|0.05|None|rfci                   etia 0.251  compat 0.096  default 0.088
+cpu mixed4_L1_s1|cg_lrt|0.05|None|svarfci                etia 0.347  compat 0.140  default 0.203
+cpu mixed4_L1_s1|cg_lrt|0.05|cg_bic|gfci                 etia 0.151  compat 0.054  default 0.123
+cpu mixed4_L1_s1|cg_lrt|0.05|cg_bic|svargfci             etia 0.193  compat 0.069  default 0.125
+cpu mixed4_L1_s1|cg_lrt|0.05|dg_bic|gfci                 etia 0.162  compat 0.068  default 0.164
+cpu mixed4_L1_s1|cg_lrt|0.05|dg_bic|svargfci             etia 0.075  compat 0.050  default 0.164
+cpu mixed4_L1_s1|dg_lrt|0.01|None|cfci                   etia 0.202  compat 0.058  default 0.038
+cpu mixed4_L1_s1|dg_lrt|0.01|None|cpc                    etia 0.183  compat 0.009  default 0.009
+cpu mixed4_L1_s1|dg_lrt|0.01|None|fcimax                 etia 0.191  compat 0.055  default 0.037
+cpu mixed4_L1_s1|dg_lrt|0.01|None|fci                    etia 0.288  compat 0.043  default 0.034
+cpu mixed4_L1_s1|dg_lrt|0.01|None|pc                     etia 0.068  compat 0.005  default 0.004
+cpu mixed4_L1_s1|dg_lrt|0.01|None|rfci                   etia 0.072  compat 0.009  default 0.009
+cpu mixed4_L1_s1|dg_lrt|0.01|None|svarfci                etia 0.200  compat 0.027  default 0.034
+cpu mixed4_L1_s1|dg_lrt|0.01|cg_bic|gfci                 etia 0.139  compat 0.040  default 0.051
+cpu mixed4_L1_s1|dg_lrt|0.01|cg_bic|svargfci             etia 0.176  compat 0.053  default 0.051
+cpu mixed4_L1_s1|dg_lrt|0.01|dg_bic|gfci                 etia 0.103  compat 0.037  default 0.045
+cpu mixed4_L1_s1|dg_lrt|0.01|dg_bic|svargfci             etia 0.049  compat 0.031  default 0.044
+cpu mixed4_L1_s1|dg_lrt|0.05|None|cfci                   etia 0.249  compat 0.078  default 0.039
+cpu mixed4_L1_s1|dg_lrt|0.05|None|cpc                    etia 0.223  compat 0.014  default 0.009
+cpu mixed4_L1_s1|dg_lrt|0.05|None|fcimax                 etia 0.222  compat 0.064  default 0.038
+cpu mixed4_L1_s1|dg_lrt|0.05|None|fci                    etia 0.440  compat 0.079  default 0.035
+cpu mixed4_L1_s1|dg_lrt|0.05|None|pc                     etia 0.075  compat 0.005  default 0.004
+cpu mixed4_L1_s1|dg_lrt|0.05|None|rfci                   etia 0.078  compat 0.010  default 0.009
+cpu mixed4_L1_s1|dg_lrt|0.05|None|svarfci                etia 0.183  compat 0.023  default 0.036
+cpu mixed4_L1_s1|dg_lrt|0.05|cg_bic|gfci                 etia 0.141  compat 0.041  default 0.053
+cpu mixed4_L1_s1|dg_lrt|0.05|cg_bic|svargfci             etia 0.181  compat 0.054  default 0.052
+cpu mixed4_L1_s1|dg_lrt|0.05|dg_bic|gfci                 etia 0.097  compat 0.038  default 0.045
+cpu mixed4_L1_s1|dg_lrt|0.05|dg_bic|svargfci             etia 0.054  compat 0.029  default 0.044
+cpu cont3_L1_s0|CMIknn|0.05|LPCMCI                       etia 0.423  jax 0.534
+cpu cont3_L1_s0|CMIknn|0.05|PCMCI+                       etia 0.237  jax 0.409
+cpu cont3_L1_s0|CMIknn|0.05|PCMCI                        etia 1.263  jax 0.491
+cpu cont3_L1_s0|GPDC|0.05|LPCMCI                         etia 139.413  jax 871.128
+cpu cont3_L1_s0|GPDC|0.05|PCMCI+                         etia 70.681  jax 497.417
+cpu cont3_L1_s0|GPDC|0.05|PCMCI                          etia 45.215  jax 296.621
+cpu cont3_L1_s0|ParCorrWLS|0.01|LPCMCI                   etia 0.638  jax 0.181
+cpu cont3_L1_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.147  jax 0.039
+cpu cont3_L1_s0|ParCorrWLS|0.01|PCMCI                    etia 0.087  jax 0.022
+cpu cont3_L1_s0|ParCorrWLS|0.05|LPCMCI                   etia 0.736  jax 0.143
+cpu cont3_L1_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.210  jax 0.064
+cpu cont3_L1_s0|ParCorrWLS|0.05|PCMCI                    etia 0.104  jax 0.029
+cpu cont3_L1_s0|ParCor|0.01|LPCMCI                       etia 0.160  jax 0.036
+cpu cont3_L1_s0|ParCor|0.01|PCMCI+                       etia 0.040  jax 0.004
+cpu cont3_L1_s0|ParCor|0.01|PCMCI                        etia 0.025  jax 0.001
+cpu cont3_L1_s0|ParCor|0.05|LPCMCI                       etia 0.191  jax 0.033
+cpu cont3_L1_s0|ParCor|0.05|PCMCI+                       etia 0.057  jax 0.003
+cpu cont3_L1_s0|ParCor|0.05|PCMCI                        etia 0.029  jax 0.001
+cpu cont3_L1_s0|RobustParCor|0.01|LPCMCI                 etia 0.229  jax 0.037
+cpu cont3_L1_s0|RobustParCor|0.01|PCMCI+                 etia 0.095  jax 0.006
+cpu cont3_L1_s0|RobustParCor|0.01|PCMCI                  etia 0.056  jax 0.003
+cpu cont3_L1_s0|RobustParCor|0.05|LPCMCI                 etia 0.262  jax 0.035
+cpu cont3_L1_s0|RobustParCor|0.05|PCMCI+                 etia 0.140  jax 0.006
+cpu cont3_L1_s0|RobustParCor|0.05|PCMCI                  etia 0.056  jax 0.004
+cpu cont3_L1_s1|CMIknn|0.05|LPCMCI                       etia 0.282  jax 0.213
+cpu cont3_L1_s1|CMIknn|0.05|PCMCI+                       etia 0.265  jax 0.398
+cpu cont3_L1_s1|CMIknn|0.05|PCMCI                        etia 0.333  jax 0.429
+cpu cont3_L1_s1|GPDC|0.05|LPCMCI                         etia 129.380  jax 716.862
+cpu cont3_L1_s1|GPDC|0.05|PCMCI+                         etia 57.138  jax 331.917
+cpu cont3_L1_s1|GPDC|0.05|PCMCI                          etia 48.000  jax 301.171
+cpu cont3_L1_s1|ParCorrWLS|0.01|LPCMCI                   etia 0.451  jax 0.106
+cpu cont3_L1_s1|ParCorrWLS|0.01|PCMCI+                   etia 0.095  jax 0.034
+cpu cont3_L1_s1|ParCorrWLS|0.01|PCMCI                    etia 0.080  jax 0.019
+cpu cont3_L1_s1|ParCorrWLS|0.05|LPCMCI                   etia 0.422  jax 0.120
+cpu cont3_L1_s1|ParCorrWLS|0.05|PCMCI+                   etia 0.129  jax 0.020
+cpu cont3_L1_s1|ParCorrWLS|0.05|PCMCI                    etia 0.158  jax 0.023
+cpu cont3_L1_s1|ParCor|0.01|LPCMCI                       etia 0.202  jax 0.043
+cpu cont3_L1_s1|ParCor|0.01|PCMCI+                       etia 0.030  jax 0.002
+cpu cont3_L1_s1|ParCor|0.01|PCMCI                        etia 0.025  jax 0.001
+cpu cont3_L1_s1|ParCor|0.05|LPCMCI                       etia 0.202  jax 0.043
+cpu cont3_L1_s1|ParCor|0.05|PCMCI+                       etia 0.030  jax 0.002
+cpu cont3_L1_s1|ParCor|0.05|PCMCI                        etia 0.034  jax 0.001
+cpu cont3_L1_s1|RobustParCor|0.01|LPCMCI                 etia 0.270  jax 0.045
+cpu cont3_L1_s1|RobustParCor|0.01|PCMCI+                 etia 0.070  jax 0.004
+cpu cont3_L1_s1|RobustParCor|0.01|PCMCI                  etia 0.057  jax 0.003
+cpu cont3_L1_s1|RobustParCor|0.05|LPCMCI                 etia 0.265  jax 0.045
+cpu cont3_L1_s1|RobustParCor|0.05|PCMCI+                 etia 0.070  jax 0.005
+cpu cont3_L1_s1|RobustParCor|0.05|PCMCI                  etia 0.057  jax 0.003
+cpu cont3_L1_s2|CMIknn|0.05|LPCMCI                       etia 0.185  jax 0.165
+cpu cont3_L1_s2|CMIknn|0.05|PCMCI+                       etia 0.209  jax 0.336
+cpu cont3_L1_s2|CMIknn|0.05|PCMCI                        etia 0.294  jax 0.437
+cpu cont3_L1_s2|GPDC|0.05|LPCMCI                         etia 221.720  jax 1195.845
+cpu cont3_L1_s2|GPDC|0.05|PCMCI+                         etia 90.204  jax 592.148
+cpu cont3_L1_s2|GPDC|0.05|PCMCI                          etia 38.093  jax 259.074
+cpu cont3_L1_s2|ParCorrWLS|0.01|LPCMCI                   etia 0.496  jax 0.160
+cpu cont3_L1_s2|ParCorrWLS|0.01|PCMCI+                   etia 0.199  jax 0.016
+cpu cont3_L1_s2|ParCorrWLS|0.01|PCMCI                    etia 0.071  jax 0.007
+cpu cont3_L1_s2|ParCorrWLS|0.05|LPCMCI                   etia 0.419  jax 0.146
+cpu cont3_L1_s2|ParCorrWLS|0.05|PCMCI+                   etia 0.337  jax 0.019
+cpu cont3_L1_s2|ParCorrWLS|0.05|PCMCI                    etia 0.084  jax 0.005
+cpu cont3_L1_s2|ParCor|0.01|LPCMCI                       etia 0.195  jax 0.056
+cpu cont3_L1_s2|ParCor|0.01|PCMCI+                       etia 0.050  jax 0.003
+cpu cont3_L1_s2|ParCor|0.01|PCMCI                        etia 0.021  jax 0.001
+cpu cont3_L1_s2|ParCor|0.05|LPCMCI                       etia 0.163  jax 0.054
+cpu cont3_L1_s2|ParCor|0.05|PCMCI+                       etia 0.054  jax 0.003
+cpu cont3_L1_s2|ParCor|0.05|PCMCI                        etia 0.022  jax 0.001
+cpu cont3_L1_s2|RobustParCor|0.01|LPCMCI                 etia 0.342  jax 0.063
+cpu cont3_L1_s2|RobustParCor|0.01|PCMCI+                 etia 0.124  jax 0.005
+cpu cont3_L1_s2|RobustParCor|0.01|PCMCI                  etia 0.046  jax 0.003
+cpu cont3_L1_s2|RobustParCor|0.05|LPCMCI                 etia 0.242  jax 0.058
+cpu cont3_L1_s2|RobustParCor|0.05|PCMCI+                 etia 0.124  jax 0.007
+cpu cont3_L1_s2|RobustParCor|0.05|PCMCI                  etia 0.046  jax 0.003
+cpu cont3_L2_s0|CMIknn|0.05|LPCMCI                       etia 1.038  jax 0.760
+cpu cont3_L2_s0|CMIknn|0.05|PCMCI+                       etia 0.568  jax 0.552
+cpu cont3_L2_s0|CMIknn|0.05|PCMCI                        etia 0.845  jax 0.813
+cpu cont3_L2_s0|GPDC|0.05|LPCMCI                         etia 387.972  jax 2452.590
+cpu cont3_L2_s0|GPDC|0.05|PCMCI+                         etia 150.353  jax 978.602
+cpu cont3_L2_s0|GPDC|0.05|PCMCI                          etia 130.907  jax 766.088
+cpu cont3_L2_s0|ParCorrWLS|0.01|LPCMCI                   etia 1.230  jax 0.407
+cpu cont3_L2_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.590  jax 0.057
+cpu cont3_L2_s0|ParCorrWLS|0.01|PCMCI                    etia 0.407  jax 0.047
+cpu cont3_L2_s0|ParCorrWLS|0.05|LPCMCI                   etia 2.196  jax 0.574
+cpu cont3_L2_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.493  jax 0.090
+cpu cont3_L2_s0|ParCorrWLS|0.05|PCMCI                    etia 0.629  jax 0.050
+cpu cont3_L2_s0|ParCor|0.01|LPCMCI                       etia 0.377  jax 0.084
+cpu cont3_L2_s0|ParCor|0.01|PCMCI+                       etia 0.108  jax 0.005
+cpu cont3_L2_s0|ParCor|0.01|PCMCI                        etia 0.069  jax 0.002
+cpu cont3_L2_s0|ParCor|0.05|LPCMCI                       etia 0.539  jax 0.092
+cpu cont3_L2_s0|ParCor|0.05|PCMCI+                       etia 0.136  jax 0.005
+cpu cont3_L2_s0|ParCor|0.05|PCMCI                        etia 0.075  jax 0.002
+cpu cont3_L2_s0|RobustParCor|0.01|LPCMCI                 etia 0.724  jax 0.085
+cpu cont3_L2_s0|RobustParCor|0.01|PCMCI+                 etia 0.242  jax 0.006
+cpu cont3_L2_s0|RobustParCor|0.01|PCMCI                  etia 0.176  jax 0.005
+cpu cont3_L2_s0|RobustParCor|0.05|LPCMCI                 etia 0.787  jax 0.094
+cpu cont3_L2_s0|RobustParCor|0.05|PCMCI+                 etia 0.277  jax 0.007
+cpu cont3_L2_s0|RobustParCor|0.05|PCMCI                  etia 0.196  jax 0.004
+cpu cont3_L2_s1|CMIknn|0.05|LPCMCI                       etia 0.678  jax 0.635
+cpu cont3_L2_s1|CMIknn|0.05|PCMCI+                       etia 0.348  jax 0.532
+cpu cont3_L2_s1|CMIknn|0.05|PCMCI                        etia 0.587  jax 0.751
+cpu cont3_L2_s1|GPDC|0.05|LPCMCI                         etia 427.207  jax 2601.742
+cpu cont3_L2_s1|GPDC|0.05|PCMCI+                         etia 167.132  jax 991.965
+cpu cont3_L2_s1|GPDC|0.05|PCMCI                          etia 113.007  jax 572.010
+cpu cont3_L2_s1|ParCorrWLS|0.01|LPCMCI                   etia 0.954  jax 0.328
+cpu cont3_L2_s1|ParCorrWLS|0.01|PCMCI+                   etia 0.480  jax 0.089
+cpu cont3_L2_s1|ParCorrWLS|0.01|PCMCI                    etia 0.348  jax 0.040
+cpu cont3_L2_s1|ParCorrWLS|0.05|LPCMCI                   etia 1.035  jax 0.453
+cpu cont3_L2_s1|ParCorrWLS|0.05|PCMCI+                   etia 0.326  jax 0.120
+cpu cont3_L2_s1|ParCorrWLS|0.05|PCMCI                    etia 0.310  jax 0.050
+cpu cont3_L2_s1|ParCor|0.01|LPCMCI                       etia 0.296  jax 0.081
+cpu cont3_L2_s1|ParCor|0.01|PCMCI+                       etia 0.090  jax 0.004
+cpu cont3_L2_s1|ParCor|0.01|PCMCI                        etia 0.055  jax 0.002
+cpu cont3_L2_s1|ParCor|0.05|LPCMCI                       etia 0.432  jax 0.115
+cpu cont3_L2_s1|ParCor|0.05|PCMCI+                       etia 0.096  jax 0.004
+cpu cont3_L2_s1|ParCor|0.05|PCMCI                        etia 0.062  jax 0.002
+cpu cont3_L2_s1|RobustParCor|0.01|LPCMCI                 etia 0.523  jax 0.082
+cpu cont3_L2_s1|RobustParCor|0.01|PCMCI+                 etia 0.237  jax 0.008
+cpu cont3_L2_s1|RobustParCor|0.01|PCMCI                  etia 0.135  jax 0.004
+cpu cont3_L2_s1|RobustParCor|0.05|LPCMCI                 etia 0.706  jax 0.116
+cpu cont3_L2_s1|RobustParCor|0.05|PCMCI+                 etia 0.253  jax 0.007
+cpu cont3_L2_s1|RobustParCor|0.05|PCMCI                  etia 0.148  jax 0.005
+cpu cont5_L1_s0|ParCorrWLS|0.01|LPCMCI                   etia 2.446  jax 1.245
+cpu cont5_L1_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.527  jax 0.138
+cpu cont5_L1_s0|ParCorrWLS|0.01|PCMCI                    etia 0.257  jax 0.053
+cpu cont5_L1_s0|ParCorrWLS|0.05|LPCMCI                   etia 2.667  jax 1.446
+cpu cont5_L1_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.677  jax 0.122
+cpu cont5_L1_s0|ParCorrWLS|0.05|PCMCI                    etia 0.405  jax 0.035
+cpu cont5_L1_s0|ParCor|0.01|LPCMCI                       etia 0.967  jax 0.188
+cpu cont5_L1_s0|ParCor|0.01|PCMCI+                       etia 0.176  jax 0.008
+cpu cont5_L1_s0|ParCor|0.01|PCMCI                        etia 0.089  jax 0.002
+cpu cont5_L1_s0|ParCor|0.05|LPCMCI                       etia 0.848  jax 0.181
+cpu cont5_L1_s0|ParCor|0.05|PCMCI+                       etia 0.254  jax 0.008
+cpu cont5_L1_s0|ParCor|0.05|PCMCI                        etia 0.100  jax 0.003
+cpu cont5_L1_s0|RobustParCor|0.01|LPCMCI                 etia 1.772  jax 0.194
+cpu cont5_L1_s0|RobustParCor|0.01|PCMCI+                 etia 0.467  jax 0.009
+cpu cont5_L1_s0|RobustParCor|0.01|PCMCI                  etia 0.217  jax 0.005
+cpu cont5_L1_s0|RobustParCor|0.05|LPCMCI                 etia 1.438  jax 0.184
+cpu cont5_L1_s0|RobustParCor|0.05|PCMCI+                 etia 0.631  jax 0.010
+cpu cont5_L1_s0|RobustParCor|0.05|PCMCI                  etia 0.259  jax 0.005
+cpu cont5_L1_s1|ParCorrWLS|0.01|LPCMCI                   etia 1.067  jax 0.262
+cpu cont5_L1_s1|ParCorrWLS|0.01|PCMCI+                   etia 0.203  jax 0.029
+cpu cont5_L1_s1|ParCorrWLS|0.01|PCMCI                    etia 0.236  jax 0.032
+cpu cont5_L1_s1|ParCorrWLS|0.05|LPCMCI                   etia 0.775  jax 0.229
+cpu cont5_L1_s1|ParCorrWLS|0.05|PCMCI+                   etia 0.217  jax 0.058
+cpu cont5_L1_s1|ParCorrWLS|0.05|PCMCI                    etia 0.233  jax 0.051
+cpu cont5_L1_s1|ParCor|0.01|LPCMCI                       etia 0.282  jax 0.065
+cpu cont5_L1_s1|ParCor|0.01|PCMCI+                       etia 0.065  jax 0.003
+cpu cont5_L1_s1|ParCor|0.01|PCMCI                        etia 0.072  jax 0.003
+cpu cont5_L1_s1|ParCor|0.05|LPCMCI                       etia 0.313  jax 0.069
+cpu cont5_L1_s1|ParCor|0.05|PCMCI+                       etia 0.066  jax 0.003
+cpu cont5_L1_s1|ParCor|0.05|PCMCI                        etia 0.073  jax 0.002
+cpu cont5_L1_s1|RobustParCor|0.01|LPCMCI                 etia 0.440  jax 0.067
+cpu cont5_L1_s1|RobustParCor|0.01|PCMCI+                 etia 0.150  jax 0.006
+cpu cont5_L1_s1|RobustParCor|0.01|PCMCI                  etia 0.167  jax 0.005
+cpu cont5_L1_s1|RobustParCor|0.05|LPCMCI                 etia 0.506  jax 0.074
+cpu cont5_L1_s1|RobustParCor|0.05|PCMCI+                 etia 0.185  jax 0.007
+cpu cont5_L1_s1|RobustParCor|0.05|PCMCI                  etia 0.171  jax 0.006
+cpu cont5_L2_s0|ParCorrWLS|0.01|LPCMCI                   etia 0.810  jax 0.266
+cpu cont5_L2_s0|ParCorrWLS|0.01|PCMCI+                   etia 0.329  jax 0.053
+cpu cont5_L2_s0|ParCorrWLS|0.01|PCMCI                    etia 0.398  jax 0.029
+cpu cont5_L2_s0|ParCorrWLS|0.05|LPCMCI                   etia 1.061  jax 0.503
+cpu cont5_L2_s0|ParCorrWLS|0.05|PCMCI+                   etia 0.320  jax 0.082
+cpu cont5_L2_s0|ParCorrWLS|0.05|PCMCI                    etia 0.481  jax 0.035
+cpu cont5_L2_s0|ParCor|0.01|LPCMCI                       etia 0.343  jax 0.083
+cpu cont5_L2_s0|ParCor|0.01|PCMCI+                       etia 0.093  jax 0.005
+cpu cont5_L2_s0|ParCor|0.01|PCMCI                        etia 0.121  jax 0.003
+cpu cont5_L2_s0|ParCor|0.05|LPCMCI                       etia 0.390  jax 0.097
+cpu cont5_L2_s0|ParCor|0.05|PCMCI+                       etia 0.103  jax 0.005
+cpu cont5_L2_s0|ParCor|0.05|PCMCI                        etia 0.129  jax 0.004
+cpu cont5_L2_s0|RobustParCor|0.01|LPCMCI                 etia 0.608  jax 0.088
+cpu cont5_L2_s0|RobustParCor|0.01|PCMCI+                 etia 0.213  jax 0.007
+cpu cont5_L2_s0|RobustParCor|0.01|PCMCI                  etia 0.289  jax 0.007
+cpu cont5_L2_s0|RobustParCor|0.05|LPCMCI                 etia 0.685  jax 0.119
+cpu cont5_L2_s0|RobustParCor|0.05|PCMCI+                 etia 0.235  jax 0.008
+cpu cont5_L2_s0|RobustParCor|0.05|PCMCI                  etia 0.311  jax 0.007
+cpu cont5_L2_s1|ParCorrWLS|0.01|LPCMCI                   etia 32.937  jax 38.981
+cpu cont5_L2_s1|ParCorrWLS|0.01|PCMCI+                   etia 1.329  jax 0.194
+cpu cont5_L2_s1|ParCorrWLS|0.01|PCMCI                    etia 0.424  jax 0.044
+cpu cont5_L2_s1|ParCorrWLS|0.05|LPCMCI                   etia 3.047  jax 1.761
+cpu cont5_L2_s1|ParCorrWLS|0.05|PCMCI+                   etia 1.395  jax 0.225
+cpu cont5_L2_s1|ParCorrWLS|0.05|PCMCI                    etia 0.501  jax 0.052
+cpu cont5_L2_s1|ParCor|0.01|LPCMCI                       etia 4.532  jax 0.665
+cpu cont5_L2_s1|ParCor|0.01|PCMCI+                       etia 0.384  jax 0.012
+cpu cont5_L2_s1|ParCor|0.01|PCMCI                        etia 0.133  jax 0.003
+cpu cont5_L2_s1|ParCor|0.05|LPCMCI                       etia 1.075  jax 0.282
+cpu cont5_L2_s1|ParCor|0.05|PCMCI+                       etia 0.416  jax 0.012
+cpu cont5_L2_s1|ParCor|0.05|PCMCI                        etia 0.145  jax 0.003
+cpu cont5_L2_s1|RobustParCor|0.01|LPCMCI                 etia 22.687  jax 1.055
+cpu cont5_L2_s1|RobustParCor|0.01|PCMCI+                 etia 1.065  jax 0.015
+cpu cont5_L2_s1|RobustParCor|0.01|PCMCI                  etia 0.335  jax 0.007
+cpu cont5_L2_s1|RobustParCor|0.05|LPCMCI                 etia 2.098  jax 0.282
+cpu cont5_L2_s1|RobustParCor|0.05|PCMCI+                 etia 1.122  jax 0.015
+cpu cont5_L2_s1|RobustParCor|0.05|PCMCI                  etia 0.363  jax 0.007
+cpu cont8_L2_s0|ParCorrWLS|0.01|LPCMCI                   etia 5.217  jax 1.846
+cpu cont8_L2_s0|ParCorrWLS|0.01|PCMCI+                   etia 1.347  jax 0.102
+cpu cont8_L2_s0|ParCorrWLS|0.01|PCMCI                    etia 1.961  jax 0.095
+cpu cont8_L2_s0|ParCorrWLS|0.05|LPCMCI                   etia 4.366  jax 2.168
+cpu cont8_L2_s0|ParCorrWLS|0.05|PCMCI+                   etia 1.337  jax 0.099
+cpu cont8_L2_s0|ParCorrWLS|0.05|PCMCI                    etia 1.908  jax 0.112
+cpu cont8_L2_s0|ParCor|0.01|LPCMCI                       etia 1.083  jax 0.233
+cpu cont8_L2_s0|ParCor|0.01|PCMCI+                       etia 0.266  jax 0.009
+cpu cont8_L2_s0|ParCor|0.01|PCMCI                        etia 0.388  jax 0.007
+cpu cont8_L2_s0|ParCor|0.05|LPCMCI                       etia 1.109  jax 0.232
+cpu cont8_L2_s0|ParCor|0.05|PCMCI+                       etia 0.303  jax 0.008
+cpu cont8_L2_s0|ParCor|0.05|PCMCI                        etia 0.409  jax 0.008
+cpu cont8_L2_s0|RobustParCor|0.01|LPCMCI                 etia 1.948  jax 0.223
+cpu cont8_L2_s0|RobustParCor|0.01|PCMCI+                 etia 0.688  jax 0.015
+cpu cont8_L2_s0|RobustParCor|0.01|PCMCI                  etia 1.048  jax 0.013
+cpu cont8_L2_s0|RobustParCor|0.05|LPCMCI                 etia 2.320  jax 0.260
+cpu cont8_L2_s0|RobustParCor|0.05|PCMCI+                 etia 0.894  jax 0.016
+cpu cont8_L2_s0|RobustParCor|0.05|PCMCI                  etia 1.139  jax 0.014
+cpu cont8_L2_s1|ParCorrWLS|0.01|LPCMCI                   etia 3.303  jax 1.668
+cpu cont8_L2_s1|ParCorrWLS|0.01|PCMCI+                   etia 1.417  jax 0.094
+cpu cont8_L2_s1|ParCorrWLS|0.01|PCMCI                    etia 1.891  jax 0.090
+cpu cont8_L2_s1|ParCorrWLS|0.05|LPCMCI                   etia 4.803  jax 2.243
+cpu cont8_L2_s1|ParCorrWLS|0.05|PCMCI+                   etia 1.985  jax 0.097
+cpu cont8_L2_s1|ParCorrWLS|0.05|PCMCI                    etia 2.212  jax 0.095
+cpu cont8_L2_s1|ParCor|0.01|LPCMCI                       etia 0.971  jax 0.222
+cpu cont8_L2_s1|ParCor|0.01|PCMCI+                       etia 0.289  jax 0.008
+cpu cont8_L2_s1|ParCor|0.01|PCMCI                        etia 0.357  jax 0.006
+cpu cont8_L2_s1|ParCor|0.05|LPCMCI                       etia 1.478  jax 0.304
+cpu cont8_L2_s1|ParCor|0.05|PCMCI+                       etia 0.423  jax 0.012
+cpu cont8_L2_s1|ParCor|0.05|PCMCI                        etia 0.402  jax 0.007
+cpu cont8_L2_s1|RobustParCor|0.01|LPCMCI                 etia 1.790  jax 0.240
+cpu cont8_L2_s1|RobustParCor|0.01|PCMCI+                 etia 0.725  jax 0.018
+cpu cont8_L2_s1|RobustParCor|0.01|PCMCI                  etia 0.925  jax 0.014
+cpu cont8_L2_s1|RobustParCor|0.05|LPCMCI                 etia 2.430  jax 0.281
+cpu cont8_L2_s1|RobustParCor|0.05|PCMCI+                 etia 1.098  jax 0.018
+cpu cont8_L2_s1|RobustParCor|0.05|PCMCI                  etia 1.055  jax 0.014
+cpu disc4_L1_s0|CMIsymb|0.05|LPCMCI                      etia 6320.409  jax 21.391
+cpu disc4_L1_s0|CMIsymb|0.05|PCMCI+                      etia 2099.290  jax 11.060
+cpu disc4_L1_s0|CMIsymb|0.05|PCMCI                       etia 1521.255  jax 7.529
+cpu disc4_L1_s0|Gsquared|0.01|LPCMCI                     etia 0.589  jax 0.545
+cpu disc4_L1_s0|Gsquared|0.01|PCMCI+                     etia 0.433  jax 0.138
+cpu disc4_L1_s0|Gsquared|0.01|PCMCI                      etia 0.116  jax 0.048
+cpu disc4_L1_s0|Gsquared|0.05|LPCMCI                     etia 0.806  jax 0.757
+cpu disc4_L1_s0|Gsquared|0.05|PCMCI+                     etia 1.618  jax 0.235
+cpu disc4_L1_s0|Gsquared|0.05|PCMCI                      etia 0.151  jax 0.047
+cpu disc4_L1_s1|Gsquared|0.01|LPCMCI                     etia 0.368  jax 0.354
+cpu disc4_L1_s1|Gsquared|0.01|PCMCI+                     etia 0.101  jax 0.039
+cpu disc4_L1_s1|Gsquared|0.01|PCMCI                      etia 0.061  jax 0.026
+cpu disc4_L1_s1|Gsquared|0.05|LPCMCI                     etia 0.294  jax 0.297
+cpu disc4_L1_s1|Gsquared|0.05|PCMCI+                     etia 0.903  jax 0.118
+cpu disc4_L1_s1|Gsquared|0.05|PCMCI                      etia 0.070  jax 0.031
+cpu mixed4_L1_s0|RegressionCI|0.01|LPCMCI                etia 2.397  jax 3.153
+cpu mixed4_L1_s0|RegressionCI|0.01|PCMCI+                etia 0.421  jax 0.467
+cpu mixed4_L1_s0|RegressionCI|0.01|PCMCI                 etia 0.364  jax 0.415
+cpu mixed4_L1_s0|RegressionCI|0.05|LPCMCI                etia 2.490  jax 3.497
+cpu mixed4_L1_s0|RegressionCI|0.05|PCMCI+                etia 0.401  jax 0.447
+cpu mixed4_L1_s0|RegressionCI|0.05|PCMCI                 etia 0.230  jax 0.408
+cpu mixed4_L1_s1|RegressionCI|0.01|LPCMCI                etia 0.807  jax 1.786
+cpu mixed4_L1_s1|RegressionCI|0.01|PCMCI+                etia 0.714  jax 1.085
+cpu mixed4_L1_s1|RegressionCI|0.01|PCMCI                 etia 0.383  jax 1.119
+cpu mixed4_L1_s1|RegressionCI|0.05|LPCMCI                etia 1.192  jax 2.633
+cpu mixed4_L1_s1|RegressionCI|0.05|PCMCI+                etia 1.539  jax 1.203
+cpu mixed4_L1_s1|RegressionCI|0.05|PCMCI                 etia 0.367  jax 0.635
+wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/ts_jax_cpu.csv

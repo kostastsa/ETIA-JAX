@@ -1,15 +1,15 @@
 <section id="next" data-transition="slide">
-<p class="eyebrow">INCREMENT 6 · NEXT</p>
-<h2>Time series: SVAR-FCI, SVAR-GFCI and the PCMCI family</h2>
+<p class="eyebrow">INCREMENT 7 · NEXT</p>
+<h2>NOTEARS and SAM with optax</h2>
 <div class="row">
   <div class="col">
-    <div class="card rise" style="--i:0"><h3>SVAR-FCI and SVAR-GFCI (Tetrad)</h3><p>ETIA adds tiers of lags with <code>time_knowledge</code>. The port needs the Tetrad <code>Knowledge</code> object in FAS, FGES and the orientation rules. These algorithms also copy each edge to the other lags of the same structure.</p></div>
+    <div class="card rise" style="--i:0"><h3>NOTEARS</h3><p>A continuous optimization of a weighted adjacency matrix with the acyclicity constraint h(W) = tr(exp(W ∘ W)) − d = 0, solved with an augmented Lagrangian and optax.</p></div>
   </div>
   <div class="col">
-    <div class="card rise" style="--i:1"><h3>PCMCI, PCMCI+ and LPCMCI (tigramite)</h3><p>These use the CI tests of increment 2 on lagged variables.</p></div>
-    <div class="card rise" style="--i:2"><h3>Checks</h3><p>New time-series datasets from GenJAX SVAR models, the outputs of ETIA for them, the oracle on a time-series DAG, and a timing report.</p></div>
+    <div class="card rise" style="--i:1"><h3>SAM</h3><p>A structural agnostic model: generators and a discriminator trained adversarially, with a sparsity and acyclicity penalty, in JAX with optax.</p></div>
+    <div class="card rise" style="--i:2"><h3>Checks</h3><p>These algorithms are random, so the checks compare the accuracy (SHD) and the run time with ETIA's implementations on the same data.</p></div>
   </div>
 </div>
-<div class="foot"><span>docs/increments.md</span><span>10 / 11</span></div>
-<aside>Increment 6 starts after this deck.</aside>
+<div class="foot"><span>docs/increments.md</span><span>11 / 12</span></div>
+<aside>Increment 7 starts after increment 6 is committed.</aside>
 </section>

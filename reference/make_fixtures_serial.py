@@ -54,6 +54,21 @@ def serialized(real):
         def indTestSubset(self, v): return real.indTestSubset(v)
 
         @jpype.JOverride
+        def getVariable(self, name): return real.getVariable(name)
+
+        @jpype.JOverride
+        def getVariableNames(self): return real.getVariableNames()
+
+        @jpype.JOverride
+        def getSampleSize(self): return real.getSampleSize()
+
+        @jpype.JOverride
+        def getCov(self): return real.getCov()
+
+        @jpype.JOverride
+        def getDataSets(self): return real.getDataSets()
+
+        @jpype.JOverride
         def toString(self): return "serial"
     return Serial()
 

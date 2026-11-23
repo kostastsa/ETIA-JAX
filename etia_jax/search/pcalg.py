@@ -36,6 +36,7 @@ import numpy as np
 
 from ..graphs.encoding import NONE, ARROW, TAIL
 from .cache import CICache
+from .knowledge import NO_KNOWLEDGE
 
 
 # ---------------------------------------------------------------- the skeleton
@@ -63,8 +64,12 @@ def _free_degree(adj):
     return max((len(v) - 1 for v in adj.values() if v), default=0)
 
 
-def fas(cache, p, depth=1000, mode="stable"):
-    """Fast adjacency search. ``mode``: "stable" or "sequential" (see the module doc)."""
+def fas(cache, p, depth=1000, mode="stable", knowledge=None):
+    """Fast adjacency search. ``mode``: "stable" or "sequential" (see the module doc).
+    With ``knowledge``, the conditioning sets of side x use only the possible
+    parents of x (Tetrad's Fas: no z with z -> x forbidden)."""
+    kn = knowledge or NO_KNOWLEDGE
+    pp = (lambda a, b, adj: [v for v in adj if v != b and kn.possible_parent(v, a)])
     sk = Skeleton(p)
     edges = [(i, j) for i in range(p) for j in range(i + 1, p)]
     # depth 0 first, on all pairs (Tetrad tests them before the depth loop)
@@ -79,7 +84,7 @@ def fas(cache, p, depth=1000, mode="stable"):
             if not sk.adjacent(x, y):
                 continue
             for a, b in ((x, y), (y, x)):
-                ppa = [v for v in sk.adj[a] if v != b]
+                ppa = pp(a, b, sk.adj[a])
                 if len(ppa) >= d:
                     queries.extend((a, b, Z) for Z in combinations(ppa, d))
         cache.prefetch(queries)
@@ -91,7 +96,7 @@ def fas(cache, p, depth=1000, mode="stable"):
                     continue
                 found = None
                 for a, b in ((x, y), (y, x)):
-                    ppa = [v for v in snapshot[a] if v != b]
+                    ppa = pp(a, b, snapshot[a])
                     if len(ppa) < d:
                         continue
                     for Z in combinations(ppa, d):
@@ -106,17 +111,17 @@ def fas(cache, p, depth=1000, mode="stable"):
                 sk.remove(x, y, Z)
         else:  # sequential: Tetrad's FAS
             for x, y in edges:
-                if not _check_side(cache, sk, d, x, y):
-                    _check_side(cache, sk, d, y, x)
+                if not _check_side(cache, sk, d, x, y, pp):
+                    _check_side(cache, sk, d, y, x, pp)
         if _free_degree(sk.adj) <= d:
             break
     return sk
 
 
-def _check_side(cache, sk, d, x, y):
+def _check_side(cache, sk, d, x, y, pp):
     if not sk.adjacent(x, y):
         return False
-    ppx = [v for v in sk.adj[x] if v != y]
+    ppx = pp(x, y, sk.adj[x])
     if len(ppx) < d:
         return False
     for Z in combinations(ppx, d):
@@ -172,8 +177,8 @@ class _Order:
     the iteration order of the node's own edge set (a HashSet<Edge>: bucket
     of h(a) + h(b), then insertion order), when an edge tracker is set."""
 
-    def __init__(self, p, tetrad_compat):
-        self.names = [f"X{i + 1}" for i in range(p)] if tetrad_compat else None
+    def __init__(self, p, tetrad_compat, names=None):
+        self.names = (list(names) if names else [f"X{i + 1}" for i in range(p)]) if tetrad_compat else None
         self.eo = None
 
     def adj(self, G, a):
@@ -242,9 +247,12 @@ class TetradEdgeOrder:
             self.add(a, b)
 
 
-def collider_allowed(G, x, y, z, tetrad_compat):
-    """Tetrad's colliderAllowed: no collider x -> y <- z when y is already an
-    ancestor of z (Tetrad 7.6.5 tests z twice: compat), or of x or z."""
+def collider_allowed(G, x, y, z, tetrad_compat, knowledge=None):
+    """Tetrad's colliderAllowed: no collider x -> y <- z when the knowledge
+    forbids x -> y or z -> y, or when y is already an ancestor of z (Tetrad
+    7.6.5 tests z twice: compat), or of x or z."""
+    if knowledge and (knowledge.is_forbidden(x, y) or knowledge.is_forbidden(z, y)):
+        return False
     if _directed_path_exists(G, y, z):
         return False
     return tetrad_compat or not _directed_path_exists(G, y, x)
@@ -289,9 +297,12 @@ def _directed_path_exists(G, s, t):
 
 
 _EO = None   # the edge-order tracker of the running Meek (compat mode)
+_KN = None   # the knowledge of the running Meek
 
 
 def _direct(G, a, c, prevent_cycles):
+    if _KN and _KN.is_forbidden(a, c):          # isArrowheadAllowed(a, c)
+        return False
     if not _undirected(G, a, c):
         return False
     G[a, c] = G[c, a] = NONE
@@ -349,13 +360,13 @@ def _r3(G, d, a, pc):
     return oriented
 
 
-def meek_tetrad(G, prevent_cycles=True, revert=True, edge_order=None):
+def meek_tetrad(G, prevent_cycles=True, revert=True, edge_order=None, knowledge=None):
     """Tetrad 7.6.5 MeekRules.orientImplied (without knowledge: no R4).
     With ``edge_order`` (a TetradEdgeOrder), each pass visits a snapshot of
     the edges in Tetrad's getEdges() order; else in index order."""
-    global _EO
+    global _EO, _KN
     p = len(G)
-    _EO = edge_order
+    _EO, _KN = edge_order, (knowledge or None)
     try:
         if revert:
             for y in range(p):
@@ -363,6 +374,8 @@ def meek_tetrad(G, prevent_cycles=True, revert=True, edge_order=None):
                 if edge_order is not None:
                     parents = edge_order.adjacency_order(y, parents)
                 for q in parents:
+                    if _KN and _KN.is_forbidden(y, q):     # the edge may not be y -> q
+                        continue
                     if all(q == r or _adjacent(G, q, r) for r in parents):
                         G[q, y] = G[y, q] = TAIL
                         if edge_order is not None:
@@ -380,7 +393,7 @@ def meek_tetrad(G, prevent_cycles=True, revert=True, edge_order=None):
                         or _r3(G, x, y, prevent_cycles) or _r3(G, y, x, prevent_cycles)):
                     oriented = True
     finally:
-        _EO = None
+        _EO, _KN = None, None
     return G
 
 
@@ -411,26 +424,46 @@ def _fas_mode(stable, tetrad_compat):
     return "stable" if (stable and not tetrad_compat) else "sequential"
 
 
-def pc(ci, alpha=0.05, depth=1000, stable=True, tetrad_compat=False, guarantee_cpdag=True):
+def pc_orient_bk(G, knowledge, eo=None, names=None):
+    """GraphSearchUtils.pcOrientbk: each forbidden edge a -> b that is in the
+    graph becomes b -> a (in Tetrad's order of the forbidden edges)."""
+    if not knowledge:
+        return
+    for a, b in knowledge.forbidden_edges(names):
+        if G[a, b] == NONE:
+            continue
+        G[b, a], G[a, b] = ARROW, TAIL
+        if eo is not None:
+            eo.remove(a, b)
+            eo.add(b, a)
+
+
+def _names(p, knowledge):
+    return knowledge.names if knowledge is not None and knowledge.names else None
+
+
+def pc(ci, alpha=0.05, depth=1000, stable=True, tetrad_compat=False, guarantee_cpdag=True, knowledge=None):
     """PC. Returns a SearchResult with ``graph`` (mark matrix; undirected edges
     are tail-tail) and the FAS skeleton with its separating sets."""
     p = ci.p if hasattr(ci, "p") else len(ci.observed)
     cache = CICache(ci, alpha)
-    sk = fas(cache, p, depth, _fas_mode(stable, tetrad_compat))
+    sk = fas(cache, p, depth, _fas_mode(stable, tetrad_compat), knowledge)
     G = _skeleton_marks(sk)
-    order = _Order(p, tetrad_compat)
+    names = _names(p, knowledge)
+    order = _Order(p, tetrad_compat, names)
     eo = _edge_order(G, order)
     order.eo = eo
+    pc_orient_bk(G, knowledge, eo, order.names)
     for b in range(p):
         for a, c in combinations(order.adj(G, b), 2):
             if _adjacent(G, a, c):
                 continue
             S = sk.get_sepset(a, c)
-            if S is not None and b not in S and collider_allowed(G, a, b, c, tetrad_compat):
+            if S is not None and b not in S and collider_allowed(G, a, b, c, tetrad_compat, knowledge):
                 orient_collider(G, a, b, c, eo)
     if eo is not None:
         eo.rebuild()
-    meek_tetrad(G, prevent_cycles=guarantee_cpdag, edge_order=eo)
+    meek_tetrad(G, prevent_cycles=guarantee_cpdag, edge_order=eo, knowledge=knowledge)
     return SearchResult(G, sk, cache)
 
 
@@ -457,25 +490,30 @@ def _cpc_queries(G, i, k, min_side):
                     yield (i, k, Z)
 
 
-def cpc(ci, alpha=0.05, depth=1000, stable=True, tetrad_compat=False, guarantee_cpdag=True):
+def cpc(ci, alpha=0.05, depth=1000, stable=True, tetrad_compat=False, guarantee_cpdag=True, knowledge=None):
     """CPC. Returns a SearchResult with ``graph``, ``colliders``,
     ``noncolliders`` and ``ambiguous`` (lists of triples (x, y, z))."""
     p = ci.p if hasattr(ci, "p") else len(ci.observed)
     cache = CICache(ci, alpha)
-    sk = fas(cache, p, depth, _fas_mode(stable, tetrad_compat))
+    sk = fas(cache, p, depth, _fas_mode(stable, tetrad_compat), knowledge)
     min_side = 2 if tetrad_compat else 1
     G = _skeleton_marks(sk)
-    order = _Order(p, tetrad_compat)
+    order = _Order(p, tetrad_compat, _names(p, knowledge))
     eo = _edge_order(G, order)
     order.eo = eo
+    pc_orient_bk(G, knowledge, eo, order.names)
     triples = [(x, y, z) for y in range(p) for x, z in combinations(order.adj(G, y), 2)
                if not _adjacent(G, x, z)]
     cache.prefetch([q for x, y, z in triples for q in _cpc_queries(G, x, z, min_side)])
     col, non, amb = [], [], []
+    # Tetrad reads getAdjacentNodes(y) for each y when it comes to y: the
+    # colliders of earlier nodes change the edge sets and thus this order.
+    triples = (t for y in range(p) for t in
+               [(x, y, z) for x, z in combinations(order.adj(G, y), 2) if not _adjacent(G, x, z)])
     for x, y, z in triples:
         S = _cpc_sepsets(cache, G, x, z, min_side)
         if S and all(y not in s for s in S):
-            if collider_allowed(G, x, y, z, tetrad_compat):
+            if collider_allowed(G, x, y, z, tetrad_compat, knowledge):
                 orient_collider(G, x, y, z, eo)
                 col.append((x, y, z))
         elif S and all(y in s for s in S):
@@ -484,5 +522,5 @@ def cpc(ci, alpha=0.05, depth=1000, stable=True, tetrad_compat=False, guarantee_
             amb.append((x, y, z))
     if eo is not None:
         eo.rebuild()
-    meek_tetrad(G, prevent_cycles=guarantee_cpdag, edge_order=eo)
+    meek_tetrad(G, prevent_cycles=guarantee_cpdag, edge_order=eo, knowledge=knowledge)
     return SearchResult(G, sk, cache, colliders=col, noncolliders=non, ambiguous=amb)

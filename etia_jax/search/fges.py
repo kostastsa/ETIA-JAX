@@ -29,6 +29,7 @@ from itertools import combinations
 import numpy as np
 
 from .tetrad_graph import TGraph, JHashSet, JNode, ARROW, TAIL
+from .knowledge import NO_KNOWLEDGE
 
 NONE_LIMIT = 1000
 
@@ -134,8 +135,8 @@ class _SortedArrows:
 class _Graph:
     """The search graph: a TGraph, with Java orders (compat) or index orders."""
 
-    def __init__(self, p, compat):
-        self.g = TGraph(p)
+    def __init__(self, p, compat, names=None):
+        self.g = TGraph(p, names)
         self.p, self.compat = p, compat
         self.Set = _JSet if compat else _ISet
         self.h = self.g.h
@@ -224,12 +225,16 @@ class _Graph:
 
 
 # ------------------------------------------------------------- Meek rules
-def meek_orient_implied(G, prevent_cycles):
-    """MeekRules.orientImplied (Tetrad 7.6.5, no knowledge: R1 to R3, with
-    the revert to unshielded colliders). Returns the set of visited nodes."""
+def meek_orient_implied(G, prevent_cycles, knowledge=None):
+    """MeekRules.orientImplied (Tetrad 7.6.5: R1 to R3, with the revert to
+    unshielded colliders; R4 is off, because useRule4 is set before the
+    knowledge). Returns the set of visited nodes."""
     visited = G.new_set()
+    kn = knowledge or NO_KNOWLEDGE
 
     def direct(a, c):
+        if kn.is_forbidden(a, c):                     # isArrowheadAllowed(a, c)
+            return False
         e = G.edge(a, c)
         if not _undirected(e):
             return False
@@ -282,6 +287,8 @@ def meek_orient_implied(G, prevent_cycles):
         for p_ in parents:
             if any(p_ != q and not G.is_adj(p_, q) for q in parents):
                 continue
+            if kn.is_forbidden(y, p_) or kn.is_required(p_, y):
+                continue
             G.remove(p_, y)
             G.add_undirected(p_, y)
             visited.add(p_)
@@ -301,10 +308,12 @@ def meek_orient_implied(G, prevent_cycles):
 
 # ------------------------------------------------------------------- FGES
 class _Fges:
-    def __init__(self, score, p, compat, max_degree=None):
+    def __init__(self, score, p, compat, max_degree=None, knowledge=None):
         self.score, self.p, self.compat = score, p, compat
-        self.G = _Graph(p, compat)
-        self.effect = _Graph(p, compat)
+        self.kn = knowledge or NO_KNOWLEDGE
+        names = self.kn.names
+        self.G = _Graph(p, compat, names)
+        self.effect = _Graph(p, compat, names)
         if max_degree is None:
             max_degree = score.max_degree() if compat else -1
         self.max_degree = max_degree
@@ -409,6 +418,8 @@ class _Fges:
         G = self.G
         if a == b or G.is_adj(a, b):
             return
+        if self.kn.is_forbidden(a, b):
+            return
         na_yx = self.na_yx(a, b)
         t_nb = self.t_neighbors(a, b)
         parents = frozenset(G.g.get_parents(b))
@@ -429,6 +440,8 @@ class _Fges:
             self.add_arrow(a, b, T, frozenset(t_nb), frozenset(na_yx), parents, float(max_bump))
 
     def valid_insert(self, x, y, T, na_yx):
+        if self.kn.is_forbidden(x, y) or any(self.kn.is_forbidden(t, y) for t in T):
+            return False
         union = set(T) | set(na_yx)
         return self.is_clique(union) and self.semidirected_ok(y, x, union)
 
@@ -461,7 +474,7 @@ class _Fges:
             if not self.valid_insert(x, y, ar.h_or_t, na):
                 continue
             self.insert(x, y, ar.h_or_t)
-            process = meek_orient_implied(G, prevent_cycles=True)
+            process = meek_orient_implied(G, prevent_cycles=True, knowledge=self.kn)
             process.add(x)
             process.add(y)
             for n in G.common_adjacents(x, y):
@@ -528,6 +541,8 @@ class _Fges:
             if frozenset(G.g.get_parents(y)) != ar.parents:
                 continue
             diff = set(ar.na_yx) - set(ar.h_or_t)
+            if any(self.kn.is_forbidden(x, h) or self.kn.is_forbidden(y, h) for h in ar.h_or_t):
+                continue                                 # validDelete: violates the knowledge
             if not self.is_clique(diff):
                 continue
             # delete
@@ -541,7 +556,7 @@ class _Fges:
                     G.remove(x, h)
                     G.add_directed(x, h)
             self.n_deletes += 1
-            process = meek_orient_implied(G, prevent_cycles=False)
+            process = meek_orient_implied(G, prevent_cycles=False, knowledge=self.kn)
             process.add(x)
             process.add(y)
             for n in G.adj(x):
@@ -573,9 +588,9 @@ class FgesResult:
         self.n_inserts, self.n_deletes = search.n_inserts, search.n_deletes
 
 
-def fges(score, tetrad_compat=False, faithfulness_assumed=False, max_degree=None):
+def fges(score, tetrad_compat=False, faithfulness_assumed=False, max_degree=None, knowledge=None):
     """FGES. ``score``: a Score of etia_jax.scores. Returns an FgesResult with
     the CPDAG (mark matrix; undirected edges are tail-tail) in ``graph``."""
-    s = _Fges(score, score.p, tetrad_compat, max_degree)
+    s = _Fges(score, score.p, tetrad_compat, max_degree, knowledge)
     G = s.search(faithfulness_assumed)
     return FgesResult(G.marks(), score, s)

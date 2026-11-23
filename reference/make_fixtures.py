@@ -320,7 +320,9 @@ def data_kind(disc):
     return "discrete" if disc.all() else ("continuous" if not disc.any() else "mixed")
 
 
-def _etia_dataset(X, disc):
+def _etia_dataset(X, disc, n_lags=0):
+    """Tetrad's data set as ETIA makes it. With n_lags > 0: ETIA's pre-lagged
+    table (time_lagged=True); the Tetrad names are X1.., X1:1.., ..."""
     import pandas as pd
     from ETIA.data.Dataset import Dataset
     from ETIA.CausalLearning.algorithms.utils import prepare_data_tetrad
@@ -328,8 +330,22 @@ def _etia_dataset(X, disc):
     df = pd.DataFrame(X, columns=[f"V{i}" for i in range(p)])
     for j in np.flatnonzero(disc):
         df[f"V{j}"] = df[f"V{j}"].astype(int)
-    ds, _ = prepare_data_tetrad(Dataset(data=df), {})
+    info = {"n_lags": int(n_lags), "time_lagged": bool(n_lags)}
+    ds, _ = prepare_data_tetrad(Dataset(data=df, data_time_info=info), {})
     return ds
+
+
+def time_knowledge(jpype, ds, n_lags):
+    """ETIA's TetradAlgorithm.time_knowledge (the same loop)."""
+    knowledge = jpype.JClass("edu.cmu.tetrad.data.Knowledge")()
+    var_names = [str(v) for v in ds.getVariableNames()]
+    for t, tier in zip(range(n_lags + 1), reversed(range(n_lags + 1))):
+        for i, var in enumerate(var_names):
+            if (t == 0) and (':' not in var):
+                knowledge.addToTier(tier, var_names[i])
+            elif (t > 0) and (':' + str(t) in var):
+                knowledge.addToTier(tier, var_names[i])
+    return knowledge
 
 
 def make_scores(jpype, n_queries=120, seed=0, max_p=30):
@@ -448,6 +464,153 @@ def make_gfci(jpype, data_file="search_fci_data.npz", out_file="search_gfci_ref.
     print("wrote", OUT / out_file)
 
 
+TS_TEST_ALGOS = ("pc", "cpc", "fci", "fcimax", "rfci", "cfci", "svarfci")
+TS_SCORE_ALGOS = ("fges",)
+TS_BOTH_ALGOS = ("gfci", "svargfci")
+TETRAD_CLASS_TS = {"svarfci": "SvarFci", "svargfci": "SvarGfci", "fges": "Fges", "gfci": "GFci"}
+
+
+def make_ts(jpype, reps=3, out_file="ts_tetrad_ref.npz", only_errors=False):
+    """The Tetrad algorithms of ETIA on the lagged tables, with ETIA's tier
+    knowledge (time_lagged=True). Discrete and mixed data: serialized test
+    calls (race-free). All distinct outputs of ``reps`` runs are kept."""
+    import time
+    from make_fixtures_serial import serialized
+    f = np.load(OUT / "ts_data.npz")
+    S = "edu.cmu.tetrad.search."
+    out = {}
+    if only_errors:                      # run again only the searches that stopped with an error
+        old = dict(np.load(OUT / out_file))
+        redo = {k[:-len("|error")] for k in old if k.endswith("|error")}
+        out = {k: v for k, v in old.items() if k.rsplit("|", 1)[0] not in redo}
+    for case in f["cases"]:
+        case = str(case)
+        L = int(f[f"{case}|L"])
+        disc_raw = f[f"{case}|discrete"]
+        X = f[f"{case}|lagged"]
+        disc = np.tile(disc_raw, L + 1)
+        ds = _etia_dataset(X, disc, L)
+        names = [str(v.getName()) for v in ds.getVariables()]
+        out[f"{case}|names"] = np.array(names)
+        racy = bool(disc.any())
+
+        def run(algo, test_name=None, alpha=None, score_name=None):
+            graphs, times, errors = [], [], []
+            for _ in range(reps):
+                test = None
+                if test_name:
+                    real = _tetrad_test(jpype, test_name, ds)
+                    real.setAlpha(float(alpha))
+                    test = serialized(real) if racy else real
+                cls = jpype.JClass(S + (TETRAD_CLASS_TS.get(algo) or TETRAD_CLASS[algo]))
+                if algo == "fges":
+                    alg = cls(tetrad_score(jpype, score_name, ds))
+                elif algo in TS_BOTH_ALGOS:
+                    alg = cls(test, tetrad_score(jpype, score_name, ds))
+                else:
+                    alg = cls(test)
+                if algo in ("pc", "cpc"):
+                    alg.setStable(True)
+                    alg.setGuaranteeCpdag(True)
+                alg.setVerbose(False)
+                alg.setKnowledge(time_knowledge(jpype, ds, L))
+                t0 = time.perf_counter()
+                try:
+                    g = alg.search()
+                except Exception as exc:
+                    errors.append(f"{exc.__class__.__name__}: {exc}")
+                    continue
+                times.append(time.perf_counter() - t0)
+                G = to_marks(g, names)
+                if not any((G == h).all() for h in graphs):
+                    graphs.append(G)
+            return graphs, times, errors
+
+        jobs = []
+        for t in f[f"{case}|tests"]:
+            for a in f["alphas"]:
+                jobs += [(algo, str(t), float(a), None) for algo in TS_TEST_ALGOS]
+                jobs += [(algo, str(t), float(a), str(sc)) for algo in TS_BOTH_ALGOS for sc in f[f"{case}|scores"]]
+        jobs += [("fges", None, None, str(sc)) for sc in f[f"{case}|scores"]]
+        for algo, t, a, sc in jobs:
+            key = f"{case}|{t}|{a}|{sc}|{algo}"
+            if only_errors and key not in redo:
+                continue
+            graphs, times, errors = run(algo, t, a, sc)
+            if graphs:
+                out[key + "|graphs"] = np.stack(graphs)
+                out[key + "|time"] = np.array(min(times))
+            if errors:
+                out[key + "|error"] = np.array(errors[0])
+                out[key + "|n_errors"] = np.array(len(errors))
+            print(f"{key:56s} outputs {len(graphs)} errors {len(errors)} "
+                  f"{min(times) if times else -1:7.3f}s", flush=True)
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
+SLOW_TIG_TESTS = ("CMIknn", "GPDC")      # 3-variable data, alpha 0.05 only
+VERY_SLOW_TIG_TESTS = ("CMIsymb",)        # a shuffle test: 25-35 min per search; one dataset, alpha 0.05
+
+
+def make_ts_tigramite(out_file="ts_tigramite_ref.npz"):
+    """PCMCI, PCMCI+ and LPCMCI of tigramite 5.2 as ETIA runs them
+    (TigramiteAlgorithm: the same CI test settings and calls), on the raw
+    series (ETIA allows these algorithms only with time_lagged=False). Also
+    ETIA's output_to_array matrix. CMIknn and GPDC: 3-variable data, alpha 0.05."""
+    import time
+    import pandas as pd
+    sys.path.insert(0, str(ETIA_ROOT))
+    from tigramite import data_processing as pp
+    from tigramite.pcmci import PCMCI
+    from tigramite.lpcmci import LPCMCI
+    from ETIA.CausalLearning.algorithms.tigramite_algorithm.TigramiteAlgorithm import TigramiteAlgorithm
+    f = np.load(OUT / "ts_data.npz")
+    out = dict(np.load(OUT / out_file)) if (OUT / out_file).exists() else {}
+    for case in f["cases"]:
+        case = str(case)
+        X, disc, L = f[f"{case}|X"], f[f"{case}|discrete"], int(f[f"{case}|L"])
+        p = X.shape[1]
+        for test in [str(t) for t in f[f"{case}|tig_tests"]]:
+            for alpha in [float(a) for a in f["alphas"]]:
+                if test in SLOW_TIG_TESTS and (p > 3 or alpha != 0.05):
+                    continue
+                if test in VERY_SLOW_TIG_TESTS and (not case.endswith("_s0") or alpha != 0.05):
+                    continue
+                for algo in ("PCMCI", "PCMCI+", "LPCMCI"):
+                    ta = TigramiteAlgorithm(algo)
+                    ta.n_lags = L
+                    ta.var_names = [f"V{i}" if t == 0 else f"V{i}:{t}" for t in range(L + 1) for i in range(p)]
+                    ci = ta._ci_test({"ci_test": test})
+                    names = [f"V{i}" for i in range(p)]
+                    if test == "RegressionCI":
+                        dtype = np.zeros(X.shape, dtype="int")
+                        dtype[:] = disc.astype(int)
+                        df = pp.DataFrame(X, data_type=dtype, var_names=names)
+                    else:
+                        df = pp.DataFrame(X, var_names=names)
+                    key = f"{case}|{test}|{alpha}|{algo}"
+                    if key + "|graph" in out:              # done in an earlier (stopped) run
+                        continue
+                    t0 = time.perf_counter()
+                    try:
+                        o = ta._algo(df, {"significance_level": alpha}, ci)
+                    except Exception as exc:
+                        out[key + "|error"] = np.array(f"{exc.__class__.__name__}: {exc}")
+                        print(f"{key:44s} ERROR {exc}", flush=True)
+                        continue
+                    dt = time.perf_counter() - t0
+                    out[key + "|graph"] = np.asarray(o["graph"]).astype("U3")
+                    out[key + "|p_matrix"] = np.asarray(o["p_matrix"], dtype=float)
+                    out[key + "|val_matrix"] = np.asarray(o["val_matrix"], dtype=float)
+                    out[key + "|etia_matrix"] = np.asarray(ta.output_to_array(o))
+                    out[key + "|time"] = np.array(dt)
+                    print(f"{key:44s} {dt:8.3f}s", flush=True)
+                    np.savez_compressed(OUT / out_file, **out)        # save after each search
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
 def make_search(jpype, algos=("pc", "cpc"), data_file="search_data.npz", out_file="search_ref.npz"):
     import time
     import pandas as pd
@@ -518,6 +681,12 @@ if __name__ == "__main__":
         make_fges(jp, reps=3)
     if "gfci" in which:
         make_gfci(jp)
+    if "ts" in which:
+        make_ts(jp)
+    if "ts_tigramite" in which:
+        make_ts_tigramite()
+    if "ts_redo" in which:
+        make_ts(jp, only_errors=True)
     if "fci" in which:
         make_search(jp, ("fci", "fcimax", "rfci", "cfci"), "search_fci_data.npz", "search_fci_ref.npz")
     if "fci1" in which:

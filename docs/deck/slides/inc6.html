@@ -1,0 +1,22 @@
+<section id="inc6" data-transition="slide">
+<p class="eyebrow">INCREMENT 6 · TIME SERIES</p>
+<h2>Tier knowledge, SVAR-FCI/GFCI and the PCMCI family</h2>
+<div class="stats" id="k6"></div>
+<ul class="rise" style="--i:4">
+  <li>The ten Tetrad algorithms take ETIA's lagged table and tiers. SVAR-FCI and SVAR-GFCI copy each change to the "similar pairs" at the other lags.</li>
+  <li>PCMCI, PCMCI+ and LPCMCI run tigramite's logic on one lagged matrix with the batched CI tests of increment 2.</li>
+  <li>Found: ETIA does not make the lagged table; Meek R4 stays off with knowledge; tigramite CMIsymb stops with an error when Z is not empty.</li>
+</ul>
+<div class="foot"><span>demo/increment6/summary.json · plate 603633780311</span><span>9 / 12</span></div>
+<aside>The tigramite searches that differ use GPDC or CMIsymb, whose p-values come from random draws.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment6/summary.json', s => {
+  document.getElementById('k6').innerHTML =
+    card(0, 'Tetrad algorithms', `${s.tetrad_agree} / ${s.tetrad_searches}`, 'agree, with tiers') +
+    card(1, 'Tigramite', `${s.tig_same} / ${s.tig_searches}`, `same graph (${s.tig_exact_tests_same} / ${s.tig_exact_tests_searches} without random p-values)`) +
+    card(2, 'Oracle', `${s.oracle_correct} / ${s.oracle_cases}`, 'default mode correct') +
+    card(3, 'Speed-up', pv.fmt(s.median_speedup_tigramite, 1) + '×', `PCMCI family (Tetrad family ${pv.fmt(s.median_speedup_tetrad, 2)}×)`);
+});
+}</script>
+</section>

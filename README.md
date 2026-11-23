@@ -139,6 +139,30 @@ res = pc(FisherZ(X), alpha=0.05, tetrad_compat=True)   # the same graph as ETIA 
 - **No Possible-D-SEP step in GFCI.** The FGES of GFCI also assumes faithfulness, thus it does only two rounds.
 - **GFCI collider rule.** The rule also looks at a pair x, z that is adjacent in the CPDAG and in the graph. It searches for a separating set of x and z. If it finds one, it removes the edge.
 
+## Time series (increment 6)
+
+ETIA has two kinds of time-series algorithms. ETIA-JAX has both.
+
+- **Tetrad algorithms with tiers.** With `time_lagged=True`, ETIA gives all its Tetrad algorithms a lagged table and tier knowledge. The table has the columns X1..Xp at time t, then X1:1..Xp:1 at time t - 1, and so on (`etia_jax.data.svar.lagged_table`). The knowledge puts each lag in one tier. An edge from a later tier into an earlier tier is forbidden (`etia_jax.search.knowledge.Knowledge.time_lagged`). PC, CPC, the FCI family, FGES and GFCI take `knowledge=`. SVAR-FCI and SVAR-GFCI are in `etia_jax.search.svar`.
+- **Tigramite algorithms.** `etia_jax.search.pcmci` has `pcmci` and `pcmciplus`, and `etia_jax.search.lpcmci` has `lpcmci`. Each takes the raw series (T x N), the name of a CI test of ETIA, `tau_max` and `pc_alpha`. The result has the tigramite graph and the mark matrix of ETIA (`etia_matrix`). One lagged matrix holds the rows of tigramite (t = 2 tau_max .. T - 1), and the CI tests of increment 2 run on it in batches.
+- **Data.** `etia_jax.data.svar` makes structural VAR time series with GenJAX (continuous, discrete or mixed). `window_dag` gives the true DAG of the lagged window, with the earlier time steps as latent variables.
+
+### Agreement with ETIA
+
+- **Tetrad algorithms.** All 448 reference searches agree (`reference/fixtures/ts_tetrad_ref.npz`). Some searches have more than one possible output, because Tetrad runs R4 in parallel. For 8 SVAR-GFCI searches, two score changes are equal except for rounding. Tetrad orders them by its own rounding, so the test also accepts the other order (`tie_seed`).
+- **Tigramite algorithms.** PCMCI gives the same graph as tigramite in 84 of 85 searches, PCMCI+ in 83 of 85, and LPCMCI in 85 of 85. The 3 other searches use GPDC or CMIsymb. In tigramite, these tests get their p-values from random draws, so a decision near alpha can change.
+- **Default mode.** The tests use d-separation oracles on time-series DAGs. The skeleton is correct, and each oriented mark is true. The output is at least as informative as the PAG or the CPDAG.
+
+### What ETIA, Tetrad and tigramite do (kept only in `tetrad_compat` mode where it applies)
+
+- **ETIA** does not make the lagged table. `Dataset.convert_to_time_lag` is empty, so the user must give the lagged columns. ETIA lets the tigramite algorithms run only on raw series.
+- **Knowledge in Tetrad.** The Meek rule R4 stays off, because MeekRules decides `useRule4` before it gets the knowledge. FCI-Max, RFCI and CFCI give an empty knowledge to their final orientation. Only their first orientation step uses the tiers.
+- **SVAR-FCI and SVAR-GFCI** copy each edge removal and each mark to the "similar pairs" at the other lags. A mark is copied only when the first node is in the later tier. SVAR-GFCI uses its own older FGES class (`SvarFges`), which also copies each edge.
+- **Tier order.** `Knowledge.getTier` sorts the names as strings. Thus X10:1 comes before X1:1, and with 10 or more variables the positions of a variable in two tiers can be different.
+- **Tigramite CMIsymb** stops with a numba error when the conditioning set is not empty. In ETIA, this stops the search.
+
+`etia_jax/search/lpcmci.py` is derived from tigramite 5.2 (GNU GPL v3.0). Thus this file is under the GNU GPL v3.0.
+
 ## Plan of increments
 
 The details and the status of each increment are in [docs/increments.md](docs/increments.md).

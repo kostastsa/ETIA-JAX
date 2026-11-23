@@ -29,3 +29,7 @@ section.cover .q { font-size: 40px; color: #F2B27E; max-width: 1500px; line-heig
 .stat .s { font-size: 23px; color: var(--dk-soft) }
 .tag { font: 600 22px var(--mono); padding: 4px 12px; border-radius: 8px; background: var(--dk-bluesoft); color: var(--dk-blue) }
 #status_table { --pv-zoom: 1.5 }
+/* The slides have a light design: the pv components on them (tables, charts) use the light tokens in both themes. */
+section { --bg: #f3f5f7; --surface: #ffffff; --sunken: #eceff2; --fg: #17202a; --muted: #5a6774; --line: #d5dce2; --line2: #c3ccd4;
+  --accent: #2357a4; --accent-soft: #e3ebf7; --good: #17845a; --good-soft: #e0f2e9; --warn: #a85d14; --warn-soft: #f8eadb;
+  --danger: #b3261e; --danger-soft: #fbe9e7; --hover: #eef2f8; color-scheme: light }

@@ -1,0 +1,102 @@
+<title>ETIA-JAX increment 6</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 6 of 10 · time series</div>
+    <h1>Time-series causal discovery in JAX</h1>
+    <p class="lede">The ten Tetrad algorithms of ETIA with tier knowledge on lagged tables, SVAR-FCI and SVAR-GFCI, and PCMCI, PCMCI+ and LPCMCI of tigramite: the same outputs as ETIA, the default mode checked with oracles, and the run times.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="row2">
+    <section class="panel">
+      <h2>Tetrad algorithms with tiers <span class="tag">tetrad_agreement.csv</span></h2>
+      <div id="tetrad_agree"></div>
+    </section>
+    <section class="panel">
+      <h2>Default mode: oracle check <span class="tag">oracle.csv</span></h2>
+      <div id="oracle"></div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>PCMCI, PCMCI+ and LPCMCI against tigramite <span class="tag">tigramite_agreement.csv</span></h2>
+    <div id="tig_agree"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">by_algo_long.csv · by_algo.csv</span></h2>
+    <div class="controls"><div class="ctl"><span class="ctl-label">Family</span><div id="fam"></div></div></div>
+    <div id="time_chart"></div>
+    <div id="time_table"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the searches <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What ETIA, Tetrad and tigramite do with time series</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What happens</th><th>ETIA-JAX</th></tr>
+      <tr><td>ETIA lagged data</td><td><code>Dataset.convert_to_time_lag</code> is empty: the user must give the lagged columns (X1, X1:1, …). The tigramite algorithms run only on raw series.</td><td><code>lagged_table</code> makes the table; <code>Knowledge.time_lagged</code> makes ETIA's tiers.</td></tr>
+      <tr><td>Knowledge in Tetrad</td><td>Meek R4 stays off (useRule4 is set before the knowledge). FCI-Max, RFCI and CFCI give an empty knowledge to their final orientation.</td><td><code>tetrad_compat</code>: the same. Default: the tiers everywhere.</td></tr>
+      <tr><td>SVAR similar pairs</td><td>Each edge removal and each mark is copied to the other lags; a mark only when the first node is in the later tier. SVAR-GFCI uses an older FGES class (<code>SvarFges</code>).</td><td><code>tetrad_compat</code>: the same. Default: FCI / GFCI with the tiers.</td></tr>
+      <tr><td>Tier order</td><td><code>getTier</code> sorts names as strings: X10:1 before X1:1, so with 10 or more variables the positions of a variable in two tiers can differ.</td><td><code>tetrad_compat</code>: the same string order.</td></tr>
+      <tr><td>Rounding ties</td><td>Some score changes are equal except for rounding; Tetrad orders them by its own rounding.</td><td>A fixed order; the tests also accept the other order (<code>tie_seed</code>).</td></tr>
+      <tr><td>Tigramite CMIsymb</td><td>Stops with a numba error when the conditioning set is not empty; 25 to 35 minutes for one search.</td><td>No error; seconds.</td></tr>
+    </table>
+    <div id="findings_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment6/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, Java 17, tigramite 5.2). Times on one workstation: Intel i9-14900K, RTX 4090, float64.</footer>
+</div>
+<script>
+const HOWTO = @HOWTO@;
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('findings_howto').innerHTML = box('table', HOWTO.findings);
+pv.need(['summary.json', 'tetrad_agreement.csv', 'tigramite_agreement.csv', 'oracle.csv', 'by_algo.csv',
+         'by_algo_long.csv', 'timing.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.tetrad_agree} / ${s.tetrad_searches}`, 'Tetrad algorithms agree', `with tiers; ${s.rounding_ties} rounding ties`) +
+    card(`${s.tig_exact_tests_same} / ${s.tig_exact_tests_searches}`, 'Tigramite: same graph', `tests without random p-values (all tests: ${s.tig_same} / ${s.tig_searches})`) +
+    card(`${s.oracle_correct} / ${s.oracle_cases}`, 'Default mode correct', 'oracle cases, ten algorithms') +
+    card(`${pv.fmt(s.median_speedup_tigramite, 1)}×`, 'Median speed-up, tigramite', `Tetrad family: ${pv.fmt(s.median_speedup_tetrad, 2)}×`);
+});
+
+pv.table('#tetrad_agree', 'tetrad_agreement.csv', {howto: HOWTO.tetrad_agree});
+pv.table('#oracle', 'oracle.csv', {howto: HOWTO.oracle});
+pv.table('#tig_agree', 'tigramite_agreement.csv', {howto: HOWTO.tig_agree});
+
+const FAM = [['tetrad', 'Tetrad algorithms'], ['tigramite', 'PCMCI family']];
+let fam = 'tetrad';
+const drawTime = () => pv.chart('#time_chart', 'by_algo_long.csv', {type: 'bar', x: 'algo', y: 'seconds', color: 'who',
+  'log-y': true, 'x-label': 'algorithm', 'y-label': 'median seconds per search (log scale)', height: 380, wide: true,
+  prepare: d => pv.fromRecords(pv.records(d).filter(r => r.family === fam)), howto: HOWTO.time_chart});
+pv.seg('#fam', {options: FAM, value: fam, onChange: v => { fam = v; drawTime(); }});
+drawTime();
+pv.table('#time_table', 'by_algo.csv', {
+  labels: 'etia_s: ETIA | gpu_compat_s: same as ETIA, GPU | cpu_compat_s: same as ETIA, CPU | gpu_default_s: default GPU | cpu_default_s: default CPU | speedup: speed-up',
+  dec: 'etia_s:4 gpu_compat_s:4 cpu_compat_s:4 gpu_default_s:4 cpu_default_s:4 speedup:2', wide: true, howto: HOWTO.time_table});
+
+pv.table('#timing', 'timing.csv', {
+  cols: 'family,algo,case,test,score,alpha,n_vars,etia_s,gpu_compat_s,cpu_compat_s,gpu_default_s,cpu_default_s,speedup_compat',
+  labels: 'etia_s: ETIA | gpu_compat_s: same as ETIA, GPU | cpu_compat_s: same as ETIA, CPU | gpu_default_s: default GPU | cpu_default_s: default CPU | speedup_compat: speed-up',
+  dec: 'etia_s:3 gpu_compat_s:3 cpu_compat_s:3 gpu_default_s:3 cpu_default_s:3 speedup_compat:2',
+  sort: 'speedup_compat:desc', height: 460, wide: true, howto: HOWTO.timing});
+
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

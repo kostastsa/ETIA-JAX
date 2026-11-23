@@ -21,8 +21,8 @@ ETIA-JAX is a port of ETIA to Python and JAX, without Java and R. The work has 1
 | 3 | PC and CPC | done | 53 | `726d050` |
 | 4 | FCI, FCI-Max, RFCI and CFCI | done | 61 | `6d6264c` |
 | 5 | Five scores, FGES and GFCI | done | 130 | `e219726` |
-| 6 | Time series: SVAR-FCI, SVAR-GFCI, PCMCI family | next | | |
-| 7 | NOTEARS and SAM | planned | | |
+| 6 | Time series: tiers, SVAR-FCI, SVAR-GFCI, PCMCI family | done | 139 | this commit |
+| 7 | NOTEARS and SAM | next | | |
 | 8 | Predictive models and AFS | planned | | |
 | 9 | OCT and CausalLearner | planned | | |
 | 10 | CRV | planned | | |
@@ -91,14 +91,22 @@ The same table is in `deck/increments.csv` (the deck reads it). The "Tests" colu
 - **Speed.** GFCI is up to 15 times faster than ETIA. FGES is 3 to 6 times slower than ETIA on continuous data, because its search runs in Python.
 - **Demo.** Plate `9149fa95e827`.
 
-## Increment 6: time series (next)
+## Increment 6: time series
 
-- **SVAR-FCI and SVAR-GFCI.** These are Tetrad algorithms with time knowledge. ETIA adds tiers of lags with `time_knowledge`. The port needs the Tetrad `Knowledge` object (tiers and the edges that it does not permit) in FAS, FGES and the orientation rules. These algorithms also copy each edge to the other lags of the same structure.
-- **PCMCI, PCMCI+ and LPCMCI.** These come from tigramite 5.2. They use the CI tests of increment 2 with lagged variables.
-- **References.** New time-series datasets from GenJAX SVAR models, and the outputs of ETIA for them.
-- **Checks.** The oracle on a time-series DAG, the agreement with ETIA, and a timing report.
+- **Modules.** `etia_jax/data/svar.py` (GenJAX SVAR data, the lagged table of ETIA), `etia_jax/search/knowledge.py` (tier knowledge), `etia_jax/search/svar.py` (SVAR-FCI, SVAR-GFCI), `etia_jax/search/pcmci.py` (PCMCI, PCMCI+) and `etia_jax/search/lpcmci.py` (LPCMCI).
+- **Agreement with ETIA.**
+  - **Tetrad algorithms with tiers.** All 448 searches of the ten Tetrad algorithms agree with Tetrad. For 8 SVAR-GFCI searches, Tetrad orders equal score changes by its own rounding, and the test also accepts the other order.
+  - **Tigramite algorithms.** 252 of 255 searches give the same graph as tigramite. The 3 other searches use GPDC or CMIsymb, which get their p-values from random draws.
+- **Oracle.** In the default mode with tiers, all 400 oracle cases of the ten algorithms are correct.
+- **Findings.**
+  - ETIA does not make the lagged table, and it runs the tigramite algorithms only on raw series.
+  - In Tetrad, Meek R4 stays off with knowledge. FCI-Max, RFCI and CFCI give an empty knowledge to their final orientation.
+  - SVAR-GFCI uses an older FGES class. The similar-pair copies of a mark apply in one direction only.
+  - Tigramite CMIsymb stops with an error when the conditioning set is not empty.
+- **Speed.** The PCMCI family of ETIA-JAX has a median speed-up of 10 times. With CMIsymb, one search takes 25 to 105 minutes in tigramite and seconds in ETIA-JAX. The Tetrad family has a median speed-up of 1.2 times.
+- **Demo.** Plate `603633780311`.
 
-## Increment 7: NOTEARS and SAM (planned)
+## Increment 7: NOTEARS and SAM (next)
 
 - NOTEARS: a continuous optimization with an acyclicity constraint, with optax.
 - SAM: a GAN-based search, with optax.

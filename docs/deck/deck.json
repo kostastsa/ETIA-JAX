@@ -1,6 +1,36 @@
-{"title": "ETIA-JAX: the increments",
- "order": ["cover", "rules", "status", "inc1", "inc2", "inc3", "inc4", "inc5", "defects", "next", "later"],
- "sections": {"s1": {"description": "The port and its rules", "start": "cover"},
-              "s2": {"description": "Increments 1 to 5 (done)", "start": "inc1"},
-              "s3": {"description": "Tetrad defects and the next increments", "start": "defects"}},
- "format": {"shared": ["deck.css"]}}
+{
+ "title": "ETIA-JAX: the increments",
+ "order": [
+  "cover",
+  "rules",
+  "status",
+  "inc1",
+  "inc2",
+  "inc3",
+  "inc4",
+  "inc5",
+  "inc6",
+  "defects",
+  "next",
+  "later"
+ ],
+ "sections": {
+  "s1": {
+   "description": "The port and its rules",
+   "start": "cover"
+  },
+  "s2": {
+   "description": "Increments 1 to 5 (done)",
+   "start": "inc1"
+  },
+  "s3": {
+   "description": "Tetrad defects and the next increments",
+   "start": "defects"
+  }
+ },
+ "format": {
+  "shared": [
+   "deck.css"
+  ]
+ }
+}

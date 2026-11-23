@@ -1,0 +1,15 @@
+{
+ "tetrad_searches": 448,
+ "tetrad_agree": 448,
+ "rounding_ties": 8,
+ "tetrad_nondeterministic": 20,
+ "tig_searches": 255,
+ "tig_same": 252,
+ "tig_exact_tests_same": 237,
+ "tig_exact_tests_searches": 237,
+ "oracle_cases": 400,
+ "oracle_correct": 400,
+ "median_speedup_tetrad": 1.2360473017300946,
+ "median_speedup_tigramite": 10.01223903120357,
+ "max_speedup_tigramite": 14119.457842441738
+}

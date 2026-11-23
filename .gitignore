@@ -6,3 +6,4 @@ __pycache__/
 logs/
 uv.lock
 hs_err_pid*.log
+docs/increments-deck.html
