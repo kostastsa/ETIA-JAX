@@ -214,4 +214,4 @@ cpu cont50_s1|FisherZ|0.01|fci             etia 0.28938847099925624  compat   0.
 cpu cont50_s1|FisherZ|0.01|fcimax          etia 0.2352549999995972  compat   0.211s  default 371.591s
 cpu cont50_s1|FisherZ|0.01|rfci            etia 0.1420293680021132  compat   0.085s  default   0.086s
 cpu cont50_s1|FisherZ|0.01|cfci            etia 0.3387624550014152  compat   0.232s  default 375.604s
-wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/fci_jax_cpu.csv
+wrote ~/PROJECTS/ETIA-JAX/benchmarks/results/fci_jax_cpu.csv

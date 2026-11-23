@@ -1,6 +1,6 @@
 Detecting 1 CUDA device(s).
 Nov 19, 2026 4:32:23 PM java.util.prefs.FileSystemPreferences$6 run
-WARNING: Prefs file removed in background /home/kostastsampourakis/.java/.userPrefs/prefs.xml
+WARNING: Prefs file removed in background ~/.java/.userPrefs/prefs.xml
 scale FisherZ   k=0 435 queries    0.022s
 scale FisherZ   k=1 2000 queries    0.250s
 scale FisherZ   k=2 2000 queries    0.191s
@@ -17,4 +17,4 @@ scale Gsquared  k=0 435 queries    0.321s
 scale Gsquared  k=1 2000 queries    1.905s
 scale Gsquared  k=2 2000 queries    2.695s
 scale Gsquared  k=3 2000 queries    4.643s
-wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/reference/fixtures/ci_scale_ref.npz
+wrote ~/PROJECTS/ETIA-JAX/reference/fixtures/ci_scale_ref.npz

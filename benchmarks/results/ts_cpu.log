@@ -701,4 +701,4 @@ cpu mixed4_L1_s1|RegressionCI|0.01|PCMCI                 etia 0.383  jax 1.119
 cpu mixed4_L1_s1|RegressionCI|0.05|LPCMCI                etia 1.192  jax 2.633
 cpu mixed4_L1_s1|RegressionCI|0.05|PCMCI+                etia 1.539  jax 1.203
 cpu mixed4_L1_s1|RegressionCI|0.05|PCMCI                 etia 0.367  jax 0.635
-wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/ts_jax_cpu.csv
+wrote ~/PROJECTS/ETIA-JAX/benchmarks/results/ts_jax_cpu.csv

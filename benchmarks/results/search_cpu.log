@@ -114,4 +114,4 @@ cpu cont100_s1|FisherZ|0.05|pc           etia   0.531s  jax first   0.27s warm  
 cpu cont100_s1|FisherZ|0.05|cpc          etia   0.981s  jax first   0.33s warm  0.1806s stable  0.1891s same=True
 cpu cont100_s1|FisherZ|0.01|pc           etia   0.365s  jax first   0.26s warm  0.1359s stable  0.1428s same=True
 cpu cont100_s1|FisherZ|0.01|cpc          etia   0.736s  jax first   0.15s warm  0.1458s stable  0.1580s same=True
-wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/search_jax_cpu.csv
+wrote ~/PROJECTS/ETIA-JAX/benchmarks/results/search_jax_cpu.csv

@@ -229,4 +229,4 @@ cpu gfci mixed10_s2|dg_lrt|0.01|cg_bic|gfci           etia 0.33140682299563196  
 cpu gfci mixed10_s2|dg_lrt|0.01|dg_bic|gfci           etia 0.03321850800421089  compat   0.031s  default   0.052s
 cpu gfci mixed10_s2|dg_lrt|0.05|cg_bic|gfci           etia 0.329266030996223  compat   0.073s  default   0.083s
 cpu gfci mixed10_s2|dg_lrt|0.05|dg_bic|gfci           etia 0.028177628992125392  compat   0.031s  default   0.051s
-wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/fges_jax_cpu.csv
+wrote ~/PROJECTS/ETIA-JAX/benchmarks/results/fges_jax_cpu.csv

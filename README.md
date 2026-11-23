@@ -161,7 +161,7 @@ ETIA has two kinds of time-series algorithms. ETIA-JAX has both.
 - **Tier order.** `Knowledge.getTier` sorts the names as strings. Thus X10:1 comes before X1:1, and with 10 or more variables the positions of a variable in two tiers can be different.
 - **Tigramite CMIsymb** stops with a numba error when the conditioning set is not empty. In ETIA, this stops the search.
 
-`etia_jax/search/lpcmci.py` is derived from tigramite 5.2 (GNU GPL v3.0). Thus this file is under the GNU GPL v3.0.
+`etia_jax/search/lpcmci.py` is derived from tigramite 5.2 (GNU GPL v3.0). The [license](#license) of ETIA-JAX agrees with it.
 
 ## Plan of increments
 
@@ -179,3 +179,18 @@ Each increment has a build step, a test step and a check step.
 8. Predictive models (MLP and linear, in place of the random forest) and AFS (FBED, SES).
 9. OCT tuning, model validation protocols, and the CausalLearner.
 10. CRV: queries, adjustment sets, bootstrap confidence, and visualization without Cytoscape.
+
+## License
+
+ETIA-JAX is free software. You can distribute it and change it under the terms of the GNU General Public License, version 3 or a later version. The full text is in [LICENSE](LICENSE).
+
+ETIA-JAX copies the behavior of these programs. The licenses of the programs are:
+
+| Program | License | Used in |
+|---|---|---|
+| ETIA | MIT (from its README) | all increments |
+| Tetrad 7.6.5 | GNU GPL v3 | increments 1 to 6 |
+| tigramite 5.2 | GNU GPL v3 | increment 6 (`lpcmci.py` is derived from it) |
+| causalnex 0.12.2 | Apache 2.0 (from the header of `notears.py`) | increment 7 (NOTEARS) |
+| cdt 0.6.0 | MIT | increment 7 (SAM) |
+

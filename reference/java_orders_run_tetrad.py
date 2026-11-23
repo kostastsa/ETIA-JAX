@@ -1,5 +1,6 @@
 import sys, json
-sys.path.insert(0, '/home/kostastsampourakis/PROJECTS/ETIA-JAX/reference'); sys.path.insert(0, '/home/kostastsampourakis/PROJECTS/ETIA')
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent)); sys.path.insert(0, str(Path.home() / "PROJECTS" / "ETIA"))
 from make_fixtures import start_jvm
 jp = start_jvm()
 GN = jp.JClass("edu.cmu.tetrad.graph.GraphNode"); ELG = jp.JClass("edu.cmu.tetrad.graph.EdgeListGraph"); EP = jp.JClass("edu.cmu.tetrad.graph.Endpoint")

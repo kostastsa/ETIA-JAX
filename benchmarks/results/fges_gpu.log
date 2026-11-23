@@ -229,4 +229,4 @@ gpu gfci mixed10_s2|dg_lrt|0.01|cg_bic|gfci           etia 0.33140682299563196  
 gpu gfci mixed10_s2|dg_lrt|0.01|dg_bic|gfci           etia 0.03321850800421089  compat   0.051s  default   0.131s
 gpu gfci mixed10_s2|dg_lrt|0.05|cg_bic|gfci           etia 0.329266030996223  compat   0.213s  default   0.280s
 gpu gfci mixed10_s2|dg_lrt|0.05|dg_bic|gfci           etia 0.028177628992125392  compat   0.051s  default   0.129s
-wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/fges_jax_gpu.csv
+wrote ~/PROJECTS/ETIA-JAX/benchmarks/results/fges_jax_gpu.csv

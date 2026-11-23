@@ -3,6 +3,8 @@ name = "etia-jax"
 version = "0.1.0"
 description = "Pure-JAX port of ETIA (automated causal discovery)"
 requires-python = ">=3.11"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
 dependencies = ["jax", "genjax", "blackjax", "optax", "numpy", "pandas", "networkx", "scipy"]
 
 [project.optional-dependencies]
