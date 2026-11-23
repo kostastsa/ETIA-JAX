@@ -1,0 +1,40 @@
+# After each edit of the wiki, run the wiki tool. It makes the generated lines
+# and tables again: for example, the red "Not reviewed" line goes away after a
+# reviewer ticks the review box. The tool never changes the box.
+# A push with GITHUB_TOKEN does not start a new workflow run, so no loop occurs.
+name: wiki-review
+
+on:
+  gollum:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wiki-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone the wiki
+        run: git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" wiki
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        working-directory: wiki
+        run: |
+          python3 _tools/wiki.py build
+          python3 _tools/wiki.py lint || true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No change."
+          else
+            git commit -m "wiki.py build after a wiki edit"
+            git push
+          fi
