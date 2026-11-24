@@ -1,7 +1,7 @@
 # ETIA-JAX state — 2026-11-24
 
 ## Doing
-Increment 9 (OCT and CausalLearner) is done and NOT committed yet: ask the user to commit and push. Increment 10 (CRV) is next. Plan and status: `docs/increments.md`; deck: `docs/deck/` (plateview).
+Increments 1–9 are committed and pushed (increment 9: `e6d64db`). Increment 10 (CRV) is next. Plan and status: `docs/increments.md`; deck: `docs/deck/` (plateview).
 
 ## Done (increment 9)
 - Files: `etia_jax/oct/{configs,algorithms,oct,learner}.py`, `etia_jax/graphs/markov.py`, `etia_jax/search/tetrad_members.py`, `etia_jax/learn/forest.py` (JAX random forest, also in the AFS instead of the MLP); `tests/test_oct.py`; `benchmarks/oct_timing.py`; `demo/increment9/` (plate `817e9478b8d8`); fixtures `reference/fixtures/{oct_ref.npz,members_ref.npz,oct_configs_ref.json}` (`make_fixtures.py oct_configs | oct | oct1 | members`).
