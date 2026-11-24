@@ -1,0 +1,79 @@
+<title>ETIA-JAX increment 10</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .fig { text-align: center; } .fig img { max-width: 100%; height: auto; background: white; border-radius: 8px; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 10 of 10 · CRV</div>
+    <h1>Queries, adjustment sets and confidence without R or Cytoscape</h1>
+    <p class="lede">ETIA's CRV in ETIA-JAX: the path queries, a port of dagitty's adjustment sets, the bootstrap confidence of edges and paths, and SVG drawings. The agreement with ETIA, the oracle checks, and the run times.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel"><h2>Agreement with ETIA <span class="tag">agreement.csv</span></h2><div id="agreement"></div></section>
+  <section class="panel"><h2>Adjustment sets against the truth <span class="tag">adjust_oracle.csv</span></h2><div id="oracle"></div></section>
+  <section class="panel"><h2>Path queries: ETIA and the default mode <span class="tag">query_diff.csv</span></h2><div id="queries"></div></section>
+  <section class="panel">
+    <h2>Edge confidence of one graph <span class="tag">edge_confidence.csv · graph_cont10_s0.svg</span></h2>
+    <div class="row2"><div id="confidence"></div>
+      <div class="fig"><img src="graph_cont10_s0.svg" alt="FCI graph of cont10_s0"><div id="figure_howto"></div></div></div>
+  </section>
+  <section class="panel"><h2>Run time <span class="tag">time_long.csv</span></h2><div id="time_chart"></div></section>
+  <section class="panel"><h2>All the calls <span class="tag">timing.csv</span></h2><div id="timing"></div></section>
+
+  <section class="panel">
+    <h2>What ETIA does</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What happens</th><th>ETIA-JAX</th></tr>
+      <tr><td>R call</td><td><code>subprocess.call([...], shell=True)</code> on Linux and macOS starts only "R", without the script, so <code>find_adjset</code> cannot run. The R script also changes its folder from a guess about the current folder, and it loads pcalg.</td><td>No R: a port of dagitty 0.3.4 and of <code>pcalg2dagitty</code>.</td></tr>
+      <tr><td>CPDAG conversion</td><td>For a DAG or CPDAG, ETIA keeps only the marks 1 and 2, so the undirected edges of a CPDAG are lost. On 60 random CPDAGs, 19 of ETIA's 104 sets give a wrong effect.</td><td><code>etia_compat</code>: the same. Default: all edges.</td></tr>
+      <tr><td><code>--o</code> edges</td><td><code>pcalg2dagitty</code> has no case for a tail and a circle, so it drops these edges.</td><td>Default: dagitty's <code>@--</code> edge.</td></tr>
+      <tr><td>Potentially directed path</td><td>The query follows <code>o-&gt;</code>, <code>--&gt;</code> and <code>o-o</code>, not <code>--o</code> or <code>---</code>. The depth-first search keeps only the current path, so it can visit a node many times.</td><td>Default: all these edges, breadth first (shortest path).</td></tr>
+      <tr><td><code>calculate_confidence</code></td><td>It resamples the rows but runs the search on the original data; it gives a DataFrame where <code>model.run</code> needs a Dataset; it reads attributes that a dict does not have. It cannot run.</td><td>Real bootstrap samples in the two modes.</td></tr>
+      <tr><td>Edge consistency</td><td>ETIA's table is stricter than the end marks in 29 of 100 mark pairs: a tail against a circle, the undirected CPDAG edge, and <code>o-&gt;</code> against <code>&lt;-o</code>.</td><td>Default: each end mark agrees or one of them is a circle.</td></tr>
+      <tr><td>Path consistency</td><td>The loop stops at the first edge that is not the same. When this edge is consistent, the path counts as consistent and the later edges are not checked.</td><td>Default: all the edges.</td></tr>
+      <tr><td>Drawing</td><td><code>plot_edge_confidence</code> and <code>hide_edges</code> read the columns <code>edge_confidence</code> and <code>confidence</code>, which the Cytoscape network does not have.</td><td>SVG drawing; the two methods take the weight table.</td></tr>
+    </table>
+    <div id="findings_howto"></div>
+  </section>
+
+  <section class="panel"><h2>Test suite <span class="tag">tests.csv</span></h2><div id="tests"></div></section>
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment10/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, Tetrad 7.6.5 in a JVM with two processors); dagitty 0.3.4 ran in R 4.5.2. Times on one workstation: Intel i9-14900K, RTX 4090.</footer>
+</div>
+<script>
+const HOWTO = {
+ "agreement": "<p>This table compares each part of the CRV of ETIA-JAX in the \"etia_compat\" mode with ETIA. Each row is one part. The column \"reference\" tells what gives the expected output. The column \"same\" gives the number of outputs that are the same, and the column \"total\" gives the number of compared outputs.</p><p>ETIA calls dagitty in R for the adjustment sets. The expected output comes from dagitty with ETIA's steps. The bootstrap graphs come from Tetrad's FCI in ETIA on the same bootstrap rows.</p>",
+ "adjust_oracle": "<p>This table checks the adjustment sets against the truth. Each row is one graph type with 60 random linear models. Two variables of each MAG and PAG are latent. A set is correct when the regression on the exposure and the set gives the true total effect, with exact covariances.</p><p>Compare the column \"default_correct\" with \"default_sets\", and \"etia_correct\" with \"etia_sets\". For a CPDAG, ETIA drops the undirected edges before it calls dagitty. Thus some of its sets give a wrong effect.</p>",
+ "query_diff": "<p>This table compares the path queries of ETIA with the default mode. Each row is one kind of path, and each kind has 1200 queries on 400 graphs. The \"found\" columns give the number of queries with a path. The \"mean_edges\" columns give the mean number of edges of the paths that the two modes find.</p><p>ETIA does not follow the edges \"--o\" and \"---\" in a potentially directed path. Thus it finds fewer paths. The default mode gives a shortest path. Thus its paths can be shorter.</p>",
+ "confidence": "<p>This table gives the bootstrap confidence of each edge of the FCI graph of the dataset cont10_s0, from 50 bootstrap samples. Each row is one edge. The column \"edge\" gives the marks at the two ends, for example \"Tail-Arrow\" for source -> target.</p><p>The column \"discovery\" gives the fraction of bootstrap graphs with the same edge. The consistency columns give the fraction with a consistent edge, by ETIA's table and by the default rule. The default rule accepts each circle against a tail or an arrow. Thus its value can be higher.</p>",
+ "figure": "<p>This figure shows the FCI graph of the dataset cont10_s0. Each ellipse is one variable, and each line is one edge. An arrowhead shows an arrow mark, a small circle shows a circle mark, and no symbol shows a tail. A wider and darker line shows a higher default consistency.</p>",
+ "time_chart": "<p>This chart shows the time of each kind of call. Each bar is ETIA, ETIA-JAX on the GPU, or ETIA-JAX on the CPU. The y axis has a logarithmic scale. A lower bar shows a shorter time.</p><p>An adjustment set in ETIA starts R for each call. A bootstrap runs FCI on 50 bootstrap samples, and the path metrics score 30 to 40 paths.</p>",
+ "timing": "<p>This table gives the times of all the kinds of calls. Each row is one kind. All the times are in seconds, and a query time is the time of one call. The column \"same\" gives the number of outputs that are the same as in ETIA.</p><p>The column \"speed-up\" divides the time of ETIA by the time of ETIA-JAX on the GPU.</p>",
+ "findings": "<p>This table shows what ETIA does that the definitions do not tell. Each row is one behavior. The last column tells how ETIA-JAX does it.</p>",
+ "tests": "<p>This table shows the tests of the test suite after increment 10. Each row is one test function. The column result shows \"pass\" or \"fail\". The column time_s gives the time of each test in seconds. Start the slow tests with the command \"pytest -m slow\".</p>"
+};
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('findings_howto').innerHTML = box('table', HOWTO.findings);
+document.getElementById('figure_howto').innerHTML = box('figure', HOWTO.figure);
+pv.need(['summary.json', 'agreement.csv', 'adjust_oracle.csv', 'query_diff.csv', 'edge_confidence.csv', 'time_long.csv', 'timing.csv', 'tests.csv']);
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.same} / ${s.total}`, 'outputs same as ETIA', `adjustment sets: ${s.adjust_same} / ${s.adjust_total} as dagitty`) +
+    card(`${s.default_correct} / ${s.default_sets}`, 'default sets correct', 'true total effect, 240 graphs') +
+    card(`${s.etia_correct} / ${s.etia_sets}`, 'ETIA sets correct', 'wrong ones: CPDAGs') +
+    card(`${pv.fmt(s.adjust_speedup, 0)}×`, 'adjustment speed-up', 'no R start');
+});
+pv.table('#agreement', 'agreement.csv', {wide: true, howto: HOWTO.agreement});
+pv.table('#oracle', 'adjust_oracle.csv', {wide: true, howto: HOWTO.adjust_oracle});
+pv.table('#queries', 'query_diff.csv', {dec: 'etia_mean_edges:2 default_mean_edges:2', wide: true, howto: HOWTO.query_diff});
+pv.table('#confidence', 'edge_confidence.csv', {dec: 'etia_consistency:2 default_consistency:2 discovery:2', height: 420, howto: HOWTO.confidence});
+pv.chart('#time_chart', 'time_long.csv', {type: 'bar', x: 'call', y: 'seconds', color: 'who', 'log-y': true,
+  'x-label': 'call', 'y-label': 'seconds (log scale)', height: 360, wide: true, howto: HOWTO.time_chart});
+pv.table('#timing', 'timing.csv', {labels: 'etia_time: ETIA s | jax_time: ETIA-JAX GPU s | jax_cpu_time: ETIA-JAX CPU s | speedup: speed-up',
+  dec: 'etia_time:5 jax_time:5 jax_cpu_time:5 speedup:1', wide: true, howto: HOWTO.timing});
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

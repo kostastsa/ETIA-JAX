@@ -7,5 +7,5 @@ increment,content,status,tests,commit
 6,"Time series: tiers, SVAR-FCI, SVAR-GFCI, PCMCI family",done,139,f08958a
 7,NOTEARS and SAM,done,167,ba4da9b
 8,Predictive models and AFS,done,632,ae5b843
-9,OCT and CausalLearner,done,719,this commit
-10,CRV,next,,
+9,OCT and CausalLearner,done,719,e6d64db
+10,CRV,done,739,this commit

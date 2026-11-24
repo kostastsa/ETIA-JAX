@@ -1,0 +1,11 @@
+source,target,edge,etia_consistency,default_consistency,discovery
+X0,X2,Circle-Circle,1.0,1.0,0.52
+X0,X3,Circle-Circle,1.0,1.0,0.58
+X0,X9,Circle-Arrow,1.0,1.0,0.5
+X2,X7,Circle-Arrow,0.4,0.48,0.14
+X3,X5,Circle-Circle,1.0,1.0,0.48
+X3,X8,Circle-Circle,1.0,1.0,0.5
+X4,X7,Arrow-Tail,0.98,0.98,0.32
+X5,X6,Circle-Circle,0.62,0.62,0.12
+X5,X8,Circle-Circle,1.0,1.0,0.42
+X7,X9,Arrow-Arrow,0.8,0.8,0.24

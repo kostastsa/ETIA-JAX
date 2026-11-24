@@ -19,3 +19,8 @@ run            # one execution of an algorithm (noun)
 setting        # the values of the parameters of a run
 training       # training epochs of SAM
 Hamming        # structural Hamming distance
+circle         # a circle mark of a PAG edge
+consistent     # of two edges: the marks can agree (bootstrap confidence)
+consistency    # the fraction of bootstrap graphs with a consistent edge
+variable       # a column of the data (noun)
+exposure       # the cause in an adjustment query

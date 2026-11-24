@@ -1,0 +1,5 @@
+graph,graphs,default_sets,default_correct,etia_sets,etia_correct
+dag,60,108,108,108,108
+cpdag,60,80,80,104,85
+mag,60,62,62,62,62
+pag,60,54,54,54,54

@@ -156,6 +156,15 @@ The same table is in `deck/increments.csv` (the deck reads it). The "Tests" colu
 - OCT tuning of the causal configurations, the validation protocols, and the CausalLearner pipeline of ETIA.
 - The k-fold protocol of ETIA stops on NOTEARS and SAM (two return values, not three), and NOTEARS ignores the rows of the fold.
 
-## Increment 10: CRV (next)
+## Increment 10: CRV
 
-- The causal queries (paths, Markov boundaries), the adjustment sets, the bootstrap confidence, and a visualization without Cytoscape.
+- **Modules.** `etia_jax/crv/` (path queries, a port of dagitty 0.3.4 and of pcalg's `pcalg2dagitty`, `find_adjset`, bootstrap confidence, SVG drawings). No R code and no Cytoscape.
+- **Agreement with ETIA.** 400 of 400 adjustment queries are the same as dagitty in R (canonical set, first minimal set, number of minimal sets). The path queries (4800), the edge tables (400), the bootstrap FCI graphs (150) and all edge and path weights are the same as ETIA's.
+- **Oracle.** In the default mode, all 304 adjustment sets of 240 random linear models give the true total effect.
+- **Findings.**
+  - ETIA's `find_adjset` cannot run on Linux or macOS (`shell=True` with a list), and its CPDAG conversion drops the undirected edges: 19 of 104 sets on CPDAGs give a wrong effect.
+  - `pcalg2dagitty` drops `--o` edges. The potentially directed path query misses `--o` and `---` edges (87 of 392 paths).
+  - `calculate_confidence` cannot run (it also runs the search on the original data). ETIA's path consistency does not check the edges after the first edge that is not the same.
+  - `plot_edge_confidence` and `hide_edges` read columns that the Cytoscape network does not have.
+- **Speed.** An adjustment set is about 490 times faster (no R start). A bootstrap of 50 FCI runs is 5 to 10 times faster on the CPU. The path metrics are 18 to 38 times faster.
+- **Demo.** Plate `c99ab2d0d3f6`.

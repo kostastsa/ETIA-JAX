@@ -1,0 +1,12 @@
+{
+ "same": 5756,
+ "total": 5756,
+ "adjust_same": 400,
+ "adjust_total": 400,
+ "default_correct": 304,
+ "default_sets": 304,
+ "etia_correct": 309,
+ "etia_sets": 328,
+ "adjust_speedup": 490.5844847574535,
+ "boot_speedup_cpu": 9.64018991734571
+}

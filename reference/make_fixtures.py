@@ -1001,6 +1001,177 @@ def make_oct_configs(out_file="oct_configs_ref.json"):
     print("wrote", OUT / out_file)
 
 
+def adjset_cases(n_cases=400, seed=0):
+    """Random graphs for ETIA's find_adjset: DAGs, CPDAGs, MAGs and PAGs in
+    ETIA's mark encoding, with one outcome and one or two exposures."""
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from etia_jax.graphs.dag import random_dag as rd
+    from etia_jax.graphs.convert import dag_to_cpdag, dag_to_mag, mag_to_pag
+    rng = np.random.default_rng(seed)
+    out = []
+    for k in range(n_cases):
+        gtype = ["dag", "cpdag", "mag", "pag"][k % 4]
+        p = int(rng.integers(5, 11))
+        A = rd(p + (2 if gtype in ("mag", "pag") else 0), float(rng.uniform(1.5, 3.5)), rng)
+        if gtype == "dag":
+            M = np.where(A != 0, 2, 0) + np.where(A.T != 0, 3, 0)
+        elif gtype == "cpdag":
+            M = dag_to_cpdag(A)
+        else:
+            lat = np.zeros(len(A), bool)
+            lat[rng.choice(len(A), 2, replace=False)] = True
+            M = dag_to_mag(A, lat)
+            if gtype == "pag":
+                M = mag_to_pag(M)
+        p = len(M)
+        names = [f"X{i}" for i in range(p)]
+        nx = 1 if rng.random() < 0.7 else 2
+        pick = rng.choice(p, nx + 1, replace=False)
+        out.append(dict(type=gtype, M=np.asarray(M, int).tolist(), names=names,
+                        exposures=[names[i] for i in pick[:nx]], outcomes=[names[pick[-1]]]))
+    return out
+
+
+def make_adjset(out_file="adjset_ref.json"):
+    """dagitty 0.3.4 in R on the graphs of adjset_cases, with ETIA's
+    conversion of the matrix (function_find_adjset_daggity.py)."""
+    import json, os, subprocess, tempfile
+    cases = adjset_cases()
+    rin = []
+    for c in cases:
+        M = np.array(c["M"])
+        if c["type"] in ("dag", "cpdag"):
+            pc = np.zeros(M.shape, int)
+            pc[M == 1] = 1
+            pc[M == 2] = 1
+            amat = pc.T
+        else:
+            amat = M
+        rin.append(dict(amat=amat.tolist(), labels=c["names"], type=c["type"], exposures=c["exposures"],
+                        outcomes=c["outcomes"]))
+    with tempfile.TemporaryDirectory() as td:
+        fi, fo = os.path.join(td, "in.json"), os.path.join(td, "out.json")
+        Path(fi).write_text(json.dumps(rin))
+        env = dict(os.environ, R_LIBS=str(Path.home() / "R" / "library"))
+        subprocess.run(["Rscript", str(Path(__file__).parent / "adjset_dagitty.R"), fi, fo], check=True, env=env)
+        res = json.loads(Path(fo).read_text())
+    for c, r in zip(cases, res):
+        c["dagitty"] = r
+    (OUT / out_file).write_text(json.dumps(cases))
+    print("wrote", OUT / out_file, len(cases), "cases;", sum("error" in r for r in res), "R errors")
+
+
+def make_crv(jpype, out_file="crv_ref.npz", n_boot=50):
+    """ETIA's CRV functions: the four path queries and matrix_to_cyto on the
+    graphs of adjset_ref.json; FCI (FisherZ, 0.05) of ETIA's TetradAlgorithm
+    on bootstrap rows (ETIA-JAX's bootstrap_rows, seed 0), and ETIA's
+    compute_edge_weights and paths_metrics on these graphs."""
+    import json, time, warnings, contextlib, io
+    import pandas as pd
+    warnings.filterwarnings("ignore")
+    sys.path.insert(0, str(ETIA_ROOT))
+    sys.path.insert(1, str(Path(__file__).resolve().parents[1]))
+    from ETIA.CRV.queries import (one_directed_path, one_potentially_directed_path, one_path_anytype,
+                                  one_bidirected_path_from_to)
+    from ETIA.CRV.visualization.cytoscape_utils import matrix_to_cyto
+    from ETIA.CRV.causal_graph_utils.confidence_causal_findings import compute_edge_weights, paths_metrics
+    from ETIA.data.Dataset import Dataset
+    from ETIA.CausalLearning.algorithms.tetrad_algorithm.TetradAlgorithm import TetradAlgorithm
+    def bootstrap_rows(n, n_bootstraps, seed=0):        # = etia_jax.crv.confidence.bootstrap_rows
+        rs = np.random.RandomState(seed)
+        return [rs.randint(0, n, n) for _ in range(n_bootstraps)]
+    out = {}
+    cases = json.loads((OUT / "adjset_ref.json").read_text())
+    rng = np.random.default_rng(1)
+    q = []
+    fns = dict(directed=one_directed_path, potentially_directed=one_potentially_directed_path,
+               any=one_path_anytype, bidirected=one_bidirected_path_from_to)
+    t_q = 0.0
+    for k, c in enumerate(cases):
+        M = np.array(c["M"])
+        for _ in range(3):
+            s_, t_ = (int(v) for v in rng.choice(len(M), 2, replace=False))
+            r = {}
+            for name, f in fns.items():
+                t0 = time.perf_counter()
+                p = f(M, s_, t_)
+                t_q += time.perf_counter() - t0
+                r[name] = None if p is None else [int(v) for v in p]
+            q.append(dict(case=k, start=s_, end=t_, **r))
+        df = pd.DataFrame(M, columns=c["names"], index=c["names"])
+        cy = matrix_to_cyto(df) if np.count_nonzero(M) else pd.DataFrame(columns=["source", "target", "interaction_type"])
+        out[f"cyto|{k}"] = np.array(json.dumps(cy.astype(object).where(cy.notna(), None).values.tolist()))
+    out["queries"] = np.array(json.dumps(q))
+    out["queries_time"] = np.array(t_q)
+    f = np.load(OUT / "search_data.npz")
+    for case in ("cont10_s0", "cont10_s1", "cont20_s0"):
+        X = f[f"{case}|X"][:1000]
+        names = [f"X{i}" for i in range(X.shape[1])]
+        dfX = pd.DataFrame(X, columns=names)
+        ds = Dataset(data=dfX, data_time_info={"n_lags": 0, "time_lagged": False}, time_series=False,
+                     dataset_name=f"crv_{case}")
+        alg = TetradAlgorithm("fci")
+        alg.init_algo(ds.get_info())
+        params = {"ci_test": "FisherZ", "significance_level": 0.05, "stable": True, "causal_sufficiency": False}
+        best = alg.run(ds, dict(params))[0]
+        rows = bootstrap_rows(len(X), n_boot, seed=0)
+        t0 = time.perf_counter()
+        boots = [alg.run(ds, dict(params, indexes=r))[0] for r in rows]
+        dt = time.perf_counter() - t0
+        with contextlib.redirect_stdout(io.StringIO()):
+            w_all, _ = compute_edge_weights(best, boots, all_edges=True)
+            w_edges, _ = compute_edge_weights(best, boots, all_edges=False)
+            M = best.to_numpy()
+            paths = {"pairs": []}
+            for i in range(len(M)):
+                for j in range(len(M)):
+                    if i != j:
+                        p = one_path_anytype(M, i, j)
+                        if p and len(p) > 2:
+                            paths["pairs"].append([names[v] for v in p])
+            paths["pairs"] = paths["pairs"][:40]
+            t1 = time.perf_counter()
+            pc, pdisc = paths_metrics(best, boots, paths)
+            tp = time.perf_counter() - t1
+        out[f"{case}|best"] = M.astype(np.int8)
+        out[f"{case}|boots"] = np.array([b.to_numpy() for b in boots], np.int8)
+        out[f"{case}|rows"] = np.array(rows)
+        out[f"{case}|w_all"] = np.array(json.dumps(w_all.values.tolist()))
+        out[f"{case}|w_edges"] = np.array(json.dumps(w_edges.values.tolist()))
+        out[f"{case}|paths"] = np.array(json.dumps(paths["pairs"]))
+        out[f"{case}|path_consistency"] = pc["pairs"]
+        out[f"{case}|path_discovery"] = pdisc["pairs"]
+        out[f"{case}|boot_time"] = np.array(dt)
+        out[f"{case}|paths_time"] = np.array(tp)
+        print(f"{case}: {n_boot} bootstraps {dt:.1f}s, {len(paths['pairs'])} paths", flush=True)
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
+def make_adjset_time(n=10):
+    """The time of one ETIA-style R call (Rscript start, dagitty, CSV) for
+    the first n graphs of adjset_ref.json."""
+    import json, os, subprocess, tempfile, time
+    cases = json.loads((OUT / "adjset_ref.json").read_text())[:n]
+    env = dict(os.environ, R_LIBS=str(Path.home() / "R" / "library"))
+    ts = []
+    with tempfile.TemporaryDirectory() as td:
+        for c in cases:
+            M = np.array(c["M"])
+            if c["type"] in ("dag", "cpdag"):
+                pc = np.zeros(M.shape, int); pc[M == 1] = 1; pc[M == 2] = 1; amat = pc.T
+            else:
+                amat = M
+            fi, fo = os.path.join(td, "in.json"), os.path.join(td, "out.json")
+            Path(fi).write_text(json.dumps([dict(amat=amat.tolist(), labels=c["names"], type=c["type"],
+                                                 exposures=c["exposures"], outcomes=c["outcomes"])]))
+            t0 = time.perf_counter()
+            subprocess.run(["Rscript", str(Path(__file__).parent / "adjset_dagitty.R"), fi, fo], check=True, env=env)
+            ts.append(time.perf_counter() - t0)
+    (OUT / "adjset_time.json").write_text(json.dumps(ts))
+    print("R call times", np.round(ts, 2))
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     which = sys.argv[1:] or ["graphs"]
@@ -1014,17 +1185,23 @@ if __name__ == "__main__":
         make_afs()
     if "oct_configs" in which:
         make_oct_configs()
-    if not set(which) - {"notears", "sam", "fs", "afs", "oct_configs"}:
+    if "adjset" in which:
+        make_adjset()
+    if "adjset_time" in which:
+        make_adjset_time()
+    if not set(which) - {"notears", "sam", "fs", "afs", "oct_configs", "adjset", "adjset_time"}:
         sys.exit(0)
     # oct: two processors (FisherZ fails with one); oct1: one processor for the
     # discrete case (Tetrad's parallel FCI with chisquare/gsquare has races)
-    jp = start_jvm(one_cpu=bool({"fci1", "oct", "oct1"} & set(which)), cpus=2 if "oct" in which else 1)
+    jp = start_jvm(one_cpu=bool({"fci1", "oct", "oct1", "crv"} & set(which)), cpus=2 if {"oct", "crv"} & set(which) else 1)
     if "oct1" in which:
         make_oct(jp)
     if "oct" in which:
         make_oct(jp)
     if "members" in which:
         make_members(jp)
+    if "crv" in which:
+        make_crv(jp)
     if "fci1" in which:
         print("processors seen by the JVM:", jp.JClass("java.lang.Runtime").getRuntime().availableProcessors())
     if "graphs" in which:
@@ -1051,3 +1228,4 @@ if __name__ == "__main__":
         make_search(jp, ("fci", "fcimax", "rfci", "cfci"), "search_fci_data.npz", "search_fci_ref.npz")
     if "fci1" in which:
         make_search(jp, ("fci", "fcimax", "rfci", "cfci"), "search_fci_data.npz", "search_fci_ref_1cpu.npz")
+

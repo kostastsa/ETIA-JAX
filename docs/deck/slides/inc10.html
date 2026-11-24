@@ -1,0 +1,22 @@
+<section id="inc10" data-transition="slide">
+<p class="eyebrow">INCREMENT 10 · CRV</p>
+<h2>Queries, adjustment sets and confidence without R</h2>
+<div class="stats" id="k10"></div>
+<ul class="rise" style="--i:4">
+  <li>A port of dagitty 0.3.4 gives the same canonical and first minimal adjustment sets as R; the path queries, the bootstrap graphs and the edge and path weights are the same as ETIA's.</li>
+  <li>The default mode keeps the undirected CPDAG edges, follows all the possible edges in a query, and checks the consistency of each end mark. SVG drawings replace Cytoscape.</li>
+  <li>Found: <code>find_adjset</code> cannot run on Linux or macOS and drops the CPDAG edges; <code>calculate_confidence</code> cannot run; the path consistency skips edges.</li>
+</ul>
+<div class="foot"><span>demo/increment10/summary.json · plate c99ab2d0d3f6</span><span>13 / 15</span></div>
+<aside>With ETIA's conversion, 19 of 104 adjustment sets on random CPDAGs give a wrong total effect.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment10/summary.json', s => {
+  document.getElementById('k10').innerHTML =
+    card(0, 'Outputs', `${s.same} / ${s.total}`, 'same as ETIA and dagitty') +
+    card(1, 'Default sets', `${s.default_correct} / ${s.default_sets}`, 'true total effect') +
+    card(2, 'ETIA sets', `${s.etia_correct} / ${s.etia_sets}`, 'true total effect') +
+    card(3, 'Adjustment speed-up', pv.fmt(s.adjust_speedup, 0) + '×', 'no R start');
+});
+}</script>
+</section>

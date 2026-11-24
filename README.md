@@ -273,6 +273,42 @@ Other findings, not part of the modes:
 - **Default grid.** ETIA's table gives `pc` and `cpc` `assume_faithfulness: [False]` and `fges` `causal_sufficiency: [False]`. Thus ETIA's default settings run only FCI and FCI-Max (3 alphas each) on continuous data.
 - **Tetrad threads.** R0 of Tetrad's FCI runs the chi-square or G-square test in a parallel stream. The test is not thread-safe. ETIA's OCT on `disc10_s0` stopped with Java errors in all 4 tries, also with one processor. With one processor, `IndTestFisherZ` divides by zero (`availableProcessors() / 2` threads). The discrete reference puts a lock around each test.
 
+## The CRV: queries, adjustment sets and confidence (increment 10)
+
+ETIA's CRV works on the graph that the CausalLearner finds. It has path queries, adjustment sets (through dagitty in R), the bootstrap confidence of edges and paths, and drawings in Cytoscape. ETIA-JAX has no R code and no Cytoscape.
+
+- **Modules.** `etia_jax/crv/queries.py` (four path queries), `etia_jax/crv/dagitty.py` (a port of dagitty 0.3.4 and of pcalg's `pcalg2dagitty`), `etia_jax/crv/adjustment.py` (`find_adjset`), `etia_jax/crv/confidence.py` (bootstrap graphs, edge and path weights) and `etia_jax/crv/visualization.py` (SVG drawings, a force-directed layout of [Fruchterman and Reingold (1991)](#ref-fruchterman1991)).
+- **Adjustment sets.** dagitty constructs the sets of the generalized adjustment criterion of [Perković et al. (2018)](#ref-perkovic2018). The port keeps dagitty's data structures (the key order of JavaScript objects, the edge lists of the vertices, and the sorted text that R sends). Thus it lists the minimal sets in dagitty's order, and ETIA takes the first one.
+- **Modes.** `etia_compat=True` copies ETIA (the list below). The default mode keeps all the edges, follows all the possible edges in a query, and uses the consistency of the end marks.
+
+### Agreement with ETIA
+
+- **Adjustment sets.** The tests use 400 random graphs (100 each of DAG, CPDAG, MAG and PAG). The canonical set, the first minimal set and the number of minimal sets are the same as dagitty 0.3.4 in R with ETIA's steps.
+- **Path queries and edges.** All 4800 path queries and all 400 edge tables (`matrix_to_cyto`) are the same as ETIA's.
+- **Confidence.** Tetrad's FCI in ETIA and ETIA-JAX give the same graph on all 150 bootstrap samples (3 datasets, the same rows). The edge weights and the path metrics are also the same.
+- **Oracle.** In the default mode, all 304 adjustment sets of 240 random linear models give the true total effect (exact covariances). For a DAG, when no set is found, no subset of the other variables gives the effect.
+
+### Speed
+
+- **Adjustment set.** ETIA starts R for each set (about 0.31 s). ETIA-JAX takes about 0.6 ms (about 490 times faster).
+- **Bootstrap.** FCI on 50 bootstrap samples takes 2 to 6 s in ETIA, and 0.2 to 1.3 s in ETIA-JAX on the CPU (5 to 10 times faster). The FCI search runs in Python, so the GPU is slower.
+- **Path metrics.** ETIA-JAX compares all the edges of all the bootstrap graphs in one table look-up: 18 to 38 times faster.
+- **Path queries.** One query takes about 10 µs in the two programs.
+
+### What ETIA does (kept only in `etia_compat` mode)
+
+- **CPDAG conversion.** For a DAG or CPDAG, ETIA keeps only the marks 1 and 2 before it calls dagitty. Thus the undirected edges of a CPDAG are lost. On 60 random CPDAGs, 19 of ETIA's 104 sets give a wrong total effect.
+- **`--o` edges.** pcalg's `pcalg2dagitty` has no case for a tail and a circle. Thus it drops these edges of a PAG.
+- **Potentially directed path.** The query follows `o->`, `-->` and `o-o`, but not `--o` or `---`. In 1200 queries it misses 87 of 392 paths. The depth-first search keeps only the current path, so it can visit a node many times.
+- **Edge consistency.** ETIA's table is stricter than the end marks in 29 of 100 mark pairs: a tail against a circle, the undirected CPDAG edge, and `o->` against `<-o`.
+- **Path consistency.** The loop stops at the first edge that is not the same. When this edge is consistent, the path counts as consistent, and the later edges are not checked.
+
+Other findings, not part of the modes:
+
+- **R call.** `subprocess.call([...], shell=True)` on Linux and macOS runs only "R", without the script. Thus `find_adjset` cannot run there. The R script also changes its folder from a guess about the current folder, and it loads pcalg, which ETIA does not install.
+- **`calculate_confidence`.** It resamples the rows, but it runs the search on the original data. It gives a DataFrame where `model.run` needs a Dataset, and it reads attributes that a dict does not have. Thus it cannot run. Both modes of ETIA-JAX draw real bootstrap samples.
+- **Drawing.** `plot_edge_confidence` and `hide_edges` read the columns `edge_confidence` and `confidence`, which the Cytoscape network does not have.
+
 ## Plan of increments
 
 The details and the status of each increment are in [docs/increments.md](docs/increments.md).
@@ -288,7 +324,7 @@ Each increment has a build step, a test step and a check step.
 7. NOTEARS and SAM (with optax).
 8. Predictive models (linear, MLP; the random forest of increment 9 replaces the MLP) and AFS (FBED, SES).
 9. OCT tuning, model validation protocols, and the CausalLearner.
-10. CRV: queries, adjustment sets, bootstrap confidence, and visualization without Cytoscape.
+10. CRV: queries, adjustment sets (a port of dagitty), bootstrap confidence, and SVG drawings without Cytoscape.
 
 ## License
 
@@ -300,6 +336,8 @@ ETIA-JAX copies the behavior of these programs. The licenses of the programs are
 |---|---|---|
 | ETIA | MIT (from its README) | all increments |
 | Tetrad 7.6.5 | GNU GPL v3 | increments 1 to 6 and 9 (random DAG and MAG) |
+| libdagitty (the code of dagitty 0.3.4) | GNU GPL v3 (the R package: GPL-2) | increment 10 (`crv/dagitty.py` is derived from libdagitty) |
+| pcalg 2.7-12 | GNU GPL v2 or later | increment 10 (`pcalg2dagitty` in `crv/dagitty.py` and `reference/adjset_dagitty.R`) |
 | tigramite 5.2 | GNU GPL v3 | increment 6 (`lpcmci.py` is derived from it) |
 | causalnex 0.12.2 | Apache 2.0 (from the header of `notears.py`) | increment 7 (NOTEARS) |
 | cdt 0.6.0 | MIT | increment 7 (SAM) |
@@ -309,5 +347,7 @@ ETIA-JAX copies the behavior of these programs. The licenses of the programs are
 - <a id="ref-biza2020"></a>Biza, K., Tsamardinos, I. and Triantafillou, S. (2020). Tuning causal discovery algorithms. *Proceedings of the 10th International Conference on Probabilistic Graphical Models*, PMLR 138, 17–28. [proceedings.mlr.press/v138/biza20a](https://proceedings.mlr.press/v138/biza20a.html). Algorithm 3 (OCT) and the OCTs variant are on pp. 6–7. The paper does not define the mutual information score or the permutation test; ETIA-JAX takes them from ETIA's code.
 - <a id="ref-dortarsi1992"></a>Dor, D. and Tarsi, M. (1992). A simple algorithm to construct a consistent extension of a partially oriented graph. Technical Report R-185, Cognitive Systems Laboratory, UCLA. The report was not read; the algorithm (remove a potential sink, one at a time) is as later papers describe it.
 - <a id="ref-zhang2008"></a>Zhang, J. (2008). On the completeness of orientation rules for causal discovery in the presence of latent confounders and selection bias. *Artificial Intelligence* 172(16–17), 1873–1896. [doi:10.1016/j.artint.2008.08.001](https://doi.org/10.1016/j.artint.2008.08.001). The number "Theorem 2" comes from Tetrad's `zhangMagFromPag`; the statement was not checked in the paper.
+- <a id="ref-fruchterman1991"></a>Fruchterman, T. M. J. and Reingold, E. M. (1991). Graph drawing by force-directed placement. *Software: Practice and Experience* 21(11), 1129–1164. [doi:10.1002/spe.4380211102](https://doi.org/10.1002/spe.4380211102). Only the bibliographic record and summaries were read; the layout of ETIA-JAX uses the forces k²/d and d²/k with a falling temperature.
+- <a id="ref-perkovic2018"></a>Perković, E., Textor, J., Kalisch, M. and Maathuis, M. H. (2018). Complete graphical characterization and construction of adjustment sets in Markov equivalence classes of ancestral graphs. *Journal of Machine Learning Research* 18(220), 1–62. [jmlr.org/papers/v18/16-319](https://jmlr.org/papers/v18/16-319.html). The abstract says that the criterion is sound and complete for DAGs, CPDAGs, MAGs and PAGs, and that dagitty has the algorithms; ETIA-JAX ports dagitty's code, not the paper.
 - <a id="ref-tsamardinos2018"></a>Tsamardinos, I., Greasidou, E. and Borboudakis, G. (2018). Bootstrapping the out-of-sample predictions for efficient and accurate cross-validation. *Machine Learning* 107(12), 1895–1922. [doi:10.1007/s10994-018-5714-4](https://doi.org/10.1007/s10994-018-5714-4)
 

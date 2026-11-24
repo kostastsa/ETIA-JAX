@@ -1,0 +1,6 @@
+part,reference,same,total
+adjustment sets,"dagitty 0.3.4 (R), ETIA's conversion",400,400
+path queries,ETIA CRV/queries,4800,4800
+edges for drawing,ETIA matrix_to_cyto,400,400
+bootstrap graphs,Tetrad FCI in ETIA on the same rows,150,150
+edge weight tables,ETIA compute_edge_weights,6,6

@@ -13,6 +13,7 @@
   "inc7",
   "inc8",
   "inc9",
+  "inc10",
   "defects",
   "next"
  ],
@@ -22,11 +23,11 @@
    "start": "cover"
   },
   "s2": {
-   "description": "Increments 1 to 9 (done)",
+   "description": "Increments 1 to 10 (done)",
    "start": "inc1"
   },
   "s3": {
-   "description": "Defects and the next increment",
+   "description": "Defects and open items",
    "start": "defects"
   }
  },
