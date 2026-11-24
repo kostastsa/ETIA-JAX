@@ -12,9 +12,9 @@
   "inc6",
   "inc7",
   "inc8",
+  "inc9",
   "defects",
-  "next",
-  "later"
+  "next"
  ],
  "sections": {
   "s1": {
@@ -22,11 +22,11 @@
    "start": "cover"
   },
   "s2": {
-   "description": "Increments 1 to 8 (done)",
+   "description": "Increments 1 to 9 (done)",
    "start": "inc1"
   },
   "s3": {
-   "description": "Tetrad defects and the next increments",
+   "description": "Defects and the next increment",
    "start": "defects"
   }
  },

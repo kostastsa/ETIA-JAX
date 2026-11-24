@@ -1,0 +1,25 @@
+cont10_s0|lin1       etia    9.9s  jax   0.29s  default   0.28s  pags 1.00
+cont10_s0|lin8       etia   15.6s  jax   0.28s  default   0.28s  pags 1.00
+cont10_s0|rf1        etia   48.0s  jax   0.55s  default   0.63s  pags 1.00
+cont10_s0|rf8        etia    6.8s  jax   0.53s  default   0.62s  pags 1.00
+cont10_s1|lin1       etia    9.1s  jax   0.29s  default   0.27s  pags 1.00
+cont10_s1|lin8       etia    3.2s  jax   0.28s  default   0.26s  pags 1.00
+cont10_s1|rf1        etia   62.4s  jax   0.48s  default   0.46s  pags 1.00
+cont10_s1|rf8        etia    7.4s  jax   0.50s  default   0.46s  pags 1.00
+cont10_s2|lin1       etia   10.2s  jax   0.65s  default   0.40s  pags 1.00
+cont10_s2|lin8       etia    3.9s  jax   0.65s  default   0.39s  pags 1.00
+cont10_s2|rf1        etia   44.3s  jax   1.03s  default   0.86s  pags 1.00
+cont10_s2|rf8        etia    8.0s  jax   1.02s  default   0.84s  pags 1.00
+cont20_s0|lin1       etia   20.6s  jax   3.19s  default   2.37s  pags 1.00
+cont20_s0|lin8       etia    7.7s  jax   3.10s  default   2.17s  pags 1.00
+cont20_s0|rf1        etia   72.5s  jax   5.15s  default   3.93s  pags 1.00
+cont20_s0|rf8        etia   14.3s  jax   5.00s  default   3.84s  pags 1.00
+disc10_s0|lin1       etia   10.2s  jax  13.01s  default   6.59s  pags 1.00
+disc10_s0|lin8       etia   13.2s  jax  12.68s  default   6.61s  pags 1.00
+disc10_s0|rf1        etia   79.4s  jax  13.72s  default   7.67s  pags 1.00
+disc10_s0|rf8        etia   11.8s  jax  13.36s  default   7.55s  pags 1.00
+mixed10_s0|lin1      etia   15.1s  jax   5.13s  default   4.42s  pags 1.00
+mixed10_s0|lin8      etia    6.4s  jax   4.94s  default   4.36s  pags 1.00
+mixed10_s0|rf1       etia   57.0s  jax   5.76s  default   5.33s  pags 1.00
+mixed10_s0|rf8       etia   10.0s  jax   5.61s  default   5.23s  pags 1.00
+wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/oct_jax_gpu.csv

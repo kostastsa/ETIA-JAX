@@ -1,0 +1,5 @@
+case,target,etia_best,jax_best,same_best,same_selected,etia_s,jax_s
+cont10_s0,X0,linear_regression fbed a=0.05 k=3,linear_regression fbed a=0.05 k=3,True,True,20.217248631990515,0.7988110359874554
+cont10_s1,X4,linear_regression fbed a=0.05 k=3,linear_regression fbed a=0.05 k=3,True,True,20.531882685027085,0.5279452379909344
+cont10_s2,X2,linear_regression ses a=0.05 k=3,linear_regression ses a=0.05 k=3,True,True,20.081350128981285,0.2736080239992589
+cont20_s0,X9,linear_regression ses a=0.01 k=3,linear_regression ses a=0.01 k=3,True,True,20.729781322996132,0.31904043402755633

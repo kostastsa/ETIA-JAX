@@ -1,0 +1,11 @@
+{
+ "pags_same": 120,
+ "pags_total": 120,
+ "steps_same": 8813,
+ "steps_total": 8813,
+ "choice_same": 24,
+ "choice_total": 24,
+ "median_speedup": 8.90206253784671,
+ "afs_same": 4,
+ "afs_runs": 4
+}

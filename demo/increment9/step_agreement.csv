@@ -1,0 +1,7 @@
+step,compared,same,total
+fold PAGs,the PAG of each configuration on the training rows of each fold (FCI and FCI-Max ports),120,120
+Markov boundaries,ETIA's markov_boundary on ETIA's random MAGs,5520,5520
+predictions,"LinearRegression on ETIA's Markov boundaries (non-empty), pooled test rows",1269,1269
+scores,"mutual information of ETIA's predictions, per configuration and node",1840,1840
+p-values,permutation test from ETIA's predictions and permutations,160,160
+choice,the chosen configuration (n_jobs=1: OCTs; n_jobs=8: best score),24,24

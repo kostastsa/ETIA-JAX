@@ -228,6 +228,51 @@ These details are in MXM itself, so both modes keep them:
 - In SES, the univariate statistics keep their sign, and a tie of p-values goes to the larger statistic.
 - SES conditions only on selected columns. Thus it finds all the parents and children of the target, and it can also keep a descendant.
 
+## Tuning: the OCT and the CausalLearner (increment 9)
+
+ETIA's CausalLearner tunes the causal configurations with OCT, the out-of-sample causal tuning of [Biza et al. (2020)](#ref-biza2020). Each configuration learns a graph on the training rows of each fold. Each node gets a predictive model on its Markov boundary, and the mutual information of the test predictions scores the configuration. OCTs then takes the sparsest configuration that a permutation test does not find worse than the best one.
+
+- **Modules.** `etia_jax/oct/configs.py` (ETIA's tables of algorithms, tests and scores, and the configurator), `etia_jax/oct/algorithms.py` (one configuration on the rows of a fold), `etia_jax/oct/oct.py` (`run_oct`, in steps that the tests compare with ETIA one by one) and `etia_jax/oct/learner.py` (`CausalLearner`).
+- **Graphs.** `etia_jax/graphs/markov.py` has the Markov boundary of a DAG or MAG (the nodes that a collider path connects to the target), one DAG of a CPDAG ([Dor and Tarsi 1992](#ref-dortarsi1992)), and one MAG of a PAG ([Zhang 2008](#ref-zhang2008), Theorem 2). `etia_jax/search/tetrad_members.py` ports Tetrad's random `dagFromCpdag` and `magFromPag`.
+- **Random forest.** `etia_jax/learn/forest.py` grows CART trees level by level, in one `vmap` over the trees: bootstrap weights, exact splits, `max_depth`, `min_samples_leaf` and `max_features`. A classifier is a regression forest on one-hot targets (the squared error of a one-hot vector is the Gini impurity). The forest is the regressor of the OCT. In the AFS, it replaces the MLP of increment 8.
+- **Modes.** `etia_compat=True` copies ETIA (the list below). `etia_n_jobs=None` copies ETIA's default with joblib workers, and `etia_n_jobs=1` copies ETIA's run without workers. The default mode takes the Markov boundary of the class: it is the same in all the graphs of the class ([Biza et al. 2020](#ref-biza2020), p. 6).
+
+### Agreement with ETIA
+
+ETIA's OCT gives other scores and winners in each run, also with `random_seed` and one job, because Tetrad draws its random MAGs in Java. Thus the tests compare each step with the inputs that ETIA's step had (24 stored ETIA runs: 6 datasets, linear regression or ETIA's forest, 1 or 8 workers):
+
+- **Fold PAGs.** FCI and FCI-Max on the training rows of each fold give the same PAG as ETIA in all 120 cases (continuous, mixed and discrete data).
+- **Markov boundaries, scores, p-values and choices.** The tests give ETIA's random MAGs, predictions and permutations to the steps of ETIA-JAX. All 8813 compared outputs are the same as ETIA's outputs, also the 24 chosen configurations.
+- **Predictions.** Linear regression on ETIA's Markov boundaries gives ETIA's test predictions (difference below 1e-8).
+- **Random graphs.** The draws of the ported `magFromPag` and `dagFromCpdag` agree with Tetrad's draws. The tests use 11 class graphs and 2000 draws each. The distance to Tetrad's draws is not larger than the distance between two samples of ETIA-JAX, and the frequency of each mark agrees.
+- **Forest.** With ETIA's OCT settings, the test R^2 of the forest is less than 0.01 from scikit-learn's, and the predictions correlate above 0.99. With the full AFS grid, all 4 reference runs give the same winner and the same columns as ETIA.
+- **Oracle.** In the default mode, the score of the chosen configuration is less than 0.02 below the score of the true Markov boundaries.
+
+### Speed
+
+The times are for one complete OCT run in `etia_compat` mode with the settings of the stored ETIA run (10 folds, 3 folds to run, 50 permutations). The ETIA-JAX time is the time of a second run (the first run compiles).
+
+- **Continuous data, 10 nodes.** ETIA takes 3 to 16 s with linear regression and 44 to 62 s with its forest and one job (7 to 8 s with all cores). ETIA-JAX takes 0.3 to 0.7 s with linear regression and 0.5 to 1 s with the forest on the GPU (6 to 129 times faster).
+- **Larger and other data.** With 20 nodes, and with mixed or discrete data, the FCI searches in Python take most of the time (2 to 13 s). Thus ETIA-JAX is 1 to 14 times faster on continuous and mixed data. On discrete data, it is about as fast as ETIA (0.8 to 1 times) with linear regression or with all cores.
+- **CPU.** Without the forest, the CPU is faster than the GPU (0.15 to 7 s). The forest needs the GPU: on the CPU, one run takes 17 to 117 s.
+- **AFS.** With the forest instead of the MLP, a complete AFS run with the full grid takes 0.25 to 0.7 s after the first compilation. ETIA takes 20 s.
+
+### What ETIA and Tetrad do (kept only in `etia_compat` mode)
+
+- **Random MAG.** The Markov boundaries come from one random DAG or MAG of Tetrad. `magFromPag` can set a tail at both ends of an edge, and ETIA's `markov_boundary` does not see such a neighbor. FGES has `causal_sufficiency: [False]` in ETIA's table. Thus its CPDAG also goes through `magFromPag` and loses its undirected neighbors.
+- **joblib workers.** With more than one job (ETIA's default: all cores), the workers change copies of the OCT object. The Markov boundary sizes stay 0 and the p-values stay 1. Thus the permutation test and the sparsity rule have no effect, and the winner is the configuration with the best score.
+- **Last graph.** The chosen configuration keeps the `indexes` of the last fold. Thus the final graph comes from the training rows of that fold, not from all the rows.
+- **Empty Markov boundary.** The node gets uniform random predictions between the minimum and the maximum of its training values.
+- **Categorical nodes.** The regressor predicts the category codes, and `mutual_info_score` takes each predicted value as a label.
+- **Two methods.** `get_best_model_between_algorithms` stops with a `ValueError` (three values into two names). `get_best_model_between_family` compares a list with a bool. Thus it finds no algorithm (`RuntimeError`), and `accepts_missing_values` reads a key that the table does not have (`KeyError`).
+- **NOTEARS, SAM and tigramite.** Their wrappers return two values, and the k-fold protocol expects three. Thus the OCT stops with a `ValueError`. The default mode runs NOTEARS and SAM on the rows of the fold. The OCT of ETIA-JAX does not have the time-series algorithms.
+
+Other findings, not part of the modes:
+
+- **Global configuration.** `Configurations` changes ETIA's global `default_conf`. A second CausalLearner in the same Python session keeps the algorithms (and the algorithm objects) of the first dataset. ETIA-JAX makes a new table for each learner.
+- **Default grid.** ETIA's table gives `pc` and `cpc` `assume_faithfulness: [False]` and `fges` `causal_sufficiency: [False]`. Thus ETIA's default settings run only FCI and FCI-Max (3 alphas each) on continuous data.
+- **Tetrad threads.** R0 of Tetrad's FCI runs the chi-square or G-square test in a parallel stream. The test is not thread-safe. ETIA's OCT on `disc10_s0` stopped with Java errors in all 4 tries, also with one processor. With one processor, `IndTestFisherZ` divides by zero (`availableProcessors() / 2` threads). The discrete reference puts a lock around each test.
+
 ## Plan of increments
 
 The details and the status of each increment are in [docs/increments.md](docs/increments.md).
@@ -241,7 +286,7 @@ Each increment has a build step, a test step and a check step.
 5. Scores in JAX (SEM-BIC, BDeu, CG-BIC, DG-BIC) and FGES. Then GFCI.
 6. Time series: SVAR-FCI, SVAR-GFCI, PCMCI, PCMCI+ and LPCMCI.
 7. NOTEARS and SAM (with optax).
-8. Predictive models (MLP and linear, in place of the random forest) and AFS (FBED, SES).
+8. Predictive models (linear, MLP; the random forest of increment 9 replaces the MLP) and AFS (FBED, SES).
 9. OCT tuning, model validation protocols, and the CausalLearner.
 10. CRV: queries, adjustment sets, bootstrap confidence, and visualization without Cytoscape.
 
@@ -254,12 +299,15 @@ ETIA-JAX copies the behavior of these programs. The licenses of the programs are
 | Program | License | Used in |
 |---|---|---|
 | ETIA | MIT (from its README) | all increments |
-| Tetrad 7.6.5 | GNU GPL v3 | increments 1 to 6 |
+| Tetrad 7.6.5 | GNU GPL v3 | increments 1 to 6 and 9 (random DAG and MAG) |
 | tigramite 5.2 | GNU GPL v3 | increment 6 (`lpcmci.py` is derived from it) |
 | causalnex 0.12.2 | Apache 2.0 (from the header of `notears.py`) | increment 7 (NOTEARS) |
 | cdt 0.6.0 | MIT | increment 7 (SAM) |
 
 ## References (outside the corpus)
 
+- <a id="ref-biza2020"></a>Biza, K., Tsamardinos, I. and Triantafillou, S. (2020). Tuning causal discovery algorithms. *Proceedings of the 10th International Conference on Probabilistic Graphical Models*, PMLR 138, 17–28. [proceedings.mlr.press/v138/biza20a](https://proceedings.mlr.press/v138/biza20a.html). Algorithm 3 (OCT) and the OCTs variant are on pp. 6–7. The paper does not define the mutual information score or the permutation test; ETIA-JAX takes them from ETIA's code.
+- <a id="ref-dortarsi1992"></a>Dor, D. and Tarsi, M. (1992). A simple algorithm to construct a consistent extension of a partially oriented graph. Technical Report R-185, Cognitive Systems Laboratory, UCLA. The report was not read; the algorithm (remove a potential sink, one at a time) is as later papers describe it.
+- <a id="ref-zhang2008"></a>Zhang, J. (2008). On the completeness of orientation rules for causal discovery in the presence of latent confounders and selection bias. *Artificial Intelligence* 172(16–17), 1873–1896. [doi:10.1016/j.artint.2008.08.001](https://doi.org/10.1016/j.artint.2008.08.001). The number "Theorem 2" comes from Tetrad's `zhangMagFromPag`; the statement was not checked in the paper.
 - <a id="ref-tsamardinos2018"></a>Tsamardinos, I., Greasidou, E. and Borboudakis, G. (2018). Bootstrapping the out-of-sample predictions for efficient and accurate cross-validation. *Machine Learning* 107(12), 1895–1922. [doi:10.1007/s10994-018-5714-4](https://doi.org/10.1007/s10994-018-5714-4)
 

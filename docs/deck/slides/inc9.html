@@ -1,0 +1,22 @@
+<section id="inc9" data-transition="slide">
+<p class="eyebrow">INCREMENT 9 · TUNING</p>
+<h2>The OCT and the CausalLearner</h2>
+<div class="stats" id="k9"></div>
+<ul class="rise" style="--i:4">
+  <li>Each step of ETIA's OCT is the same as ETIA's step: the fold PAGs, the Markov boundaries, the predictions, the scores, the permutation test and the choice.</li>
+  <li>ETIA takes the Markov boundaries from a random MAG of Tetrad, so its scores and its winner change from run to run. The default mode uses the Markov boundary of the class.</li>
+  <li>Found: joblib workers lose the OCT state (no permutation test, no sparsity rule); the final graph uses the rows of the last fold; Tetrad's FCI is not thread-safe with discrete tests.</li>
+</ul>
+<div class="foot"><span>demo/increment9/summary.json · plate 817e9478b8d8</span><span>12 / 14</span></div>
+<aside>A random forest in JAX replaces the MLP of increment 8 in the AFS, and it is the regressor of the OCT.</aside>
+<script>{
+const card = (i, l, v, s) => `<div class="stat rise" style="--i:${i}"><p class="l">${l}</p><p class="v">${v}</p><p class="s">${s}</p></div>`;
+pv.watchJSON('../../demo/increment9/summary.json', s => {
+  document.getElementById('k9').innerHTML =
+    card(0, 'Fold PAGs', `${s.pags_same} / ${s.pags_total}`, 'same as ETIA') +
+    card(1, 'OCT steps', `${s.steps_same} / ${s.steps_total}`, 'same as ETIA') +
+    card(2, 'OCT speed-up', pv.fmt(s.median_speedup, 0) + '×', 'median, complete runs') +
+    card(3, 'AFS with forest', `${s.afs_same} / ${s.afs_runs}`, 'same winner and columns');
+});
+}</script>
+</section>

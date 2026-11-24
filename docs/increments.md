@@ -135,11 +135,27 @@ The same table is in `deck/increments.csv` (the deck reads it). The "Tests" colu
 - **Speed.** One FS call is about 1000 times faster, because ETIA starts R for each call. A complete AFS run is 9 to 190 times faster.
 - **Demo.** Plate `89493558771c`.
 
-## Increment 9: OCT and CausalLearner (next)
+## Increment 9: OCT and CausalLearner
+
+- **Modules.** `etia_jax/oct/` (configurations, the runner of one configuration, `run_oct`, `CausalLearner`), `etia_jax/graphs/markov.py` (Markov boundaries, one DAG of a CPDAG, one MAG of a PAG), `etia_jax/search/tetrad_members.py` (Tetrad's random `dagFromCpdag` and `magFromPag`) and `etia_jax/learn/forest.py` (a random forest in JAX, also used by the AFS).
+- **Agreement with ETIA.** ETIA's OCT is not reproducible from run to run (Tetrad draws random MAGs in Java). Thus the tests compare each step with the inputs of ETIA's step, in 24 stored ETIA runs: 120 of 120 fold PAGs, 8813 of 8813 Markov boundaries, predictions, scores and p-values, and 24 of 24 chosen configurations are the same. The ported random MAGs and DAGs agree with Tetrad's draws.
+- **Oracle.** In the default mode, the Markov boundary of a CPDAG or PAG is the Markov boundary of the true graph (40 random graphs). The score of the chosen configuration is less than 0.02 below the score of the true Markov boundaries.
+- **Findings.**
+  - The Markov boundaries come from a random MAG, which can have undirected edges that ETIA's `markov_boundary` does not see (also for FGES).
+  - With joblib workers (ETIA's default), the changes of the OCT object do not come back. Thus the permutation test and the sparsity rule have no effect.
+  - The last graph comes from the training rows of the last fold.
+  - `get_best_model_between_algorithms` and `get_best_model_between_family` stop with errors.
+  - `Configurations` changes a global table.
+  - Tetrad's FCI is not thread-safe with discrete tests, and FisherZ stops with an error on one processor.
+- **Speed.** 6 to 129 times faster on continuous data with 10 nodes (GPU), 1 to 14 times on larger or mixed data. On discrete data, about as fast as ETIA, because the FCI searches run in Python.
+- **Demo.** Plate `817e9478b8d8`.
+
+### Notes from increment 7 for this increment
+
 
 - OCT tuning of the causal configurations, the validation protocols, and the CausalLearner pipeline of ETIA.
 - The k-fold protocol of ETIA stops on NOTEARS and SAM (two return values, not three), and NOTEARS ignores the rows of the fold.
 
-## Increment 10: CRV (planned)
+## Increment 10: CRV (next)
 
 - The causal queries (paths, Markov boundaries), the adjustment sets, the bootstrap confidence, and a visualization without Cytoscape.

@@ -1,0 +1,106 @@
+<title>ETIA-JAX increment 9</title>
+<style>
+  table.defects { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.defects th, table.defects td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">ETIA-JAX · increment 9 of 10 · tuning</div>
+    <h1>The OCT and the CausalLearner</h1>
+    <p class="lede">Out-of-sample causal tuning as ETIA runs it, step by step against ETIA, the random graphs of Tetrad, a random forest in JAX, and the run times.</p>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section class="panel">
+    <h2>Each step against ETIA <span class="tag">step_agreement.csv</span></h2>
+    <div id="steps"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Mean score of each configuration <span class="tag">score_spread.csv</span></h2>
+    <div class="controls"><span class="ctl-label">Dataset</span><span id="case"></span></div>
+    <div id="score_chart"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Run time <span class="tag">time_long.csv</span></h2>
+    <div id="time_chart"></div>
+  </section>
+
+  <section class="panel">
+    <h2>All the runs <span class="tag">timing.csv</span></h2>
+    <div id="timing"></div>
+  </section>
+
+  <section class="panel">
+    <h2>AFS with the random forest <span class="tag">afs_forest.csv</span></h2>
+    <div id="afs"></div>
+  </section>
+
+  <section class="panel">
+    <h2>What ETIA and Tetrad do</h2>
+    <table class="defects">
+      <tr><th>Part</th><th>What happens</th><th>ETIA-JAX</th></tr>
+      <tr><td>Random MAG</td><td>The Markov boundaries come from one random DAG or MAG of Tetrad (<code>dagFromCpdag</code>, <code>magFromPag</code>). Java draws the random numbers without a seed from Python, so the scores and the winner change from run to run, also with <code>random_seed</code> and one job.</td><td><code>etia_compat</code>: a port of Tetrad's draw (same distribution, seeded). Default: the Markov boundary of the class, which is the same in all its graphs.</td></tr>
+      <tr><td>Undirected edges</td><td><code>magFromPag</code> can set a tail at both ends of an edge. ETIA's <code>markov_boundary</code> does not see such a neighbor. FGES has <code>causal_sufficiency: [False]</code>, so its CPDAG also goes through <code>magFromPag</code> and loses all its undirected neighbors.</td><td><code>etia_compat</code>: the same. Default: no undirected edge in the DAG or MAG.</td></tr>
+      <tr><td>joblib workers</td><td>With <code>n_jobs</code> above 1 (ETIA's default: all cores), the workers change copies of the OCT object. The Markov boundary sizes stay 0 and the p-values stay 1, so the permutation test and the sparsity rule have no effect.</td><td><code>etia_compat</code>: the same; <code>etia_n_jobs=1</code> gives ETIA's run without workers. Default: both work.</td></tr>
+      <tr><td>Final graph</td><td>The configuration keeps the <code>indexes</code> of the last fold, so the final graph comes from the training rows of that fold, not from all the rows.</td><td>Default: all the rows.</td></tr>
+      <tr><td>Empty Markov boundary</td><td>Uniform random predictions between the minimum and the maximum of the training values. A constant prediction would make the mutual information stop with "zero st_dev".</td><td>Default: the training mean (or the most frequent value), score 0.</td></tr>
+      <tr><td>Categorical nodes</td><td>The regressor predicts the category codes, and <code>mutual_info_score</code> takes each predicted value as a label.</td><td>Default: a classifier forest (Gini) and the predicted labels.</td></tr>
+      <tr><td>Two methods</td><td><code>get_best_model_between_algorithms</code> unpacks three values into two names. <code>get_best_model_between_family</code> compares a list with a bool and reads a key that the table does not have.</td><td><code>etia_compat</code>: the same errors. Default: they work.</td></tr>
+      <tr><td>NOTEARS, SAM, tigramite</td><td>Their wrappers return two values, and the k-fold protocol expects three: the OCT stops with <code>ValueError</code>.</td><td>Default: NOTEARS and SAM run on the rows of the fold.</td></tr>
+      <tr><td>Configurations</td><td><code>Configurations</code> changes the global <code>default_conf</code>. A second CausalLearner in the same Python session keeps the algorithms of the first dataset. With the defaults (no causal sufficiency, faithfulness), only FCI and FCI-Max run on continuous data.</td><td>A new table for each learner.</td></tr>
+      <tr><td>Tetrad on discrete data</td><td>R0 of FCI runs the chi-square or G-square test in a parallel stream, and the test is not thread-safe. ETIA's OCT on <code>disc10_s0</code> stopped with Java errors in all 4 tries. With one processor, <code>IndTestFisherZ</code> divides by zero.</td><td>No threads. The reference for discrete data uses a lock around each test.</td></tr>
+    </table>
+    <div id="findings_howto"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Test suite <span class="tag">tests.csv</span></h2>
+    <div id="tests"></div>
+  </section>
+
+  <footer>Data: ~/PROJECTS/ETIA-JAX/demo/increment9/ (make_data.py, from reference/fixtures/ and benchmarks/results/). ETIA ran in its own venv (Python 3.10, Tetrad 7.6.5 in a JVM with two processors). Times on one workstation: Intel i9-14900K, RTX 4090. Biza, Tsamardinos and Triantafillou, "Tuning causal discovery algorithms", PGM 2020, PMLR 138:17-28.</footer>
+</div>
+<script>
+const HOWTO = {
+ "steps": "<p>This table compares each step of the OCT of ETIA-JAX with the same step of ETIA. Each row is one step. Each step gets the inputs that ETIA's step had in the stored ETIA runs. Thus the random graphs of Tetrad do not change the result of this table.</p><p>The column \"same\" gives the number of outputs that are the same as in ETIA. The column \"total\" gives the number of compared outputs. A prediction or a score is the same when the difference is below 1e-8. The fold PAGs come from the searches of ETIA-JAX on the training rows of each fold.</p>",
+ "score_chart": "<p>This chart shows the mean score of each configuration. Each point is one configuration in ETIA or in one mode of ETIA-JAX. The x axis gives the configuration. The y axis gives the mean mutual information of the nodes, in nats. Use the selector to show the other dataset.</p><p>The two ETIA runs use the same data and the same seed, but Tetrad draws other random MAGs. Thus their points can be far apart. The bar on the \"etia_compat\" point goes from the lowest to the highest value of 10 seeds. The default mode takes the Markov boundary from the class of the graph. Thus its points stay the same in each run.</p>",
+ "time_chart": "<p>This chart shows the median time of one complete OCT run. Each bar is ETIA or ETIA-JAX. The y axis has a logarithmic scale. A lower bar shows a shorter time.</p><p>The run \"lin\" uses linear regression, and the run \"rf\" uses the random forest of ETIA. The digit gives the number of joblib workers of ETIA: \"1\" runs without workers, and \"8\" uses eight workers. ETIA-JAX runs the same settings in the \"etia_compat\" mode.</p>",
+ "timing": "<p>This table gives the time of each stored ETIA run and of the same run in ETIA-JAX. Each row is one dataset and one run setting. All the times are in seconds. The column \"speed-up\" divides the time of ETIA by the time of ETIA-JAX on the GPU. The column \"default_s\" gives the time of the default mode.</p><p>The column \"pags_same\" gives the fraction of the fold PAGs that are the same as in ETIA. The two \"chosen\" columns give the chosen configuration. They can be different, because the random MAGs of ETIA and ETIA-JAX are not the same.</p>",
+ "afs": "<p>This table compares complete AFS runs with the full grid of ETIA. Each row is one dataset and one target. From this increment, the random forest of ETIA-JAX replaces the MLP of increment 8.</p><p>The winner columns give the configuration with the largest mean score. The column \"same_selected\" shows if the selected columns are the same as in ETIA. The times are in seconds, and the time of ETIA-JAX is the time of a second run.</p>",
+ "findings": "<p>This table shows what ETIA and Tetrad do that the definition of the OCT does not tell. Each row is one behavior. The last column tells how ETIA-JAX does it.</p>",
+ "tests": "<p>This table shows the tests of the test suite after increment 9. Each row is one test function. The column result shows \"pass\" or \"fail\". The column time_s gives the time of each test in seconds. Start the slow tests with the command \"pytest -m slow\".</p>"
+};
+const box = (kind, html) => `<details class="pv-howto" open><summary>How to read this ${kind}</summary><div class="howto-body">${html}</div></details>`;
+document.getElementById('findings_howto').innerHTML = box('table', HOWTO.findings);
+pv.need(['summary.json', 'step_agreement.csv', 'score_spread.csv', 'time_long.csv', 'timing.csv', 'afs_forest.csv', 'tests.csv']);
+
+pv.watchJSON('summary.json', s => {
+  const card = (v, l, sub) => `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${sub}</div></div>`;
+  document.getElementById('kpis').innerHTML =
+    card(`${s.pags_same} / ${s.pags_total}`, 'fold PAGs same as ETIA', 'FCI and FCI-Max, 6 datasets') +
+    card(`${s.steps_same} / ${s.steps_total}`, 'OCT steps same as ETIA', `choice: ${s.choice_same} / ${s.choice_total} runs`) +
+    card(`${pv.fmt(s.median_speedup, 0)}×`, 'OCT median speed-up', 'whole runs, GPU') +
+    card(`${s.afs_same} / ${s.afs_runs}`, 'AFS full grid: same as ETIA', 'with the JAX random forest');
+});
+
+pv.table('#steps', 'step_agreement.csv', {wide: true, howto: HOWTO.steps});
+let current = 'cont10_s0';
+const draw = () => pv.chart('#score_chart', 'score_spread.csv', {type: 'scatter', x: 'config', y: 'score', color: 'who', err: 'err',
+  prepare: d => d.filter(r => r.case === current), 'x-label': 'configuration (algorithm, alpha)',
+  'y-label': 'mean mutual information (nats)', height: 360, wide: true, howto: HOWTO.score_chart});
+pv.seg('#case', {options: [['cont10_s0', 'cont10_s0'], ['cont20_s0', 'cont20_s0']], value: current,
+  onChange: v => { current = v; draw(); }});
+draw();
+pv.chart('#time_chart', 'time_long.csv', {type: 'bar', x: 'run', y: 'seconds', color: 'who', 'log-y': true,
+  'x-label': 'run setting', 'y-label': 'median seconds (log scale)', height: 340, wide: true, howto: HOWTO.time_chart});
+pv.table('#timing', 'timing.csv', {
+  labels: 'etia_time: ETIA s | jax_time: ETIA-JAX GPU s | jax_cpu_time: ETIA-JAX CPU s | default_s: default s | speedup: speed-up',
+  dec: 'etia_time:1 jax_time:2 jax_cpu_time:2 default_s:2 speedup:0 pags_same:2', sort: 'speedup:desc', wide: true,
+  howto: HOWTO.timing});
+pv.table('#afs', 'afs_forest.csv', {labels: 'etia_best: ETIA winner | jax_best: ETIA-JAX winner | etia_s: ETIA s | jax_s: ETIA-JAX s',
+  dec: 'etia_s:1 jax_s:2', wide: true, howto: HOWTO.afs});
+pv.table('#tests', 'tests.csv', {height: 380, howto: HOWTO.tests});
+</script>

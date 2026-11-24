@@ -1,0 +1,1818 @@
+{
+ "continuous|True|True|True|True": {},
+ "continuous|True|True|True|False": {},
+ "continuous|True|True|False|True": {
+  "sam": {
+   "lr": [
+    0.001,
+    0.01,
+    0.1
+   ],
+   "dlr": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "lambda1": [
+    1,
+    10,
+    100
+   ],
+   "lambda2": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "nh": [
+    10,
+    20,
+    50
+   ],
+   "dnh": [
+    100,
+    200,
+    300
+   ],
+   "train_epochs": [
+    1000,
+    3000,
+    5000
+   ],
+   "test_epochs": [
+    500,
+    1000,
+    1500
+   ],
+   "batch_size": [
+    50,
+    100,
+    200
+   ],
+   "losstype": [
+    "fgan",
+    "gan",
+    "mse"
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "continuous|True|True|False|False": {
+  "sam": {
+   "lr": [
+    0.001,
+    0.01,
+    0.1
+   ],
+   "dlr": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "lambda1": [
+    1,
+    10,
+    100
+   ],
+   "lambda2": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "nh": [
+    10,
+    20,
+    50
+   ],
+   "dnh": [
+    100,
+    200,
+    300
+   ],
+   "train_epochs": [
+    1000,
+    3000,
+    5000
+   ],
+   "test_epochs": [
+    500,
+    1000,
+    1500
+   ],
+   "batch_size": [
+    50,
+    100,
+    200
+   ],
+   "losstype": [
+    "fgan",
+    "gan",
+    "mse"
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "notears": {
+   "max_iter": [
+    100,
+    500,
+    1000
+   ],
+   "h_tol": [
+    1e-07,
+    1e-05,
+    0.001
+   ],
+   "threshold": [
+    0.0,
+    0.5,
+    0.8
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "continuous|True|False|True|True": {},
+ "continuous|True|False|True|False": {
+  "PCMCI": {
+   "ci_test": [
+    "ParCor",
+    "RobustParCor",
+    "GPDC",
+    "CMIknn",
+    "ParCorrWLS"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "PCMCI+": {
+   "ci_test": [
+    "ParCor",
+    "RobustParCor",
+    "GPDC",
+    "CMIknn",
+    "ParCorrWLS"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "continuous|True|False|False|True": {
+  "pc": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "cpc": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "continuous|True|False|False|False": {
+  "pc": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "cpc": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "continuous|False|True|True|True": {
+  "svarfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "svargfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "sem_bic_score"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "continuous|False|True|True|False": {
+  "svarfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "svargfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "sem_bic_score"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "continuous|False|True|False|True": {
+  "fci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "fcimax": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "rfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "gfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "sem_bic_score"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "cfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "continuous|False|True|False|False": {
+  "fci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "fcimax": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "rfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "gfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "sem_bic_score"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "cfci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "continuous|False|False|True|True": {},
+ "continuous|False|False|True|False": {
+  "LPCMCI": {
+   "ci_test": [
+    "ParCor",
+    "RobustParCor",
+    "GPDC",
+    "CMIknn",
+    "ParCorrWLS"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "continuous|False|False|False|True": {
+  "fges": {
+   "score": [
+    "sem_bic_score"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "continuous|False|False|False|False": {
+  "fges": {
+   "score": [
+    "sem_bic_score"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "mixed|True|True|True|True": {},
+ "mixed|True|True|True|False": {},
+ "mixed|True|True|False|True": {
+  "sam": {
+   "lr": [
+    0.001,
+    0.01,
+    0.1
+   ],
+   "dlr": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "lambda1": [
+    1,
+    10,
+    100
+   ],
+   "lambda2": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "nh": [
+    10,
+    20,
+    50
+   ],
+   "dnh": [
+    100,
+    200,
+    300
+   ],
+   "train_epochs": [
+    1000,
+    3000,
+    5000
+   ],
+   "test_epochs": [
+    500,
+    1000,
+    1500
+   ],
+   "batch_size": [
+    50,
+    100,
+    200
+   ],
+   "losstype": [
+    "fgan",
+    "gan",
+    "mse"
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "mixed|True|True|False|False": {
+  "sam": {
+   "lr": [
+    0.001,
+    0.01,
+    0.1
+   ],
+   "dlr": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "lambda1": [
+    1,
+    10,
+    100
+   ],
+   "lambda2": [
+    0.0001,
+    0.001,
+    0.01
+   ],
+   "nh": [
+    10,
+    20,
+    50
+   ],
+   "dnh": [
+    100,
+    200,
+    300
+   ],
+   "train_epochs": [
+    1000,
+    3000,
+    5000
+   ],
+   "test_epochs": [
+    500,
+    1000,
+    1500
+   ],
+   "batch_size": [
+    50,
+    100,
+    200
+   ],
+   "losstype": [
+    "fgan",
+    "gan",
+    "mse"
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "notears": {
+   "max_iter": [
+    100,
+    500,
+    1000
+   ],
+   "h_tol": [
+    1e-07,
+    1e-05,
+    0.001
+   ],
+   "threshold": [
+    0.0,
+    0.5,
+    0.8
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "mixed|True|False|True|True": {},
+ "mixed|True|False|True|False": {
+  "PCMCI": {
+   "ci_test": [
+    "RegressionCI"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "PCMCI+": {
+   "ci_test": [
+    "RegressionCI"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "mixed|True|False|False|True": {
+  "pc": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "cpc": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "mixed|True|False|False|False": {
+  "pc": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "cpc": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "mixed|False|True|True|True": {
+  "svarfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "svargfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "cg_bic",
+    "dg_bic"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "mixed|False|True|True|False": {
+  "svarfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "svargfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "cg_bic",
+    "dg_bic"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "mixed|False|True|False|True": {
+  "fci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "fcimax": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "rfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "gfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "cg_bic",
+    "dg_bic"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "cfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "mixed|False|True|False|False": {
+  "fci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "fcimax": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "rfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "gfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "cg_bic",
+    "dg_bic"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "cfci": {
+   "ci_test": [
+    "cg_lrt",
+    "dg_lrt"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "mixed|False|False|True|True": {},
+ "mixed|False|False|True|False": {
+  "LPCMCI": {
+   "ci_test": [
+    "RegressionCI"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "mixed|False|False|False|True": {
+  "fges": {
+   "score": [
+    "cg_bic",
+    "dg_bic"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "mixed|False|False|False|False": {
+  "fges": {
+   "score": [
+    "cg_bic",
+    "dg_bic"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "categorical|True|True|True|True": {},
+ "categorical|True|True|True|False": {},
+ "categorical|True|True|False|True": {},
+ "categorical|True|True|False|False": {
+  "notears": {
+   "max_iter": [
+    100,
+    500,
+    1000
+   ],
+   "h_tol": [
+    1e-07,
+    1e-05,
+    0.001
+   ],
+   "threshold": [
+    0.0,
+    0.5,
+    0.8
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "categorical|True|False|True|True": {},
+ "categorical|True|False|True|False": {
+  "PCMCI": {
+   "ci_test": [
+    "Gsquared",
+    "CMIsymb"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "PCMCI+": {
+   "ci_test": [
+    "Gsquared",
+    "CMIsymb"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "categorical|True|False|False|True": {
+  "pc": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "cpc": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "categorical|True|False|False|False": {
+  "pc": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  },
+  "cpc": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    true
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "categorical|False|True|True|True": {
+  "svarfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "svargfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "bdeu"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "categorical|False|True|True|False": {
+  "svarfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "svargfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "bdeu"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "categorical|False|True|False|True": {
+  "fci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "fcimax": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "rfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "gfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "bdeu"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "cfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "categorical|False|True|False|False": {
+  "fci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "fcimax": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "rfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "gfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "score": [
+    "bdeu"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "cfci": {
+   "ci_test": [
+    "chisquare",
+    "gsquare"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ },
+ "categorical|False|False|True|True": {},
+ "categorical|False|False|True|False": {
+  "LPCMCI": {
+   "ci_test": [
+    "Gsquared",
+    "CMIsymb"
+   ],
+   "significance_level": [
+    0.01,
+    0.05
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "categorical|False|False|False|True": {
+  "fges": {
+   "score": [
+    "bdeu"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "categorical|False|False|False|False": {
+  "fges": {
+   "score": [
+    "bdeu"
+   ],
+   "penalty_discount": [
+    1
+   ],
+   "structure_prior": [
+    1
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    false
+   ]
+  }
+ },
+ "default": {
+  "fci": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  },
+  "fcimax": {
+   "ci_test": [
+    "FisherZ"
+   ],
+   "significance_level": [
+    0.01,
+    0.05,
+    0.1
+   ],
+   "stable": [
+    true
+   ],
+   "causal_sufficiency": [
+    false
+   ],
+   "assume_faithfulness": [
+    true
+   ]
+  }
+ }
+}

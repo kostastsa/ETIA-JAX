@@ -6,6 +6,6 @@ increment,content,status,tests,commit
 5,"Five scores, FGES and GFCI",done,130,e219726
 6,"Time series: tiers, SVAR-FCI, SVAR-GFCI, PCMCI family",done,139,f08958a
 7,NOTEARS and SAM,done,167,ba4da9b
-8,Predictive models and AFS,done,632,this commit
-9,OCT and CausalLearner,next,,
-10,CRV,planned,,
+8,Predictive models and AFS,done,632,ae5b843
+9,OCT and CausalLearner,done,719,this commit
+10,CRV,next,,

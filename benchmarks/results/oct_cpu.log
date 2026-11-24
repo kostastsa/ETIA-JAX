@@ -1,0 +1,25 @@
+cont10_s0|lin1       etia    9.9s  jax   0.17s  default   0.11s  pags 1.00
+cont10_s0|lin8       etia   15.6s  jax   0.16s  default   0.10s  pags 1.00
+cont10_s0|rf1        etia   48.0s  jax  19.41s  default  29.19s  pags 1.00
+cont10_s0|rf8        etia    6.8s  jax  18.76s  default  28.89s  pags 1.00
+cont10_s1|lin1       etia    9.1s  jax   0.15s  default   0.09s  pags 1.00
+cont10_s1|lin8       etia    3.2s  jax   0.14s  default   0.09s  pags 1.00
+cont10_s1|rf1        etia   62.4s  jax  17.08s  default  17.24s  pags 1.00
+cont10_s1|rf8        etia    7.4s  jax  17.71s  default  17.72s  pags 1.00
+cont10_s2|lin1       etia   10.2s  jax   0.23s  default   0.14s  pags 1.00
+cont10_s2|lin8       etia    3.9s  jax   0.22s  default   0.13s  pags 1.00
+cont10_s2|rf1        etia   44.3s  jax  30.97s  default  34.87s  pags 1.00
+cont10_s2|rf8        etia    8.0s  jax  30.94s  default  34.31s  pags 1.00
+cont20_s0|lin1       etia   20.6s  jax   0.98s  default  18.98s  pags 1.00
+cont20_s0|lin8       etia    7.7s  jax   0.96s  default  18.44s  pags 1.00
+cont20_s0|rf1        etia   72.5s  jax 116.50s  default 121.38s  pags 1.00
+cont20_s0|rf8        etia   14.3s  jax 113.22s  default 123.04s  pags 1.00
+disc10_s0|lin1       etia   10.2s  jax   6.85s  default   4.05s  pags 1.00
+disc10_s0|lin8       etia   13.2s  jax   6.47s  default   4.05s  pags 1.00
+disc10_s0|rf1        etia   79.4s  jax  45.95s  default  78.54s  pags 1.00
+disc10_s0|rf8        etia   11.8s  jax  45.60s  default  77.12s  pags 1.00
+mixed10_s0|lin1      etia   15.1s  jax   1.60s  default   1.25s  pags 1.00
+mixed10_s0|lin8      etia    6.4s  jax   1.39s  default   1.25s  pags 1.00
+mixed10_s0|rf1       etia   57.0s  jax  53.97s  default  60.14s  pags 1.00
+mixed10_s0|rf8       etia   10.0s  jax  53.80s  default  59.40s  pags 1.00
+wrote /home/kostastsampourakis/PROJECTS/ETIA-JAX/benchmarks/results/oct_jax_cpu.csv

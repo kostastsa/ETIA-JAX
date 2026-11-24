@@ -16,17 +16,19 @@ OUT = Path(__file__).parent / "fixtures"
 ETIA_ROOT = Path.home() / "PROJECTS" / "ETIA"
 
 
-def start_jvm(one_cpu=False):
+def start_jvm(one_cpu=False, cpus=1):
     """ETIA's JVM. With one_cpu, the JVM sees one processor
     (-XX:ActiveProcessorCount=1): Tetrad's parallel streams and ForkJoin
-    pools then run on one thread, so its searches have no races."""
+    pools then run on one thread, so its searches have no races. ``cpus=2``:
+    IndTestFisherZ divides by zero with one processor (CovariancesDoubleForkJoin
+    uses availableProcessors() / 2 threads), so the OCT runs use two."""
     sys.path.insert(0, str(ETIA_ROOT))
     import jpype
     if one_cpu and not jpype.isJVMStarted():
         import glob, os
         jars = glob.glob(str(ETIA_ROOT / "ETIA" / "CausalLearning" / "algorithms" / "jar_files" / "*.jar"))
         jvm = os.path.join(os.environ["JAVA_HOME"], "lib", "server", "libjvm.so")
-        jpype.startJVM(jvm, "-ea", "-XX:ActiveProcessorCount=1", classpath=":".join(jars), convertStrings=False)
+        jpype.startJVM(jvm, "-ea", f"-XX:ActiveProcessorCount={cpus}", classpath=":".join(jars), convertStrings=False)
         return jpype
     from ETIA.utils.jvm_manager import start_jvm as sj
     sj("ETIA.CausalLearning.algorithms.jar_files")
@@ -837,6 +839,168 @@ def make_search(jpype, algos=("pc", "cpc"), data_file="search_data.npz", out_fil
     print("wrote", OUT / out_file)
 
 
+def _etia_oct_run(X, kinds_unused, nj, reg, case):
+    """One ETIA CausalLearner run (random_seed=0). ``reg``: None (ETIA's
+    random forest) or "lin" (LinearRegression). Returns (learner, result, s)."""
+    import copy, time, warnings, os
+    import pandas as pd
+    warnings.filterwarnings("ignore")
+    from ETIA.data.Dataset import Dataset
+    import ETIA.CausalLearning.configurations.configurations as cfgmod
+    from ETIA.CausalLearning.configurations.default_parameters import default_conf
+    from ETIA.CausalLearning.CausalLearner import CausalLearner
+    from ETIA.CausalLearning.configurations.configurations import Configurations
+    global _PRISTINE
+    if "_PRISTINE" not in globals():
+        _PRISTINE = copy.deepcopy(default_conf)
+    cfgmod.default_conf = copy.deepcopy(_PRISTINE)       # ETIA changes default_conf in place
+    df = pd.DataFrame(X, columns=[f"X{i}" for i in range(X.shape[1])])
+    ds = Dataset(data=df, data_time_info={"n_lags": 0, "time_lagged": False}, time_series=False,
+                 dataset_name=f"oct_{case}")
+    conf = Configurations(dataset=ds, n_jobs=nj)
+    conf.results_folder = str(Path(os.environ.get("CLAUDE_JOB_DIR", "/tmp")) / "tmp") + "/"
+    if reg == "lin":
+        conf.cdhpo_params.set_regressor("LinearRegression", {})
+    if case.startswith("disc"):
+        # Tetrad's R0 runs the chi-square/G-square test in a parallel stream, and
+        # the test is not thread-safe: ETIA stops with Java errors. A lock around
+        # each test call (make_fixtures_serial.serialized) gives the serial result.
+        from ETIA.CausalLearning.algorithms.tetrad_algorithm.TetradAlgorithm import TetradAlgorithm
+        from make_fixtures_serial import serialized
+        if not getattr(TetradAlgorithm, "_serial_patch", False):
+            real_ci = TetradAlgorithm._ci_test
+            TetradAlgorithm._ci_test = lambda self, ds, params: serialized(real_ci(self, ds, params))
+            TetradAlgorithm._serial_patch = True
+    cl = CausalLearner(configurations=conf, n_jobs=nj, random_seed=0)
+    cl.results_folder = conf.results_folder
+    cl.cdhpo.results_folder = conf.results_folder
+    import contextlib, io
+    t0 = time.perf_counter()
+    with contextlib.redirect_stdout(io.StringIO()):
+        res = cl.learn_model()
+    return cl, res, time.perf_counter() - t0
+
+
+def make_oct(jpype, out_file="oct_ref.npz"):
+    """ETIA's CausalLearner/OCT: per case, LinearRegression with n_jobs=1
+    ("lin1", the in-process path) and n_jobs=8 ("lin8", joblib workers), and
+    ETIA's random forest with n_jobs=1 and 8 ("rf1", "rf8"). Dumps the
+    graphs, Markov boundaries, pooled predictions, scores, permutations,
+    p-values and the chosen configuration."""
+    import json
+    f = np.load(OUT / "search_data.npz")
+    out = dict(np.load(OUT / out_file)) if (OUT / out_file).exists() else {}
+    for case in ("cont10_s0", "cont10_s1", "cont10_s2", "cont20_s0", "mixed10_s0", "disc10_s0"):
+        X = f[f"{case}|X"][:1000]
+        for tag, nj, reg in (("lin1", 1, "lin"), ("lin8", 8, "lin"), ("rf1", 1, None), ("rf8", 8, None)):
+            key = f"{case}|{tag}"
+            if key + "|time" in out:
+                continue
+            cl, res, dt = _etia_oct_run(X, None, nj, reg, case)
+            o = cl.cdhpo
+            C, F, p = len(o.configs_ran), o.oct_params.oos_protocol.protocol.folds_to_run, X.shape[1]
+            skip = ("model", "var_type", "indexes", "library")
+            cfgs = [{k: (v.item() if hasattr(v, "item") else v) for k, v in c.items() if k not in skip}
+                    for c in o.configs_ran]
+            out[key + "|configs"] = np.array(json.dumps(cfgs))
+            out[key + "|mec"] = np.array([[np.asarray(g) for g in gs] for gs in o.mec_graphs_configs], np.int8)
+            out[key + "|graph"] = np.array([[np.asarray(g) for g in gs] for gs in o.graphs_configs], np.int8)
+            out[key + "|mbs"] = np.array(json.dumps([[[sorted(int(v) for v in o.mb_configs[c][t][k])
+                                                       for k in range(F)] for t in range(p)] for c in range(C)]))
+            out[key + "|pred"] = np.array([[np.concatenate(o.pred_configs[c][t]) for t in range(p)]
+                                           for c in range(C)])
+            out[key + "|y"] = np.array([np.concatenate(o.y_test_nodes[t]) for t in range(p)])
+            out[key + "|mu"] = np.asarray(o.mu_configs_np)
+            out[key + "|idxs"] = np.array(o.idxs)
+            out[key + "|p_values"] = np.asarray(o.p_values)
+            out[key + "|is_equal"] = np.asarray(o.is_equal)
+            out[key + "|mean_mb"] = np.asarray(o.mean_mb)
+            out[key + "|opt_config"] = np.array(o.opt_config)
+            chosen = next(i for i, c in enumerate(o.configs_ran) if c is res["optimal_conf"])
+            out[key + "|chosen"] = np.array(chosen)
+            out[key + "|n_final_rows"] = np.array(len(res["optimal_conf"].get("indexes", X)))
+            out[key + "|final_mec"] = np.asarray(res["matrix_mec_graph"], np.int8)
+            out[key + "|final_graph"] = np.asarray(res["matrix_graph"], np.int8)
+            out[key + "|time"] = np.array(dt)
+            print(f"{key:24s} {dt:7.1f}s chosen {chosen} opt {o.opt_config} p {np.round(o.p_values, 2)}",
+                  flush=True)
+            np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
+def make_members(jpype, out_file="members_ref.npz", draws=2000):
+    """Tetrad's magFromPag on PAGs of ETIA's OCT (oct_ref.npz) and
+    dagFromCpdag on the CPDAGs of true DAGs: the counts of the drawn graphs."""
+    import json
+    gr = jpype.JPackage("edu.cmu.tetrad.graph")
+    EP = {1: gr.Endpoint.CIRCLE, 2: gr.Endpoint.ARROW, 3: gr.Endpoint.TAIL}
+    BACK = {"CIRCLE": 1, "ARROW": 2, "TAIL": 3}
+
+    def to_t(M):
+        p = len(M)
+        nodes = [gr.GraphNode(f"X{i + 1}") for i in range(p)]
+        L = jpype.JClass("java.util.ArrayList")()
+        for nd in nodes:
+            L.add(nd)
+        g = gr.EdgeListGraph(L)
+        for a in range(p):
+            for b in range(a + 1, p):
+                if M[a, b]:
+                    g.addEdge(gr.Edge(nodes[a], nodes[b], EP[int(M[b, a])], EP[int(M[a, b])]))
+        return g, {f"X{i + 1}": i for i in range(p)}
+
+    def marks(g, idx):
+        p = len(idx)
+        M = np.zeros((p, p), np.int8)
+        for e in g.getEdges():
+            i, j = idx[str(e.getNode1().getName())], idx[str(e.getNode2().getName())]
+            M[i, j] = BACK[str(e.getEndpoint2().name())]
+            M[j, i] = BACK[str(e.getEndpoint1().name())]
+        return M
+
+    o = np.load(OUT / "oct_ref.npz")
+    f = np.load(OUT / "search_data.npz")
+    out = {}
+    items = []
+    for case in ("cont10_s0", "cont10_s1", "cont20_s0", "mixed10_s0"):
+        mec = o[f"{case}|lin1|mec"]
+        for c, k in ((0, 0), (len(mec) - 1, 2)):
+            items.append((f"pag|{case}|{c}|{k}", mec[c, k], "pag"))
+    for case in ("cont10_s0", "cont10_s1", "cont20_s0"):
+        A = f[f"{case}|A"]
+        g, idx = to_t(np.where(A.astype(bool), 2, 0) + np.where(A.T.astype(bool), 3, 0))
+        items.append((f"cpdag|{case}", marks(gr.GraphTransforms.dagToCpdag(g), idx), "cpdag"))
+    for key, M, kind in items:
+        g, idx = to_t(M)
+        cnt = {}
+        for _ in range(draws):
+            h = gr.GraphTransforms.magFromPag(g) if kind == "pag" else gr.GraphTransforms.dagFromCpdag(g)
+            b = marks(h, idx).tobytes().hex()
+            cnt[b] = cnt.get(b, 0) + 1
+        out[key + "|graph"] = M
+        out[key + "|counts"] = np.array(json.dumps(cnt))
+        print(f"{key:28s} distinct {len(cnt)}", flush=True)
+    np.savez_compressed(OUT / out_file, **out)
+    print("wrote", OUT / out_file)
+
+
+def make_oct_configs(out_file="oct_configs_ref.json"):
+    """ETIA's create_causal_configs for all the settings (without models)."""
+    import json, itertools
+    sys.path.insert(0, str(ETIA_ROOT))
+    from ETIA.CausalLearning.configurations.class_causal_configurator import CausalDiscoveryConfigurator
+    out = {}
+    for dt, cs, af, ts, tl in itertools.product(["continuous", "mixed", "categorical"], [True, False],
+                                                [True, False], [True, False], [True, False]):
+        r = CausalDiscoveryConfigurator().create_causal_configs(dt, cs, af, ts, tl)
+        out[f"{dt}|{cs}|{af}|{ts}|{tl}"] = r
+    r = CausalDiscoveryConfigurator().create_causal_configs("continuous", False, True, False, False,
+                                                             exclude_algs=["gfci", "rfci", "cfci"])
+    out["default"] = r
+    (OUT / out_file).write_text(json.dumps(out, indent=1))
+    print("wrote", OUT / out_file)
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     which = sys.argv[1:] or ["graphs"]
@@ -848,9 +1012,19 @@ if __name__ == "__main__":
         make_fs()
     if "afs" in which:
         make_afs()
-    if not set(which) - {"notears", "sam", "fs", "afs"}:
+    if "oct_configs" in which:
+        make_oct_configs()
+    if not set(which) - {"notears", "sam", "fs", "afs", "oct_configs"}:
         sys.exit(0)
-    jp = start_jvm(one_cpu="fci1" in which)
+    # oct: two processors (FisherZ fails with one); oct1: one processor for the
+    # discrete case (Tetrad's parallel FCI with chisquare/gsquare has races)
+    jp = start_jvm(one_cpu=bool({"fci1", "oct", "oct1"} & set(which)), cpus=2 if "oct" in which else 1)
+    if "oct1" in which:
+        make_oct(jp)
+    if "oct" in which:
+        make_oct(jp)
+    if "members" in which:
+        make_members(jp)
     if "fci1" in which:
         print("processors seen by the JVM:", jp.JClass("java.lang.Runtime").getRuntime().availableProcessors())
     if "graphs" in which:

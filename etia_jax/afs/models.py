@@ -5,10 +5,12 @@ forest (``RandomForestRegressor`` / ``Classifier``, ``random_state=42``).
 
 * ``linear_regression``: least squares with an intercept, as sklearn. Its
   predictions agree with sklearn to rounding.
-* ``mlp``: a multilayer perceptron with optax (Adam, full batch), in place
-  of the random forest. A random forest of sklearn cannot be copied in JAX,
-  so the AFS configurations with ``random_forest`` use the MLP; their
-  scores are not the scores of ETIA.
+* ``random_forest``: the CART forest of ``etia_jax.learn.forest`` with the
+  settings of the configuration and seed 42 (increment 9). Its random
+  numbers are not those of scikit-learn, so its scores are close to ETIA's
+  scores but not the same.
+* ``mlp``: a multilayer perceptron with optax (Adam, full batch). Up to
+  increment 8 it replaced the random forest; it stays as an extra model.
 
 Each model has ``fit(X, y)`` and ``predict(X)``; ``fit_predict_folds``
 fits one model per fold in one ``vmap`` when the folds have equal sizes.
@@ -103,13 +105,37 @@ class MLP:
         return np.asarray(out * ys + ym, np.float64)
 
 
+class Forest:
+    """ETIA's ``RandomForestRegressor`` / ``RandomForestClassifier``
+    (``random_state=42``); ``predict`` of a classifier gives the
+    probability of the second class, as the MLP."""
+
+    def __init__(self, config, classify):
+        from ..learn.forest import RandomForest
+        self.classify = classify
+        self.m = RandomForest(n_estimators=config.get("n_estimators", 100),
+                              min_samples_leaf=config.get("min_samples_leaf", 1),
+                              max_depth=config.get("max_depth"), max_features=config.get("max_features", "sqrt"),
+                              classify=classify, seed=42)
+
+    def fit(self, X, y):
+        self.m.fit(X, y)
+        return self
+
+    def predict(self, X):
+        if self.classify:
+            return self.m.predict_proba(X)[:, -1]
+        return self.m.predict(X)
+
+
 def make_model(config, target_type="continuous", etia_compat=False):
-    """The model of an AFS configuration. ``random_forest`` becomes an MLP
-    with ``n_estimators`` / 50 x 32 hidden units (50 -> 32, 100 -> 64)."""
+    """The model of an AFS configuration."""
     name = config.get("model")
     if name == "linear_regression":
         return LinearRegression()
-    if name in ("random_forest", "mlp"):
+    if name == "random_forest":
+        return Forest(config, target_type == "categorical")
+    if name == "mlp":
         h = int(config.get("hidden", 32 * max(1, int(config.get("n_estimators", 50)) // 50)))
         return MLP(hidden=(h,), classify=target_type == "categorical")
     raise ValueError(f"Unsupported model type: {name}")
