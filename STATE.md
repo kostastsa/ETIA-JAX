@@ -1,7 +1,7 @@
 # ETIA-JAX state — 2026-11-24
 
 ## Doing
-All 10 increments are done. Increment 10 (CRV) is NOT committed yet: ask the user to commit and push. Plan and status: `docs/increments.md`; deck: `docs/deck/` (plate `c7db7e95d21f`).
+All 10 increments are done, committed and pushed (increment 10: `e67b08d`). Plan and status: `docs/increments.md`; deck: `docs/deck/` (plate `c7db7e95d21f`).
 
 ## Done (increment 10)
 - Files: `etia_jax/crv/{queries,dagitty,adjustment,confidence,visualization}.py`; `tests/test_crv.py`; `benchmarks/crv_timing.py`; `demo/increment10/` (plate `c99ab2d0d3f6`); fixtures `reference/fixtures/{adjset_ref.json,adjset_time.json,crv_ref.npz}` (`make_fixtures.py adjset | adjset_time | crv`); `reference/adjset_dagitty.R` (dagitty in R with an inline pcalg2dagitty; pcalg is not installed).
